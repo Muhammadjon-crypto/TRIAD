@@ -233,3 +233,63 @@ module — reserved for whenever bond-order-accurate chemistry is needed.
 
 **Next session starts at:** Part 2.3, step 1 — the synthetic two-sphere FFT
 correlation test.
+
+---
+
+## Part 4 — Phase 2 progress update
+
+**Status: all three foundational validation gates (Part 2.3, steps 1-3) now PASS.**
+
+Two real bugs were found and fixed in the process — both worth keeping visible
+rather than summarizing away, since the second one is a genuinely important
+lesson:
+
+1. **Reflection bug**: the first FFT correlation formula tried,
+   `IFFT(FFT(A)*conj(FFT(B)))`, was cross-checked against a brute-force
+   reference and failed — the correlation peak showed up at `N - tau` instead
+   of `tau` for every case tested.
+2. **Wrong-ground-truth bug (more important)**: the "fix" applied at the time
+   (swapping which operand gets conjugated) made the FFT formula match the
+   brute-force reference — but the brute-force reference itself used an
+   arbitrary, self-chosen correlation convention (`B(x + tau)`) that was never
+   checked against what the codebase actually needs. Building the actual
+   two-sphere synthetic docking test exposed this: the "fixed" formula placed
+   the correlation peak at the wrong location relative to the real, physically
+   meaningful docking question ("if I translate the mobile shape by tau, does
+   it land on the target?"). The genuinely correct convention is
+   `C[tau] = sum_x A(x) * B(x - tau)`, matching
+   `triad.geometry.transforms.apply_transform`'s convention
+   (`new_coords = old_coords + tau` implies `new_shape(x) = old_shape(x - tau)`).
+   The ORIGINAL (pre-"fix") formula was correct all along; the mistake was
+   validating it against a convention that was internally consistent but
+   answered a different, less useful question. Both `fft_dock.py`'s docstrings
+   and `test_bruteforce_crosscheck.py` now state and justify the corrected
+   convention explicitly, tied to `apply_transform`'s convention, not just
+   "whichever formula happened to pass."
+
+**Files completed this update:**
+- `triad/correlation/fft_dock.py` — `fft_correlate_3d`, `brute_force_correlate_3d`,
+  `find_best_translation_index`, all using the corrected, justified convention.
+- `triad/correlation/grid.py` — `voxelize_sphere` (periodic/wraparound-aware,
+  for synthetic testing), `voxelize_atoms` (real atom coordinates → occupancy
+  grid, not yet exercised on real data).
+- `triad/correlation/validation/test_fft_roundtrip.py` — 5 checks, all pass.
+- `triad/correlation/validation/test_bruteforce_crosscheck.py` — 4 checks, all
+  pass (including the physically meaningful self-correlation peak check).
+- `triad/correlation/validation/test_two_sphere_synthetic.py` — 4 checks, all
+  pass (including recovery of known offsets near the periodic wraparound edge,
+  and a quantitative peak-value check, not just peak-location).
+
+**Not yet done:** `triad/correlation/channels.py` (shape/electrostatic channel
+construction from real atom data) is still a stub. The rotation-loop-plus-FFT-
+per-rotation search driver (tying `sample_rotations()` to `fft_correlate_3d`
+across real target/ligase grids) has not been built. Real-data validation
+against 5T35 (the actual point of Phase 2) has not yet been attempted — the
+synthetic gates had to pass first, and they now have.
+
+**Next session starts at:** building `channels.py`'s shape-complementarity
+channel (Katchalski-Katzir style: receptor interior = high penalty, receptor
+surface = small reward, per Part 2.2) using real 5T35 atom coordinates, then
+wiring it into a rotation-loop driver and checking — for the first time with
+real data — whether FFT correlation search finds a candidate within the true
+native basin (<4 Å), where v1.0's combinatorial search could not.
