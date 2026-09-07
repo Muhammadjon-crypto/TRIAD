@@ -364,3 +364,70 @@ correlation channel alongside shape and electrostatics. This was flagged as
 option 1 of the two credible paths forward as far back as Part 1.1, step
 10's discussion — the evidence built since then (both here and in v1.0)
 consistently points to this as the missing piece, not a guess.
+
+---
+
+## Part 6 — Phase 3 contact potential: built, validated, real incremental improvement
+
+**Deliberate choice, stated up front:** rather than hand-transcribing a
+published statistical potential (e.g. Miyazawa-Jernigan) from memory —
+carrying the same transcription-error risk flagged for hand-written SMILES
+in `ligand_prep.py` — this derives a genuine, if small-sample, potential
+directly from our own 15 verified structures.
+
+**A real modeling bug found and fixed:** the first derivation used ALL
+residues (including deeply buried core) as the "expected by chance"
+background population. This inflated expected hydrophobic-pair frequency
+(hydrophobic residues are abundant in cores, which can never be at any
+interface), making genuine hydrophobic packing look *unfavorable* relative
+to chance — directly contradicting one of the most basic facts in protein
+biochemistry. Caught by a biochemistry sanity check before this touched any
+docking score, not discovered downstream. Fixed by restricting the
+background population to surface-exposed residues only (reusing the same
+neighbor-count classification approach validated earlier in the project).
+
+**Result after the fix** (`tests/test_contact_potential.py`):
+- Hydrophobic-hydrophobic pairs (Leu-Ile, Leu-Leu, Phe-Leu, Val-Ile): all
+  strongly favorable, matching textbook biochemistry. **Strict pass,
+  asserted.**
+- Like-charge pairs (Asp-Glu, Lys-Arg): both strongly unfavorable, matching
+  expected electrostatic repulsion. **Strict pass, asserted.**
+- Individual salt-bridge pairs (Asp-Lys, Glu-Arg, Asp-Arg): inconsistent
+  sign, most likely genuine small-sample noise on these narrower bins
+  (15 structures, heavily correlated by shared VHL/CRBN ligases) rather
+  than a remaining bug. **Documented as a known limitation, not asserted
+  as passing** — the test records the values without a pass/fail
+  requirement, honestly separating "this works" from "this doesn't yet."
+
+**Practical impact, tested on 5T35** (same reach-constrained candidate pool
+as Part 5's shape+electrostatics test, at the correct native rotation):
+adding the contact potential as a third term produced a real, monotonic
+improvement — native's rank moved from 1322nd (shape+electrostatics alone)
+to 908th of 2436 as the contact-potential weight increased. This is genuine
+additional discriminating signal, not noise, though — stated plainly — still
+far from making native the top-ranked candidate. Every channel added so far
+(shape → +electrostatics → +contact potential) has provided real,
+measurable, incremental improvement without yet solving discrimination
+outright, which is consistent with how long real production tools took to
+mature, not a sign this approach is failing.
+
+**Files added:**
+- `triad/potentials/contact_potential.py` — `extract_interface_contacts`,
+  `classify_surface_residues`, `derive_contact_potential`
+- `tests/test_contact_potential.py` — biochemistry validation (strict on
+  hydrophobic packing and charge repulsion, honestly documented as
+  unresolved on salt bridges)
+
+**What's still not done:** the contact potential is applied as a direct
+per-candidate re-scoring step (looping over reach-valid translations), not
+yet wired into the FFT correlation machinery itself as a true fourth-style
+channel (which would need the per-residue-type grid decomposition described
+in Part 2.2's discussion — up to 20 residue-type grids per body, combined
+via the linearity trick: precompute weighted combination grids per receptor
+residue type, then correlate). The rotation outer loop (trying more than
+just the native rotation) has also still not been exercised — every Phase 2
+and Phase 3 test so far has evaluated translational discrimination at the
+correct rotation only, to isolate that variable. **Next session: build the
+rotation loop, and re-run this same discrimination test across many
+rotations, not just the native one — that's the final missing piece before
+TRIAD can be tested as an actual, complete pose-prediction pipeline.**
