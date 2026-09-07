@@ -103,3 +103,28 @@ def find_best_translation_index(correlation_grid: np.ndarray) -> tuple[int, int,
     """
     flat_idx = np.argmax(correlation_grid)
     return np.unravel_index(flat_idx, correlation_grid.shape)
+
+
+def fft_convolve_3d(A: np.ndarray, B: np.ndarray) -> np.ndarray:
+    """Circular convolution of two same-shape real 3D arrays via FFT:
+
+        (A * B)[n] = sum_m  A(m) * B(n - m)
+
+    Distinct from fft_correlate_3d (which uses a conjugated product): plain
+    convolution has no conjugation subtlety, confirmed directly against
+    brute-force computation (see test_bruteforce_crosscheck.py). Used here
+    to solve for an electrostatic potential field from a point-charge
+    distribution: potential(x) = sum_y charge(y) * kernel(x - y), which is
+    exactly this convolution with kernel = 1/r (Coulomb's law in
+    real-space/free-space form).
+    """
+    if A.shape != B.shape:
+        raise ValueError(f"grids must have the same shape, got {A.shape} vs {B.shape}")
+    C = np.fft.ifftn(np.fft.fftn(A) * np.fft.fftn(B))
+    max_imag = np.max(np.abs(C.imag))
+    if max_imag > 1e-6 * (np.max(np.abs(C.real)) + 1e-12):
+        raise RuntimeError(
+            f"unexpectedly large imaginary component in convolution result "
+            f"(max |imag|={max_imag:.2e})"
+        )
+    return C.real

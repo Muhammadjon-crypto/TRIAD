@@ -71,9 +71,37 @@ def test_self_correlation_peak_is_at_zero_translation():
     np.testing.assert_allclose(C[0, 0, 0], np.sum(A ** 2), atol=1e-8)
 
 
+def test_convolution_matches_bruteforce():
+    """fft_convolve_3d uses a different (non-conjugated) product than
+    fft_correlate_3d -- validated separately since it's a genuinely
+    different operation, not just a variant.
+    """
+    from triad.correlation.fft_dock import fft_convolve_3d
+
+    rng = np.random.default_rng(4)
+    A = rng.normal(size=(8, 8, 8))
+    B = rng.normal(size=(8, 8, 8))
+
+    nx, ny, nz = A.shape
+    C_brute = np.zeros((nx, ny, nz))
+    for tx in range(nx):
+        for ty in range(ny):
+            for tz in range(nz):
+                total = 0.0
+                for x in range(nx):
+                    for y in range(ny):
+                        for z in range(nz):
+                            total += A[x, y, z] * B[(tx - x) % nx, (ty - y) % ny, (tz - z) % nz]
+                C_brute[tx, ty, tz] = total
+
+    C_fft = fft_convolve_3d(A, B)
+    np.testing.assert_allclose(C_fft, C_brute, atol=1e-6)
+
+
 if __name__ == "__main__":
     test_fft_matches_bruteforce_random_grid()
     test_fft_matches_bruteforce_asymmetric_grid()
     test_fft_matches_bruteforce_sparse_binary_grid()
     test_self_correlation_peak_is_at_zero_translation()
+    test_convolution_matches_bruteforce()
     print("All FFT-vs-brute-force cross-check tests passed.")

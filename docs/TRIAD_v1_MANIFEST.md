@@ -293,3 +293,74 @@ surface = small reward, per Part 2.2) using real 5T35 atom coordinates, then
 wiring it into a rotation-loop driver and checking — for the first time with
 real data — whether FFT correlation search finds a candidate within the true
 native basin (<4 Å), where v1.0's combinatorial search could not.
+
+---
+
+## Part 5 — Phase 2 channels complete: shape + electrostatics built, validated, honestly characterized
+
+**Status: both planned Phase 2 channels (Part 2.2) are now built and tested
+against real 5T35 data, at the correct native rotation.**
+
+**A real modeling bug found and fixed along the way:** the first version of
+`build_receptor_shape_grid` defined "surface reward" as voxels AT atom
+positions classified as surface-exposed. This is wrong — those voxels are
+still inside the receptor's own solid body, so it was rewarding the ligand
+for mildly clashing with the receptor's surface atoms, not for occupying the
+complementary empty space beside them. Caught by testing against real data:
+native alignment scored far below other, non-native translations under the
+wrong definition (score 1.0 vs. a global best of 17.0). Fixed using the
+correct, standard Katchalski-Katzir definition — voxel-adjacency geometry
+(interior = solid voxels with all 26 neighbors also solid, via binary
+erosion; surface shell = empty voxels touching the solid, via binary
+dilation minus the solid) rather than atom-level burial classification.
+Native's score improved to 38.0 after the fix — directionally correct, but
+still far from optimal (see below).
+
+**Electrostatic channel**: built via free-space Coulomb convolution
+(charge grid convolved with a regularized 1/r kernel, reusing
+`triad.scoring.electrostatics`'s `COULOMB_CONSTANT` and formal-charge
+scheme for consistency). Validated against exact analytical Coulomb decay
+(1/r matched to 6 decimal places at r=1,2,4,8 Å) before touching real data.
+
+**Honest real-data finding (locked in as a permanent regression test,
+`test_real_data_5t35.py`):** at 5T35's correct native rotation, restricted
+to reach-constrained candidate translations (2,436 of 266,448 total
+voxels), neither shape alone nor shape+electrostatics ranks the true native
+pose at the top (native ranked ~1,468th and ~1,322nd of 2,436 respectively,
+depending on electrostatic weight). This is NOT a contradiction of Phase
+2's value — the point of FFT correlation was fixing search *efficiency*
+(and it does: the entire reach-constrained shape+electrostatics search over
+266,448 translations runs in well under a second, versus the hours a
+combinatorial approach would need for equivalent coverage). It confirms,
+with real evidence rather than assumption, that shape+electrostatics is
+*necessary but insufficient* for discrimination — exactly the same
+conclusion v1.0 reached with BSA and pairwise electrostatics, now confirmed
+in the new, efficient search framework. This directly matches the real
+history of production docking tools: Katchalski-Katzir (1992, shape only)
+→ Gabb et al. (1997, +electrostatics) → PIPER and successors (+ a
+knowledge-based pairwise-contact statistical potential, which is what
+finally gives strong discrimination in practice).
+
+**Files added/completed this update:**
+- `triad/correlation/fft_dock.py` — added `fft_convolve_3d` (validated
+  against brute-force convolution; needed for the Poisson-style potential
+  solve, distinct from `fft_correlate_3d`'s conjugated product)
+- `triad/correlation/channels.py` — `build_receptor_shape_grid` (corrected),
+  `build_ligand_shape_grid`, `build_charge_grid`, `build_coulomb_kernel`,
+  `build_receptor_potential_grid` — all complete, no longer stubs
+- `triad/correlation/validation/test_real_data_5t35.py` — 2 tests: exact
+  Coulomb-physics check, and the honest "native doesn't rank best" finding
+  as a permanent regression (so a future change that suddenly ranks native
+  #1 gets flagged for verification, not silently accepted)
+
+**Next session: Phase 3 — knowledge-based pairwise-contact potential.**
+This is the third channel every production docking tool needed to add for
+real discrimination. Concretely: derive residue-pair contact propensities
+from a database of known protein-protein interfaces (not just our 15
+structures — a broader interface database is needed for meaningful
+statistics), score candidate poses by how well their specific contacts
+match learned favorable residue-pair patterns, and add this as a third
+correlation channel alongside shape and electrostatics. This was flagged as
+option 1 of the two credible paths forward as far back as Part 1.1, step
+10's discussion — the evidence built since then (both here and in v1.0)
+consistently points to this as the missing piece, not a guess.
