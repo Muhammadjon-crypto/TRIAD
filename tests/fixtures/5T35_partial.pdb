@@ -1,0 +1,35 @@
+HEADER    LIGASE                                  24-AUG-16   5T35              
+TITLE     THE PROTAC MZ1 IN COMPLEX WITH THE SECOND BROMODOMAIN OF BRD4 AND     
+TITLE    2 PVHL:ELONGINC:ELONGINB                                               
+REMARK   2                                                                      
+REMARK   2 RESOLUTION.    2.70 ANGSTROMS.                                       
+DBREF  5T35 A  333   460  UNP    O60885   BRD4_HUMAN     333    460             
+DBREF  5T35 B    1   104  UNP    Q15370   ELOB_HUMAN       1    104             
+DBREF  5T35 C   17   112  UNP    Q15369   ELOC_HUMAN      17    112             
+DBREF  5T35 D   54   213  UNP    P40337   VHL_HUMAN       54    213             
+HET    759  D 301      69                                                       
+HETNAM     759 (2~{S},4~{R})-1-[(2~{S})-2-[2-[2-[2-[2-[2-[(9~{S})-7-            
+HETNAM   2 759  (4-CHLOROPHENYL)-4,5,13-TRIMETHYL-3-THIA-1,8,11,12-             
+FORMUL   9  759    2(C49 H60 CL N9 O8 S2)                                       
+CRYST1  102.306  102.306  144.329  90.00  90.00 120.00 P 32          6          
+ATOM      1  N   LYS A 349      27.034 -69.694  -4.273  1.00121.22           N  
+ATOM      2  CA  LYS A 349      27.480 -69.167  -5.601  1.00120.93           C  
+ATOM      3  C   LYS A 349      26.730 -67.889  -5.968  1.00114.97           C  
+ATOM      4  O   LYS A 349      27.351 -66.865  -6.258  1.00124.38           O  
+ATOM      5  CB  LYS A 349      27.293 -70.219  -6.699  1.00119.00           C  
+ATOM      6  N   VAL A 350      25.399 -67.954  -5.947  1.00113.55           N  
+ATOM      7  CA  VAL A 350      24.549 -66.798  -6.265  1.00118.06           C  
+ATOM      8  C   VAL A 350      24.571 -65.764  -5.130  1.00117.03           C  
+ATOM      9  O   VAL A 350      24.645 -64.559  -5.387  1.00108.52           O  
+ATOM     10  CB  VAL A 350      23.088 -67.220  -6.565  1.00113.01           C  
+ATOM     11  CG1 VAL A 350      22.197 -66.000  -6.790  1.00104.46           C  
+ATOM     12  CG2 VAL A 350      23.037 -68.146  -7.775  1.00107.43           C  
+ATOM     13  N   SER A 351      24.516 -66.240  -3.886  1.00 99.16           N  
+ATOM     14  CA  SER A 351      24.533 -65.359  -2.718  1.00 93.02           C  
+ATOM     15  C   SER A 351      25.898 -64.690  -2.505  1.00 91.80           C  
+ATOM     16  O   SER A 351      25.963 -63.559  -2.021  1.00 94.21           O  
+ATOM     17  CB  SER A 351      24.122 -66.129  -1.459  1.00 93.03           C  
+ATOM     18  OG  SER A 351      23.856 -65.244  -0.384  1.00 91.64           O  
+HETATM 4001  C1  759 D 301      10.000  10.000  10.000  1.00 50.00           C  
+HETATM 4002  N1  759 D 301      11.000  10.000  10.000  1.00 50.00           N  
+END
