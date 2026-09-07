@@ -45,6 +45,17 @@ BENCHMARK_SET: dict[str, BenchmarkEntry] = {
         ligand_code="LFE",
         ligase_chains=("B", "C", "D", "F", "G", "H"), target_chains=("A", "E"),
         resolution_angstrom=3.50,
+        # KNOWN ISSUE: at our lowest resolution (tied with 6BN7), covalent-radii
+        # bond perception on this ligand produces an extra spurious cycle (8
+        # independent rings vs. the 7 seen in every structurally similar VHL
+        # PROTAC in this set), most likely the flexible linker's two ends
+        # swinging close enough in this folded conformation to trigger a
+        # false bond. VHL pharmacophore substructure match fails on this
+        # structure as a result. Diagnosed, not silently ignored -- see
+        # tests/test_pharmacophore.py::test_6sis_known_bond_perception_issue.
+        # Treat this entry's connectivity-derived results with lower
+        # confidence until resolved (candidate fix: valence-aware bond
+        # pruning that considers graph distance, not just atom-pair count).
     ),
     "6HAX": BenchmarkEntry(
         pdb_id="6HAX", ligase="VHL", target="SMARCA2", degrader_name="degrader (FWZ)",
