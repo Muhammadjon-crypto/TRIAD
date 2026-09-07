@@ -39,6 +39,12 @@ class Chain:
     all_atom_names: list[str]         # length N
     all_residue_names: list[str]      # length N
     all_residue_ids: list[int]        # length N (author seqid)
+    all_elements: list[str]           # length N — from the file's element
+                                       # column via BioPython, NOT guessed
+                                       # from atom name (ligand atom names
+                                       # like "CAV" are arbitrary and can
+                                       # collide with real element symbols,
+                                       # e.g. mis-reading as calcium)
     ca_mask: np.ndarray               # (N,) bool
     is_hetero: bool = False
 
@@ -56,6 +62,7 @@ class Chain:
             all_atom_names=list(self.all_atom_names),
             all_residue_names=list(self.all_residue_names),
             all_residue_ids=list(self.all_residue_ids),
+            all_elements=list(self.all_elements),
             ca_mask=self.ca_mask.copy(),
             is_hetero=self.is_hetero,
         )
@@ -125,9 +132,8 @@ def load_structure(path: str, structure_id: str | None = None) -> LoadedStructur
 
     model = next(bio_structure.get_models())  # first model only (X-ray: always 1)
     for bio_chain in model:
-        protein_coords, protein_names, protein_resnames, protein_resids, protein_ca = (
-            [], [], [], [], []
-        )
+        protein_coords, protein_names, protein_resnames, protein_resids = [], [], [], []
+        protein_elements, protein_ca = [], []
         het_groups: dict[str, list] = {}  # resname -> list of atom records
 
         for residue in bio_chain:
@@ -141,7 +147,8 @@ def load_structure(path: str, structure_id: str | None = None) -> LoadedStructur
                 het_groups.setdefault(resname, [])
                 for atom in residue:
                     het_groups[resname].append(
-                        (atom.get_coord(), atom.get_name(), resname, resseq)
+                        (atom.get_coord(), atom.get_name(), resname, resseq,
+                         atom.element)
                     )
                 continue
 
@@ -150,6 +157,7 @@ def load_structure(path: str, structure_id: str | None = None) -> LoadedStructur
                 protein_names.append(atom.get_name())
                 protein_resnames.append(resname)
                 protein_resids.append(resseq)
+                protein_elements.append(atom.element)
                 protein_ca.append(atom.get_name() == "CA")
 
         if protein_coords:
@@ -159,6 +167,7 @@ def load_structure(path: str, structure_id: str | None = None) -> LoadedStructur
                 all_atom_names=protein_names,
                 all_residue_names=protein_resnames,
                 all_residue_ids=protein_resids,
+                all_elements=protein_elements,
                 ca_mask=np.asarray(protein_ca, dtype=bool),
                 is_hetero=False,
             )
@@ -168,6 +177,7 @@ def load_structure(path: str, structure_id: str | None = None) -> LoadedStructur
             names = [r[1] for r in records]
             resnames = [r[2] for r in records]
             resids = [r[3] for r in records]
+            elements = [r[4] for r in records]
             key = f"{bio_chain.id}_HET_{resname}"
             chains[key] = Chain(
                 chain_id=key,
@@ -175,6 +185,7 @@ def load_structure(path: str, structure_id: str | None = None) -> LoadedStructur
                 all_atom_names=names,
                 all_residue_names=resnames,
                 all_residue_ids=resids,
+                all_elements=elements,
                 ca_mask=np.zeros(len(records), dtype=bool),
                 is_hetero=True,
             )
