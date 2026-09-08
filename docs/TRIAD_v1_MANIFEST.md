@@ -495,3 +495,100 @@ session until the core engine existed, which it now does and is verified.
 Building more search infrastructure (finer rotation grids, more directions)
 is NOT the next step — that avenue has been tested and shown not to be
 where the problem lives.
+
+---
+
+## Part 8 — Major correction: a hard clash veto changes the picture substantially, plus two more real bugs found
+
+**This significantly revises, without invalidating, Part 7's conclusion.**
+Part 7 found native ranked poorly even at the correct rotation. Investigating
+the actual top-scoring "competitor" pose revealed it had **237 clashing atom
+pairs** — a physically impossible steric overlap that the shape grid's soft
+`INTERIOR_PENALTY` (-15.0) failed to reject. Applying a proper HARD clash
+veto (using the already-validated `triad.scoring.clash.clash_score`, not
+the grid's soft penalty) as a post-filter on the reach-constrained candidate
+pool at the correct rotation:
+
+- Of 2,484 reach-valid candidates, only **1,001 are physically valid**
+  (clash_score ≤ 5.0) — more than half were clash artifacts inflating the
+  apparent competition.
+- Among those 1,001 genuinely valid candidates, **native ranks 31st — the
+  top 3%**, a dramatic improvement from its earlier (clash-polluted) rank
+  of ~1,322-1,468 of 2,436.
+
+**This means shape+electrostatics discrimination is meaningfully BETTER
+than Part 7 concluded** — the earlier finding wasn't wrong (native still
+isn't rank #1), but its severity was substantially overstated by comparing
+native against physically impossible noise.
+
+**Two further real bugs found while fixing this properly, worth keeping
+visible:**
+
+1. **`sample_rotations()` redundancy**: rotation angle 0° is generated for
+   EVERY sampled axis (`np.linspace(0, 2*pi, n_angles_per_axis,
+   endpoint=False)` includes 0), and a 0° rotation about any axis is
+   identity regardless of axis choice. For `n_axes=30`, this means 30 of
+   180 "rotations" (1 in 6) are literally duplicate identity matrices —
+   wasted search budget, not genuine orientation diversity. Not yet fixed
+   in `triad/geometry/transforms.py` (flagged here; fixing it changes a
+   function several other verified tests depend on, so it needs its own
+   careful re-verification pass, not a rushed edit).
+2. **Raw shape score is clash-blind for genuinely wrong rotations, even at
+   greatly strengthened penalty.** Tested `INTERIOR_PENALTY = -2000` (vs.
+   the original -15): at two genuinely different rotations (120° from
+   identity, confirmed via rotation-angle calculation — not accidentally
+   identity again, unlike the first attempt to test this, which
+   mistakenly used rotation index 0, itself identity because of bug #1
+   above), the top-30 shape-ranked candidates STILL had zero clash-free
+   survivors. This is not a tunable-parameter problem: the receptor-only
+   interior/surface voxel classification doesn't correctly penalize a
+   badly-oriented ligand that spreads many atoms across the (thin)
+   surface shell without individual atoms registering as deep "interior"
+   violations. This is an architectural limitation of the simplified
+   Katchalski-Katzir-style grid, not something a bigger penalty constant
+   fixes.
+
+**Consequence for the search driver:** `triad/correlation/search.py` now
+applies a real, explicit hard clash veto (via `clash_score`, threshold
+`HARD_CLASH_THRESHOLD = 5.0`) as a post-filter on the top-K FFT-ranked
+candidates per rotation, rather than trusting the grid's soft penalty
+alone. A real silent-failure bug was also caught and fixed here: the
+original implementation, when NO candidate survived the clash filter for
+ANY tested rotation, silently returned its uninitialized default
+(identity rotation, zero translation, score -inf) as if it were a real
+result — this was caught because the reported RMSD (10.31 Å) suspiciously
+equaled the reach distance almost exactly, which is what a zero-translation
+default would produce. `SearchResult` now has a `found_valid_pose: bool`
+field that callers MUST check.
+
+**Honest current state:** with the hard clash veto in place, a full
+180-rotation search (many of which are genuinely wasted per bug #1)
+struggled to find ANY valid candidate at most non-native rotations at all
+(per bug #2) — meaning the full multi-rotation search's real-world
+performance has not yet been honestly re-measured end-to-end with all of
+this understood. **Next session's concrete tasks, in order:**
+1. Fix the `sample_rotations()` redundancy (deduplicate or restructure
+   axis/angle sampling so angle=0 isn't repeated per axis), with full
+   re-verification of `tests/test_rmsd.py`'s rotation-grid tests.
+2. Redesign the shape grid's clash-detection to be genuinely two-body-aware
+   (e.g., an explicit ligand-atom-vs-receptor-atom real clash check folded
+   into the correlation itself, or a much more conservative interior
+   definition) rather than relying on a fixed penalty constant.
+3. Only then re-run the full rotation-loop discrimination test and get an
+   honest measurement of end-to-end pose recovery — Part 7's 71.98 Å
+   number and this session's mid-fix numbers should both be considered
+   provisional until 1 and 2 are done.
+
+**Also built and validated this session, status noted for completeness:**
+`triad/scoring/desolvation.py` — a simplified (nonpolar-vs-polar, not a
+transcribed Eisenberg-McLachlan table) atomic solvation term, validated
+against correct physical direction (hydrophobic burial favorable, polar
+burial unfavorable, deeper burial more favorable) in
+`tests/test_desolvation.py`, all passing. Its first real-data test (on the
+same "top-scoring wrong pose" from earlier) is what surfaced the 237-clash
+discovery above — the term itself reported an absurd -48,006 energy for
+that pose, which was the tip-off that something upstream (the pose being
+scored) was physically invalid, not that desolvation itself was broken.
+Genuinely applying desolvation to ranking is deferred until the clash-veto
+and rotation-sampling fixes above are done — testing it against still-
+partially-invalid candidate pools isn't a fair trial of the term itself.

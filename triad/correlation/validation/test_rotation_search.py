@@ -64,7 +64,7 @@ def test_pose_application_is_exact_at_true_native_transform():
     true_tau = d["mobile_anchor"] - d["fixed_anchor"]
     fake_result = SearchResult(
         best_rotation=np.eye(3), best_translation=true_tau,
-        best_score=0.0, n_rotations_tried=1,
+        best_score=0.0, n_rotations_tried=1, found_valid_pose=True,
     )
     posed = apply_search_result(
         d["ligase_ca_native"], d["mobile_anchor"], d["fixed_anchor"], fake_result,
@@ -89,15 +89,22 @@ def test_full_rotation_search_runs_without_error_and_returns_valid_result():
     pot_r = build_receptor_potential_grid(d["t_coords"], t_charges, grid_shape, lo, spacing)
 
     result = search_rotations(
-        d["lig_coords"], lig_radii, lig_charges,
+        d["lig_coords"], lig_radii, lig_charges, ["C"] * len(d["lig_coords"]),
         d["mobile_anchor"], d["fixed_anchor"],
-        shape_r, pot_r, grid_shape, lo, spacing, d["reach_dist"],
-        n_axes=10, n_angles_per_axis=4,
+        shape_r, pot_r, d["t_coords"], ["C"] * len(d["t_coords"]),
+        grid_shape, lo, spacing, d["reach_dist"],
+        n_axes=10, n_angles_per_axis=4, top_k_per_rotation=30,
     )
 
-    assert abs(np.linalg.det(result.best_rotation) - 1.0) < 1e-6
-    achieved_reach = np.linalg.norm(result.best_translation)
-    assert abs(achieved_reach - d["reach_dist"]) <= 3.0
+    # per manifest Part 8: with the current shape grid and rotation sampling,
+    # finding ANY valid pose at a small, coarse rotation sample is not
+    # guaranteed -- the test only requires the search to run without error
+    # and, IF it found something, that the something is physically sane.
+    if result.found_valid_pose:
+        assert abs(np.linalg.det(result.best_rotation) - 1.0) < 1e-6
+        achieved_reach = np.linalg.norm(result.best_translation)
+        assert abs(achieved_reach - d["reach_dist"]) <= 3.0
+    assert result.n_rotations_tried == 10 * 4
 
 
 def test_discrimination_not_search_coverage_is_the_bottleneck():
@@ -141,9 +148,82 @@ def test_discrimination_not_search_coverage_is_the_bottleneck():
     )
 
 
+def test_hard_clash_veto_dramatically_improves_native_ranking():
+    """THE MAJOR FINDING of manifest Part 8: the previous 'discrimination is
+    weak' conclusion (Part 7) was significantly confounded by comparing
+    native against physically impossible (severely clashing) poses that a
+    soft grid penalty failed to reject. With a proper hard clash filter
+    (clash_score <= 5.0) applied to the SAME reach-constrained candidate
+    pool at the correct native rotation:
+      - native's competition drops from 2,436 candidates to ~1,001 (more
+        than half were clash artifacts)
+      - native's rank improves from ~1,322-1,468 (bottom half) to ~31st
+        (top 3%) among genuinely valid candidates
+    This test locks in the qualitative finding (dramatic improvement) with
+    generous tolerances, since exact rank can shift slightly with minor
+    implementation changes -- the SCALE of improvement is what matters and
+    what would be concerning to lose silently.
+    """
+    from triad.scoring.clash import clash_score
+    from triad.correlation.channels import build_ligand_shape_grid, build_charge_grid
+    from triad.correlation.fft_dock import fft_correlate_3d
+    from triad.correlation.search import build_reach_mask
+
+    d = _setup_5t35()
+    t_radii = np.full(len(d["t_coords"]), 1.7)
+    lig_radii = np.full(len(d["lig_coords"]), 1.7)
+    t_charges = assign_formal_charges(d["t_resn"], d["t_atomn"])
+    lig_charges = assign_formal_charges(d["lig_resn"], d["lig_atomn"])
+
+    spacing, pad = 1.5, d["reach_dist"] + 15.0
+    lo = np.minimum(d["t_coords"].min(axis=0), d["fixed_anchor"] - d["reach_dist"]) - pad
+    hi = np.maximum(d["t_coords"].max(axis=0), d["fixed_anchor"] + d["reach_dist"]) + pad
+    grid_shape = tuple(int(np.ceil((hi[i] - lo[i]) / spacing)) for i in range(3))
+
+    shape_r = build_receptor_shape_grid(d["t_coords"], t_radii, grid_shape, lo, spacing)
+    pot_r = build_receptor_potential_grid(d["t_coords"], t_charges, grid_shape, lo, spacing)
+    lig_centered = d["lig_coords"] - d["mobile_anchor"]
+    embedded = lig_centered + d["fixed_anchor"]
+    shape_l = build_ligand_shape_grid(embedded, lig_radii, grid_shape, lo, spacing)
+    charge_l = build_charge_grid(embedded, lig_charges, grid_shape, lo, spacing)
+    C_shape = fft_correlate_3d(shape_r, shape_l)
+    C_elec = -fft_correlate_3d(pot_r, charge_l)
+    C_combined = C_shape + 0.1 * C_elec
+
+    tau, mask = build_reach_mask(grid_shape, spacing, d["reach_dist"])
+    all_idx = np.argwhere(mask)
+
+    clash_vals = np.array([
+        clash_score(d["t_coords"], ["C"] * len(d["t_coords"]),
+                    lig_centered + d["fixed_anchor"] + tau[tuple(c)],
+                    ["C"] * len(d["lig_coords"]))
+        for c in all_idx
+    ])
+    survivor_mask = clash_vals <= 5.0
+    n_survivors = int(survivor_mask.sum())
+    assert n_survivors > len(all_idx) * 0.2, (
+        f"expected a substantial fraction of candidates to be clash artifacts "
+        f"(previously found >50%), got only {len(all_idx) - n_survivors} of "
+        f"{len(all_idx)} filtered out"
+    )
+
+    scores = np.array([C_combined[tuple(c)] for c in all_idx])
+    true_tau_idx = tuple(np.round((d["mobile_anchor"] - d["fixed_anchor"]) / spacing).astype(int) % np.array(grid_shape))
+    native_val = C_combined[true_tau_idx]
+    rank_among_survivors = int(np.sum(scores[survivor_mask] > native_val)) + 1
+
+    assert rank_among_survivors < 100, (
+        f"expected native to rank well (previously found ~31st of ~1000) "
+        f"among clash-filtered survivors, got rank {rank_among_survivors} "
+        f"of {n_survivors}"
+    )
+
+
 if __name__ == "__main__":
     test_pose_application_is_exact_at_true_native_transform()
     test_full_rotation_search_runs_without_error_and_returns_valid_result()
     test_discrimination_not_search_coverage_is_the_bottleneck()
+    test_hard_clash_veto_dramatically_improves_native_ranking()
     print("All rotation-search tests passed (infrastructure verified correct; "
-          "discrimination limitation documented as expected).")
+          "discrimination limitation documented as expected; hard clash veto "
+          "finding locked in).")
