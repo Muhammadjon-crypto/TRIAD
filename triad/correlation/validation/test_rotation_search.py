@@ -16,7 +16,7 @@ from triad.io.ligand_prep import extract_ligand_mol
 from triad.topology.pharmacophore import split_by_ligase_pharmacophore
 from triad.topology.linker_geometry import compute_reach_from_warhead
 from triad.topology.sidechain_repr import extract_representative_atoms
-from triad.correlation.channels import build_receptor_shape_grid, build_receptor_potential_grid
+from triad.correlation.channels import build_receptor_shape_grid, build_receptor_potential_grid, build_receptor_occupancy_grid
 from triad.correlation.search import search_rotations, apply_search_result, SearchResult
 from triad.geometry.rmsd import raw_rmsd
 from triad.scoring.electrostatics import assign_formal_charges
@@ -87,24 +87,59 @@ def test_full_rotation_search_runs_without_error_and_returns_valid_result():
 
     shape_r = build_receptor_shape_grid(d["t_coords"], t_radii, grid_shape, lo, spacing)
     pot_r = build_receptor_potential_grid(d["t_coords"], t_charges, grid_shape, lo, spacing)
+    occ_r = build_receptor_occupancy_grid(d["t_coords"], t_radii, grid_shape, lo, spacing)
 
     result = search_rotations(
         d["lig_coords"], lig_radii, lig_charges, ["C"] * len(d["lig_coords"]),
         d["mobile_anchor"], d["fixed_anchor"],
-        shape_r, pot_r, d["t_coords"], ["C"] * len(d["t_coords"]),
+        shape_r, pot_r, occ_r, d["t_coords"], ["C"] * len(d["t_coords"]),
         grid_shape, lo, spacing, d["reach_dist"],
-        n_axes=10, n_angles_per_axis=4, top_k_per_rotation=30,
+        n_axes=10, n_angles_per_axis=4,
     )
 
-    # per manifest Part 8: with the current shape grid and rotation sampling,
-    # finding ANY valid pose at a small, coarse rotation sample is not
-    # guaranteed -- the test only requires the search to run without error
-    # and, IF it found something, that the something is physically sane.
     if result.found_valid_pose:
         assert abs(np.linalg.det(result.best_rotation) - 1.0) < 1e-6
         achieved_reach = np.linalg.norm(result.best_translation)
         assert abs(achieved_reach - d["reach_dist"]) <= 3.0
     assert result.n_rotations_tried == 10 * 4
+
+
+def test_overlap_mask_matches_real_clash_score():
+    """Validates the exhaustive occupancy-overlap clash channel (manifest
+    Part 10) directly against real clash_score before trusting it: native
+    pose should show minimal overlap (mask=True, valid), a known severely
+    clashing pose should show large overlap (mask=False, rejected).
+    """
+    from triad.correlation.channels import build_receptor_occupancy_grid, build_ligand_shape_grid
+    from triad.correlation.search import build_overlap_mask
+    from triad.scoring.clash import clash_score
+
+    d = _setup_5t35()
+    lig_radii = np.full(len(d["lig_coords"]), 1.7)
+    t_radii = np.full(len(d["t_coords"]), 1.7)
+
+    spacing, pad = 1.5, d["reach_dist"] + 15.0
+    lo = np.minimum(d["t_coords"].min(axis=0), d["fixed_anchor"] - d["reach_dist"]) - pad
+    hi = np.maximum(d["t_coords"].max(axis=0), d["fixed_anchor"] + d["reach_dist"]) + pad
+    grid_shape = tuple(int(np.ceil((hi[i] - lo[i]) / spacing)) for i in range(3))
+    occ_r = build_receptor_occupancy_grid(d["t_coords"], t_radii, grid_shape, lo, spacing)
+
+    lig_centered = d["lig_coords"] - d["mobile_anchor"]
+    tau_native = d["mobile_anchor"] - d["fixed_anchor"]
+    tau_wrong = np.array([-3.0, -12.0, -4.5])
+
+    for label, tau, expect_valid in [("native", tau_native, True), ("known-bad", tau_wrong, False)]:
+        posed = lig_centered + d["fixed_anchor"] + tau
+        real_cs = clash_score(d["t_coords"], ["C"] * len(d["t_coords"]), posed, ["C"] * len(d["lig_coords"]))
+        occ_l = build_ligand_shape_grid(posed, lig_radii, grid_shape, lo, spacing)
+        overlap_at_this_pose = np.sum(occ_r * occ_l)  # direct overlap count for THIS exact placement
+        is_valid = overlap_at_this_pose <= 10.0
+        if expect_valid:
+            assert real_cs < 5.0, f"{label}: expected low real clash, got {real_cs}"
+            assert is_valid, f"{label}: expected overlap mask to accept this pose"
+        else:
+            assert real_cs > 50.0, f"{label}: expected high real clash, got {real_cs}"
+            assert not is_valid, f"{label}: expected overlap mask to reject this pose"
 
 
 def test_discrimination_not_search_coverage_is_the_bottleneck():
@@ -222,8 +257,9 @@ def test_hard_clash_veto_dramatically_improves_native_ranking():
 if __name__ == "__main__":
     test_pose_application_is_exact_at_true_native_transform()
     test_full_rotation_search_runs_without_error_and_returns_valid_result()
+    test_overlap_mask_matches_real_clash_score()
     test_discrimination_not_search_coverage_is_the_bottleneck()
     test_hard_clash_veto_dramatically_improves_native_ranking()
     print("All rotation-search tests passed (infrastructure verified correct; "
           "discrimination limitation documented as expected; hard clash veto "
-          "finding locked in).")
+          "finding locked in; exhaustive overlap-mask validated).")

@@ -79,30 +79,63 @@ def build_reach_mask(
     return tau, mask
 
 
+OVERLAP_VOXEL_THRESHOLD = 10.0  # max tolerated occupancy-overlap voxel count.
+                                  # Calibrated against real clash_score on 5T35:
+                                  # native pose showed 1 overlapping voxel
+                                  # (real clash_score=0.0); a known-bad 237-
+                                  # real-clash-pair pose showed 194 overlapping
+                                  # voxels (real clash_score=182.3). This
+                                  # threshold is a first-pass calibration on a
+                                  # single structure, not independently
+                                  # validated across the benchmark -- treat as
+                                  # provisional (see manifest Part 10).
+
+
+def build_overlap_mask(
+    receptor_occupancy_grid: np.ndarray, ligand_occupancy_grid: np.ndarray,
+    threshold: float = OVERLAP_VOXEL_THRESHOLD,
+) -> np.ndarray:
+    """Boolean mask: True where the occupancy-overlap correlation (a cheap,
+    exhaustive, FFT-computed clash proxy -- see docs/TRIAD_v1_MANIFEST.md
+    Part 10) is at or below `threshold` for every translation simultaneously.
+
+    This REPLACES the earlier top-K-then-real-clash-check strategy in
+    search_rotations, which was found to systematically miss valid poses:
+    raw shape+electrostatics score does not correlate with clash-validity
+    (confirmed repeatedly against real 5T35 data), so restricting the real
+    clash check to only the top-K raw-score candidates meant genuinely
+    valid poses were almost never even considered. Correlating simple
+    occupancy grids gives an exact overlapping-voxel count for ALL
+    translations at once, at the same O(N log N) cost as any other
+    correlation channel -- no per-candidate loop needed at all.
+    """
+    overlap = fft_correlate_3d(receptor_occupancy_grid, ligand_occupancy_grid)
+    return overlap <= threshold
+
+
 def search_rotations(
     lig_coords: np.ndarray, lig_radii: np.ndarray, lig_charges: np.ndarray,
     lig_elements: list[str],
     mobile_anchor: np.ndarray, fixed_anchor: np.ndarray,
     shape_receptor_grid: np.ndarray, potential_receptor_grid: np.ndarray,
+    receptor_occupancy_grid: np.ndarray,
     t_coords: np.ndarray, t_elements: list[str],
     grid_shape: tuple[int, int, int], origin: np.ndarray, spacing: float,
     reach_distance: float, electrostatic_weight: float = 0.1,
     n_axes: int = 30, n_angles_per_axis: int = 6,
-    top_k_per_rotation: int = 30,
 ) -> SearchResult:
-    """Full rotation-loop search, WITH a hard clash veto (see
-    HARD_CLASH_THRESHOLD above and docs/TRIAD_v1_MANIFEST.md Part 8).
+    """Full rotation-loop search using an EXHAUSTIVE, cheap occupancy-
+    overlap correlation channel as the clash filter (see build_overlap_mask
+    above and docs/TRIAD_v1_MANIFEST.md Part 10), applied to every reach-
+    valid translation at every rotation -- not just a top-K raw-score subset.
 
-    For each rotation: get the top `top_k_per_rotation` candidates by
-    shape+electrostatics correlation score within the reach-constrained
-    mask, then compute REAL clash_score (using actual atom radii, not the
-    grid's soft interior penalty) for just those top candidates, and keep
-    the best-scoring one that survives HARD_CLASH_THRESHOLD. This two-stage
-    "cheap FFT screen, then expensive real clash check on survivors only"
-    strategy is what makes checking real clashes tractable at all -- doing
-    it for every one of the ~2,500 reach-valid translations per rotation
-    would cost tens of seconds per rotation, but checking only the top ~30
-    candidates costs well under a second.
+    This replaces an earlier version that clash-checked only the top-K
+    candidates by shape+electrostatics score, which was found to
+    systematically miss valid poses (raw score does not correlate with
+    clash-validity). The occupancy-overlap channel costs the same as any
+    other FFT correlation (one extra correlation per rotation), so
+    exhaustive filtering is now essentially free rather than requiring an
+    expensive per-candidate real clash_score loop.
     """
     tau, reach_mask = build_reach_mask(grid_shape, spacing, reach_distance)
     lig_centered = lig_coords - mobile_anchor
@@ -119,30 +152,28 @@ def search_rotations(
 
         shape_l = build_ligand_shape_grid(embedded, lig_radii, grid_shape, origin, spacing)
         charge_l = build_charge_grid(embedded, lig_charges, grid_shape, origin, spacing)
+        # build_ligand_shape_grid already returns pure binary occupancy
+        # (1.0 wherever any atom is present), so it doubles directly as the
+        # ligand occupancy grid for the overlap-clash channel -- no separate
+        # computation needed.
 
         C_shape = fft_correlate_3d(shape_receptor_grid, shape_l)
         C_elec = -fft_correlate_3d(potential_receptor_grid, charge_l)
         C_combined = C_shape + electrostatic_weight * C_elec
-        C_masked = np.where(reach_mask, C_combined, -np.inf)
 
-        flat_top = np.argsort(-C_masked, axis=None)[:top_k_per_rotation]
-        top_indices = np.array(np.unravel_index(flat_top, C_masked.shape)).T
+        overlap_mask = build_overlap_mask(receptor_occupancy_grid, shape_l)
+        valid_mask = reach_mask & overlap_mask
+        C_masked = np.where(valid_mask, C_combined, -np.inf)
 
-        for idx in top_indices:
-            idx_t = tuple(idx)
-            score = C_masked[idx_t]
-            if not np.isfinite(score) or score <= best.best_score:
-                continue  # can't possibly beat current best even before clash check
-            candidate_tau = tau[idx_t]
-            posed = rotated + fixed_anchor + candidate_tau
-            real_clash = clash_score(t_coords, t_elements, posed, lig_elements)
-            if real_clash <= HARD_CLASH_THRESHOLD:
+        if np.any(valid_mask):
+            idx = np.unravel_index(np.argmax(C_masked), C_masked.shape)
+            score = C_masked[idx]
+            if score > best.best_score:
                 best = SearchResult(
-                    best_rotation=R, best_translation=candidate_tau,
+                    best_rotation=R, best_translation=tau[idx],
                     best_score=float(score), n_rotations_tried=best.n_rotations_tried,
                     found_valid_pose=True,
                 )
-                break  # top_indices is sorted descending, so first survivor is this rotation's best
 
         best.n_rotations_tried += 1
 

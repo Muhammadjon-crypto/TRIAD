@@ -71,6 +71,21 @@ def build_ligand_shape_grid(
     return (occ > 0).astype(np.float64)
 
 
+def build_receptor_occupancy_grid(
+    coords: np.ndarray, radii: np.ndarray,
+    grid_shape: tuple[int, int, int], origin: np.ndarray, spacing: float,
+) -> np.ndarray:
+    """Fixed-body simple binary occupancy grid -- distinct from
+    build_receptor_shape_grid (which classifies interior/surface for the
+    Katchalski-Katzir shape-complementarity channel). This one is used for
+    the exhaustive occupancy-overlap clash-detection channel (see
+    triad.correlation.search.build_overlap_mask), which needs plain
+    "is any atom here or not," not the interior/surface distinction.
+    """
+    occ = voxelize_atoms(coords, radii, grid_shape, origin, spacing)
+    return (occ > 0).astype(np.float64)
+
+
 def build_charge_grid(
     coords: np.ndarray, charges: np.ndarray,
     grid_shape: tuple[int, int, int], origin: np.ndarray, spacing: float,
