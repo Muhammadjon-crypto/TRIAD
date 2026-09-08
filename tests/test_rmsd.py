@@ -60,8 +60,36 @@ def test_rotation_grid_is_proper_and_covers_sphere():
         assert np.allclose(R @ R.T, identity, atol=1e-6)
 
 
+def test_rotation_grid_has_no_duplicate_identity_rotations():
+    """Regression test for a real bug (docs/TRIAD_v1_MANIFEST.md Part 8):
+    the angle grid used to include angle=0 for every sampled axis, and a
+    0-degree rotation about any axis is identity regardless of axis choice
+    -- wasting 1/n_angles_per_axis of the entire search on exact duplicates.
+    No rotation in the sampled grid should equal identity (or any other
+    rotation) more than once.
+    """
+    rotations = sample_rotations(n_axes=30, n_angles_per_axis=6)
+
+    n_identity = sum(1 for R in rotations if np.allclose(R, np.eye(3), atol=1e-6))
+    assert n_identity <= 1, (
+        f"expected at most 1 identity rotation in the grid, found {n_identity} "
+        f"-- the angle=0 duplication bug may have regressed"
+    )
+
+    # broader check: no two rotations in the grid should be exact duplicates
+    # of each other (spot-checked pairwise on a subset for speed)
+    subset = rotations[::3]  # every 3rd rotation, for a tractable pairwise check
+    n_dupes = 0
+    for i in range(len(subset)):
+        for j in range(i + 1, len(subset)):
+            if np.allclose(subset[i], subset[j], atol=1e-6):
+                n_dupes += 1
+    assert n_dupes == 0, f"found {n_dupes} duplicate rotation pairs in the sampled grid"
+
+
 if __name__ == "__main__":
     test_kabsch_recovers_known_transform()
     test_kabsch_with_noise_is_bounded()
     test_rotation_grid_is_proper_and_covers_sphere()
+    test_rotation_grid_has_no_duplicate_identity_rotations()
     print("All geometry core tests passed.")

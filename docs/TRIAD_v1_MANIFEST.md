@@ -592,3 +592,75 @@ scored) was physically invalid, not that desolvation itself was broken.
 Genuinely applying desolvation to ranking is deferred until the clash-veto
 and rotation-sampling fixes above are done — testing it against still-
 partially-invalid candidate pools isn't a fair trial of the term itself.
+
+---
+
+## Part 9 — The reconciling finding: rotational sampling density, not shape-grid architecture, is the real remaining gap
+
+**Step 1 of Part 8's fix list is done:** `sample_rotations()`'s angle-0
+redundancy bug is fixed (shifted the angle grid by half a bin-width so no
+sampled angle is ever exactly 0), verified to produce zero duplicate
+rotations where 30 of 180 existed before, and locked in as a permanent
+regression (`tests/test_rmsd.py::test_rotation_grid_has_no_duplicate_identity_rotations`).
+
+**Investigating step 2 (redesigning the shape grid) led to a more precise
+and more useful finding than the redesign itself would have.** Testing
+`top_k_per_rotation=300` (10x the original) at several genuinely different
+rotations (30-150 degrees from identity, confirmed by direct angle
+calculation) still found **zero** clash-free candidates. That's far more
+restrictive than a shape-grid tuning issue would produce — it pointed at
+something more fundamental, so the investigation went straight to the
+source: **how much rotational error does the true native pose actually
+tolerate, at the TRUE native translation?**
+
+Measured directly (`triad/correlation/validation/test_rotational_tolerance.py`):
+clash score at the exact correct translation, as a function of pure
+rotational deviation from the true native orientation:
+
+| Rotational error | Clash score |
+|---|---|
+| 0 deg | 0.00 |
+| 5 deg | 0.14 |
+| 10 deg | 1.98 |
+| 20 deg | 13.95 |
+| 30 deg | 25.83 |
+| 45 deg | 75.00 |
+
+**The tolerance window is narrow: somewhere between 10 and 20 degrees.**
+Our 180-rotation grid (30 Fibonacci-sphere axes x 6 angles) has neighboring
+samples roughly 35-60 degrees apart — coarser than the tolerance window by
+a factor of 2-4x. This is not a coincidence explaining the earlier
+zero-survivors findings; it's the direct, quantified cause of them.
+
+**This reconciles, rather than contradicts, Part 7's conclusion.** Part 7
+found that FFT-accelerated TRANSLATION search is exhaustive and not the
+bottleneck — that remains true; every translation on the reach-constrained
+sphere is genuinely evaluated via the correlation. What Part 7 didn't
+isolate is that ROTATION is a completely separate dimension, still
+brute-force enumerated (FFT never touches it), and our rotation grid's
+resolution is simply too coarse relative to how narrow the real geometric
+tolerance is. Part 8's clash-veto finding (native ranks 31st of 1,001 at
+the CORRECT rotation) and this session's finding (the correct rotation is
+surrounded by only a ~10-20 degree valid window) fit together precisely:
+discrimination among translations at the right rotation is genuinely
+strong; the missing piece is landing in that rotation window at all.
+
+**This is also not a surprising or novel result in the field** — it is the
+literal, well-known reason production tools (ZDOCK, PIPER) use enormous
+rotation grids (ZDOCK's standard is on the order of 54,000 rotations) —
+but it is now a measured, structure-specific fact about our own data,
+not an assumption borrowed from the literature.
+
+**Next session's concrete task, now precisely scoped:** substantially
+increase rotational sampling density (targeting angular gaps well under
+10 degrees between neighboring grid rotations — likely requiring several
+thousand to tens of thousands of rotations, consistent with field-standard
+tools) and re-run the full search end-to-end with the (now-fixed)
+`sample_rotations()`, the hard clash veto already in `search.py`, and the
+validated shape+electrostatics scoring — this is the first test that can
+honestly answer "does the complete system recover a near-native pose,"
+since every previous attempt was confounded by either the clash-veto gap
+(Part 8) or coarse rotational sampling (this section). Redesigning the
+shape-grid architecture (Part 8's original step 2) is now deprioritized —
+the evidence points at sampling density as the dominant remaining lever,
+not grid architecture.

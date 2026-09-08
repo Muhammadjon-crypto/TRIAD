@@ -73,12 +73,27 @@ def sample_rotations(n_axes: int = 200, n_angles_per_axis: int = 12) -> np.ndarr
     matching, but implemented directly in axis-angle space since our search
     space per orientation is small enough not to need FFT acceleration yet.
 
+    BUG FOUND AND FIXED (docs/TRIAD_v1_MANIFEST.md Part 8): the angle grid
+    used to start at 0 (`np.linspace(0, 2*pi, n, endpoint=False)`), and a
+    rotation by 0 degrees about ANY axis is identity regardless of which
+    axis was chosen. That meant every one of the n_axes sampled axes
+    produced an identical angle=0 rotation, wasting n_axes of the
+    n_axes*n_angles_per_axis total samples on exact duplicates of identity
+    instead of genuine orientation diversity -- for n_axes=30, that's 1 in
+    6 of the entire "180 rotation" search silently testing the same
+    orientation over and over. Fixed by shifting the angle grid by half a
+    bin-width, so no sampled angle is ever exactly 0 (or equivalently 2*pi)
+    -- every (axis, angle) pair now gives a genuinely distinct rotation,
+    with no change to the output array's shape or to any other property
+    (properness, orthogonality) that existing tests check.
+
     Returns
     -------
     (n_axes * n_angles_per_axis, 3, 3) array of rotation matrices
     """
     axes = fibonacci_sphere(n_axes)
-    angles = np.linspace(0, 2 * np.pi, n_angles_per_axis, endpoint=False)
+    half_bin = np.pi / n_angles_per_axis
+    angles = np.linspace(0, 2 * np.pi, n_angles_per_axis, endpoint=False) + half_bin
 
     rotvecs = []
     for axis in axes:
