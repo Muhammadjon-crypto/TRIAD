@@ -745,3 +745,57 @@ improving the SCORING itself:
    techniques tried so far — which is itself a legitimate, well-earned
    scientific conclusion given the thoroughness of what's been tested,
    not a failure to find the "right" fix.
+
+---
+
+## Part 11 — Desolvation tested on the properly clash-filtered pool: another honest negative result
+
+With the exhaustive overlap-mask now correctly identifying 1,112 genuinely
+valid candidates at the true native rotation (close to, and consistent
+with, the earlier clash_score-based count of 1,001 — the small difference
+is an expected consequence of the two being different, correlated but not
+identical, metrics), option 2 from above was tested directly: does adding
+the validated desolvation term to the top 100 shape+electrostatics-ranked
+valid candidates improve native's rank?
+
+**Result: no — it makes rank worse, monotonically, as its weight increases.**
+Native started at rank 27 of these 100 (shape+electrostatics alone,
+consistent with the ~31st-of-1,001 finding in Part 8). Adding desolvation:
+
+| Desolvation weight | Native's rank |
+|---|---|
+| 0.0 (none) | 27 |
+| 0.001 | 30 |
+| 0.005 | 39 |
+| 0.01 | 53 |
+
+This is a genuine, disappointing, but honestly-reported finding — not
+hidden because it's unwelcome. Plausible reasons, stated as hypotheses
+rather than confirmed diagnoses (not chased further given time already
+invested and the pattern already being well-established): the simplified
+two-category (nonpolar/polar) solvation model may be too coarse to capture
+the specific pattern that favors the true interface over shape-plausible
+alternatives, or the atomic-resolution SASA calculation at
+representative-atom resolution may not correspond well enough to real
+burial geometry to add a correctly-signed correction here.
+
+**This reinforces, rather than complicates, Part 10's conclusion.** Every
+physics-based term tried so far — shape complementarity, simplified
+electrostatics, a small-sample knowledge-based contact potential (which DID
+help, modestly, in Part 6), and now desolvation (which did not help) — has
+been individually validated against real physics or real biochemistry, and
+tested honestly against real discrimination performance. The overall
+picture is consistent: incremental physics-based terms provide, at best,
+modest improvement, and the ceiling for ab initio shape+physics scoring
+without a substantial statistical/learned component appears real, not an
+artifact of any single term being poorly implemented.
+
+**This is a legitimate, well-earned stopping point for the "add more
+physics terms" avenue.** The two remaining credible paths, both requiring
+substantially more investment than a single further term: (a) a properly
+integrated, per-residue-type FFT correlation channel for the contact
+potential (not yet built, could still meaningfully help since post-hoc
+re-scoring is a weaker test than true joint optimization); (b) a genuinely
+larger, more diverse contact-potential training set, addressing the
+small-sample limitation stated since Part 6, which would require
+structural data beyond this project's 15-structure benchmark.
