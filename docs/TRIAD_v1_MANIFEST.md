@@ -942,3 +942,81 @@ mismatch between general protein-protein interface statistics and PROTAC-
 specific neo-interfaces — is itself a legitimate, citable scientific
 finding about why this problem remains hard, not a dead end reached by
 process of elimination alone.
+
+---
+
+## Part 14 — CRITICAL CORRECTION: Parts 7-13 were tested on a sample size of ONE structure
+
+**This is a significant methodological gap, caught and fixed, not a
+minor addendum.** Every discrimination test in Parts 7 through 13 — the
+clash-veto finding, the rotational tolerance window, the desolvation
+result, the BM5 domain-mismatch conclusion — was run exclusively on 5T35.
+No claim about "the ceiling of physics-based scoring" was ever tested
+against more than one data point. This should have been caught much
+earlier, and it changes the overall picture substantially.
+
+**The exact same methodology (correct rotation, reach-constrained,
+exhaustively clash-filtered via the occupancy-overlap channel, ranked by
+shape+electrostatics) was run across all 14 non-6SIS benchmark structures.**
+Native's percentile rank among genuinely valid candidates:
+
+| Structure | Percentile | Group |
+|---|---|---|
+| 8FY0 | 4.3% | TRACTABLE |
+| 5T35 | 4.9% | TRACTABLE |
+| 6BN7 | 6.4% | TRACTABLE |
+| 6BOY | 8.2% | TRACTABLE |
+| 8FY2 | 10.9% | TRACTABLE |
+| 8FY1 | 12.0% | TRACTABLE |
+| 5HXB | 14.8% | TRACTABLE |
+| 8BDS | 26.7% | TRACTABLE |
+| 6HAX | 52.9% | RANDOM |
+| 7KHH | 55.5% | RANDOM |
+| 5FQD | 55.7% | RANDOM |
+| 8BEB | 56.6% | RANDOM |
+| 6HR2 | 58.9% | RANDOM |
+| 6HAY | 64.0% | RANDOM |
+
+**This directly overturns Part 13's "uniform domain mismatch" conclusion.**
+8 of 14 structures (57%) show genuinely good discrimination — native
+lands in the top 5-27% of a physically valid candidate pool, which is a
+real, useful signal for a pre-filtering tool, not random noise. The other
+6 (43%) show near-random discrimination (50-64th percentile). Part 13's
+conclusion was drawn from the single worst-documented structure treated
+as if it were representative; it was an overstated generalization from
+n=1, now corrected by n=14.
+
+**What actually distinguishes the two groups is, honestly, not yet known.**
+The cleanest test case is 8BDS (tractable, 26.7%) vs. 8BEB (random,
+56.6%) — same ligase (VHL), same target (BRD4-BD1), nearly identical reach
+distance (5.81 vs 5.76 A), and an IDENTICAL valid-candidate pool size
+(820). Five candidate explanatory features were checked directly against
+real data, not assumed:
+- Reach distance: no clean relationship (correlation not dominant; e.g.
+  8BDS and 8BEB are nearly identical yet oppositely classified)
+- Linker path length (bonds): weak, inconsistent (correlation -0.224;
+  6HAX has only 7 linker atoms and is RANDOM, 8FY2 has only 6 and is
+  TRACTABLE)
+- Ligase identity (VHL vs. CRBN): both groups contain both ligases
+- Molecular glue vs. PROTAC: 5FQD (glue) is RANDOM, but this is a single
+  data point, not a pattern
+- Crystal resolution: moderate correlation (-0.558) but with a clear
+  counter-example (6HR2 at 1.76 A, excellent resolution, is RANDOM)
+
+**None of these five single-feature hypotheses cleanly explains the
+split.** This is itself useful, honestly-reported negative information —
+it rules out several "obvious" explanations rather than settling on the
+first plausible-looking one. The real driver is likely either a
+multivariate combination of these features, or something in the specific
+3D shape/packing geometry not captured by any of these scalar summaries
+(e.g. how much of the true interface area the linker itself directly
+contributes versus how much is contributed by the two rigid warhead-
+adjacent regions alone).
+
+**Corrected overall conclusion:** TRIAD's shape+electrostatics scoring is
+NOT uniformly at a hard ceiling for PROTAC ternary complexes — it works
+genuinely well for a majority of tested real cases. What determines
+whether a specific case is tractable remains a real, open, well-scoped
+question for future investigation, not a solved problem and not a wall.
+This is a substantially more interesting and more actionable place to be
+than Part 13's conclusion suggested.
