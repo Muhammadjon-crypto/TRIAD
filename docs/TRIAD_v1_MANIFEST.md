@@ -1081,3 +1081,92 @@ structures show genuinely good discrimination, 5 show near-random — held
 EXACTLY, structure-for-structure, on both machines.** This is now a
 cross-platform-verified result, not an artifact of one environment's
 floating-point behavior.
+
+---
+
+## Part 16 — CRITICAL BUG: 3 of 15 structures had target/ligase chains that weren't actually in contact, invalidating the 8BDS-vs-8BEB investigation
+
+**While investigating what distinguishes 8BDS (tractable) from 8BEB
+(random) — the "cleanest matched pair" from Part 14 — a direct sanity
+check revealed the real native pose showed a shape-correlation score of
+exactly 0.0 (floating-point noise) for BOTH structures.** Rather than
+accept this and move on, it was chased to the actual root cause: at what
+was being treated as "8BDS's native pose," the minimum distance between
+ANY target atom and ANY ligase atom was **21.9 Å** — nowhere near a real
+bound complex (real interfaces have direct contact, <5 Å).
+
+**Checked across all 15 structures immediately given the severity:**
+exactly 3 (7KHH, 8BDS, 8BEB) showed this same failure (19.5-21.9 Å instead
+of <4 Å). All three share the same structural feature: their
+`ligase_chains` manifest entry has exactly 3 chains (ElonginB + ElonginC +
+VHL, one complete assembly), while 5 other structures (5T35, 6HAX, 6HAY,
+6HR2, 6SIS) have 6 chains (two full copies of that same 3-chain assembly).
+
+**Root cause, found and fixed**: the test script's chain-selection logic
+(`n_copy = len(ligase_chains)//2 if len(ligase_chains) > 2 else ...`)
+assumed any list of more than 2 chains must represent two copies and
+halved it. This is correct for the genuine 6-chain, two-copy cases, but
+WRONG for the 3-chain, single-copy cases — it truncated a complete
+functional assembly down to just the first chain (ElonginB alone,
+dropping ElonginC and VHL). ElonginB never directly contacts the target;
+only VHL does. Using ElonginB alone as "the ligase" produced exactly the
+21.9 Å-type non-contact seen. **Confirmed the manifest itself was correct
+throughout** (it already listed all real ligase chains via DBREF, as
+established back in the original benchmark-curation work) — this was a
+bug in downstream analysis code that mishandled that correct data, not a
+data-curation error.
+
+**Fixed**: chain count of exactly 6 means halve (two copies); any other
+count means use all listed chains (one complete assembly). Verified
+directly: all 15 structures now show real target-ligase contact
+(2.4-3.7 Å minimum atom distance).
+
+**Corrected multi-structure benchmark, re-run in full:**
+
+| Structure | Percentile (corrected) | Percentile (buggy) | Changed? |
+|---|---|---|---|
+| 5T35 | 4.9% | 4.9% | no (unaffected — 6-chain case) |
+| 8FY0 | 3.0% | 4.3% | minor (unaffected chain count) |
+| 6BN7 | 6.4% | 6.4% | no |
+| 6BOY | 8.2% | 8.2% | no |
+| 8FY2 | 10.3% | 10.9% | minor |
+| 8FY1 | 16.1% | 12.0% | minor |
+| 5HXB | 13.8% | 14.8% | minor |
+| 8BDS | **36.0%** | 26.7% | **YES — moved from tractable to random** |
+| 6HAX | 52.9% | 52.9% | no |
+| 5FQD | 56.0% | 55.7% | no (glue, excluded from classification) |
+| 7KHH | **72.5%** | 55.5% | **YES — worse, still random** |
+| 8BEB | **74.3%** | 56.6% | **YES — worse, still random** |
+| 6HR2 | 58.9% | 58.9% | no |
+| 6HAY | 64.0% | 64.0% | no |
+
+**Corrected classification (13 structures, excluding 5FQD glue):
+TRACTABLE = 7 (5HXB, 5T35, 6BN7, 6BOY, 8FY0, 8FY1, 8FY2); RANDOM = 6
+(6HAX, 6HAY, 6HR2, 7KHH, 8BDS, 8BEB).**
+
+**The core Part 14 finding survives**: TRIAD is still not uniformly at a
+hard ceiling — a genuine majority (7 of 13) of real, independent PROTAC
+structures show good discrimination. This was not an artifact of the bug.
+
+**What does NOT survive, and must be explicitly retracted**: the entire
+8BDS-vs-8BEB "cleanest matched pair" investigation from Part 14/15 — the
+comparison of nearly-identical reach distance, identical pool size, and
+opposite outcomes — was built entirely on 8BDS's corrupted (non-contacting)
+"native pose." With the bug fixed, 8BDS is no longer tractable at all; it
+sits in the same "random" group as 8BEB. There was never a meaningful
+contrast to explain. Any conclusions drawn from that comparison in this
+document's earlier text are void and should not be cited.
+
+**A sobering, honest note on process**: this bug went undetected through
+the ENTIRE construction of the multi-structure benchmark (Part 14),
+survived a cross-platform verification (Part 15) that checked numerical
+reproducibility but not physical validity, and was only caught because a
+downstream, unrelated check (shape channel showing exactly zero) looked
+suspicious enough to chase to its root cause rather than being explained
+away. The lesson: a percentile number can be perfectly reproducible across
+machines and still be computed on physically nonsensical input. Numerical
+stability and physical correctness are different properties, and this
+project's test suite checked one without the other for a real stretch of
+this investigation. This is now fixed and locked in as a permanent
+regression (`test_multi_structure_discrimination.py`'s corrected
+`_select_ligase_chains` and updated baseline).

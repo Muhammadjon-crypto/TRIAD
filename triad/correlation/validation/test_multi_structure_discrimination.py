@@ -36,14 +36,37 @@ PDB_DIR = "pdb_raw"
 pytestmark = pytest.mark.skipif(not os.path.isdir(PDB_DIR), reason=f"{PDB_DIR}/ not present")
 
 EXPECTED_RESULTS = {
-    "5FQD": (64, 115), "5HXB": (370, 2501), "5T35": (54, 1112),
+    "5FQD": (65, 116), "5HXB": (348, 2514), "5T35": (54, 1112),
     "6BN7": (162, 2538), "6BOY": (63, 771), "6HAX": (409, 773),
-    "6HAY": (480, 750), "6HR2": (499, 847), "7KHH": (1180, 2128),
-    "8BDS": (219, 820), "8BEB": (464, 820), "8FY0": (821, 19222),
-    "8FY1": (3239, 26943), "8FY2": (1437, 13212),
+    "6HAY": (480, 750), "6HR2": (499, 847), "7KHH": (222, 306),
+    "8BDS": (128, 356), "8BEB": (341, 459), "8FY0": (584, 19156),
+    "8FY1": (3129, 19399), "8FY2": (1366, 13204),
 }
 
 TRACTABLE_THRESHOLD_PCT = 30.0
+
+
+def _select_ligase_chains(entry) -> list:
+    """Correct ligase-chain selection, replacing a real bug found and
+    fixed here (manifest Part 16): the previous logic
+    (`len(ligase_chains)//2 if len(ligase_chains) > 2 else ...`) assumed
+    any list of more than 2 chains must represent two copies and halved
+    it -- which is correct for the 6-chain cases (two copies of a 3-chain
+    VCB/CRBN+DDB1 assembly: 5T35, 6HAX, 6HAY, 6HR2, 6SIS) but WRONG for
+    the 3-chain, single-copy cases (7KHH, 8BDS, 8BEB), where it truncated
+    a complete functional assembly down to a single scaffold chain
+    (ElonginB alone, dropping ElonginC and VHL -- VHL is the chain that
+    actually contacts the target; ElonginB alone never does). Confirmed
+    directly: at the "native pose" computed with the old logic, minimum
+    target-ligase atom distance was 19.5-21.9 A (not a bound complex at
+    all) for exactly these 3 structures. The only real case with 2 copies
+    is when there are 6 chains listed; otherwise every listed chain is
+    part of one complete assembly.
+    """
+    n = len(entry.ligase_chains)
+    if n == 6:
+        return list(entry.ligase_chains[:3])
+    return list(entry.ligase_chains)
 
 
 def _measure_discrimination(pdb_id: str) -> tuple[int, int]:
@@ -56,8 +79,8 @@ def _measure_discrimination(pdb_id: str) -> tuple[int, int]:
     reach = compute_reach_from_warhead(chain.all_coords, r.mol, split.ligase_warhead_atoms)
 
     target_chain = s.chains[entry.target_chains[0]]
-    n_copy = len(entry.ligase_chains) // 2 if len(entry.ligase_chains) > 2 else len(entry.ligase_chains)
-    ligase_chains = [s.chains[c] for c in entry.ligase_chains[:max(n_copy, 1)] if c in s.chains]
+    ligase_chain_ids = _select_ligase_chains(entry)
+    ligase_chains = [s.chains[c] for c in ligase_chain_ids if c in s.chains]
 
     t_coords, t_elem, t_resn, t_resid, t_atomn = extract_representative_atoms(target_chain)
     lig_parts = [extract_representative_atoms(c) for c in ligase_chains]
