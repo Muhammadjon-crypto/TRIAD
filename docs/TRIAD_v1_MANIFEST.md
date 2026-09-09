@@ -1181,3 +1181,106 @@ produces a proportionally larger percentage swing than in large pools
 Critically, neither structure's tractable/random classification moved.
 The corrected 7/13 finding is now verified on two independent machines,
 twice each.
+
+---
+
+## Part 17 — The real determinant found: tractability is a fixed property of the (ligase, target) pair, not of the specific molecule
+
+**With the corrected, verified data, a much cleaner pattern emerged than
+any of the single-feature hypotheses tested in Part 14.** Grouping the 13
+PROTAC structures (5FQD glue excluded) by their (ligase, target)
+combination:
+
+| Ligase + Target | Structures | Classification |
+|---|---|---|
+| CRBN + BRD4-BD1 | 6BN7, 6BOY | TRACTABLE (2/2) |
+| CRBN + GSPT1 | 5HXB | TRACTABLE (1/1) |
+| VHL + BRD4-BD2 | 5T35 | TRACTABLE (1/1) |
+| VHL + BCL-xL / BCL-2 | 8FY0, 8FY1, 8FY2 | TRACTABLE (3/3) |
+| VHL + BRD4-BD1 | 7KHH, 8BDS, 8BEB | RANDOM (3/3) |
+| VHL + SMARCA2 / SMARCA4 | 6HAX, 6HAY, 6HR2 | RANDOM (3/3) |
+
+**Every single (ligase, target) combination is internally 100% consistent**
+— every structure sharing a combination gets the same classification,
+regardless of which specific degrader molecule, linker length, or reach
+distance is involved. This directly rules out linker/molecule-level
+properties as the primary determinant (already suggested by Part 14's
+failed single-feature checks, now confirmed more directly): reach distance
+does NOT separate the groups (5T35 at 10.3 A is tractable; 7KHH at 9.5 A,
+nearly identical, is random) — but (ligase, target) IDENTITY perfectly
+does.
+
+**The most striking sub-finding**: VHL is not uniformly good or bad. It
+succeeds with BRD4's *second* bromodomain (BD2) and with the BCL-2/BCL-xL
+family, but fails with BRD4's *first* bromodomain (BD1) and with SMARCA2/4
+— every time, regardless of which specific molecule was used. This means
+the determinant is not "which ligase" in isolation, but something about
+the specific geometric/electrostatic relationship between VHL's surface
+and each particular target domain's surface near the ternary interface.
+
+**Working hypothesis, not yet confirmed**: some target surfaces present a
+more distinctive (less "generically shape-compatible") local topology or
+charge pattern at the region engaged in the ternary interface, making the
+true native orientation genuinely stand out from decoys via shape and
+electrostatics; others present a more generic-looking surface in that
+region, where many alternative orientations look comparably plausible by
+the same metrics — a property of the target protein's local surface
+geometry, fixed regardless of which small molecule is used to engage it.
+
+**Next concrete step**: directly compare the receptor-side geometry
+between a tractable and a random case sharing the SAME ligase but
+different target (e.g. VHL+BRD4-BD2 [tractable] vs. VHL+BRD4-BD1
+[random] — same ligase, closely related target domains from the same
+parent protein, an even cleaner natural experiment than anything found so
+far) — specifically the local surface curvature and charge distribution
+in the region contacted by the ligand, not just aggregate reach/linker
+statistics.
+
+---
+
+## Part 18 — A promising single-feature hypothesis tested and honestly ruled out; the real conclusion is pairwise, not single-partner
+
+**Following Part 17's lead, target charged-residue fraction was checked
+first** (motivated by the earlier finding that the shape channel
+contributes essentially zero signal within the reach-constrained search —
+Part 16 — meaning electrostatics is likely the dominant real
+discriminator, so a target with a more electrostatically distinctive
+surface should plausibly discriminate better). On a 4-point subset (5T35
+vs. the three VHL+BRD4-BD1 cases), this looked compelling: 38% charged
+residues (tractable) vs. 26-28% (random).
+
+**Tested against all 13 structures, this does NOT hold up — correlation
+0.083, essentially none.** Two decisive counter-examples: SMARCA2/4 (VHL,
+RANDOM group) have the HIGHEST charged-residue fraction in the entire
+dataset (0.37-0.42), and 6BN7/6BOY (CRBN+BRD4-BD1, TRACTABLE) have nearly
+identical charged fraction (0.276-0.282) to 8BDS/7KHH/8BEB (VHL+BRD4-BD1,
+RANDOM) — the SAME target, the SAME charge level, opposite outcomes,
+determined purely by which ligase is paired with it.
+
+**This last comparison is the real insight, more valuable than the ruled-
+out hypothesis itself**: since the identical target (BRD4-BD1) gives
+opposite results depending only on which ligase engages it, tractability
+cannot be a property of either partner measured in isolation (not target
+charge, not target size, not ligase identity alone — all tested and
+ruled out across Parts 14-18). **It must be a property of the specific,
+mutual, pairwise complementarity between that exact ligase's surface and
+that exact target's surface** — consistent with basic protein-protein
+recognition principles (specific recognition is inherently a property of
+the interface between two partners, not of either partner alone), but
+harder to reduce to a simple scalar feature of either side independently.
+
+**Honest state of this investigation**: the WHAT (tractability is
+perfectly predicted by (ligase, target) pair identity, Part 17) is now
+solid, cross-validated, and well-supported. The WHY (what specific
+geometric/electrostatic property of the pairwise interface determines it)
+remains a genuine open question after five single-feature hypotheses
+tested and ruled out (reach distance, linker length, ligase identity
+alone, resolution, target charge fraction). Answering it properly would
+likely require characterizing the actual native interface's shape and
+charge complementarity directly (e.g. a real Sc-style shape
+complementarity statistic computed ONLY over the true contact patch, or
+the actual electrostatic potential correlation specifically at the native
+interface rather than aggregate whole-protein statistics) rather than any
+further whole-protein or whole-ligand summary statistic — a substantial
+enough undertaking to be a genuine next-session task, not a quick follow-
+up check.
