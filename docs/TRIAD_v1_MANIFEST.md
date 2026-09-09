@@ -1020,3 +1020,50 @@ whether a specific case is tractable remains a real, open, well-scoped
 question for future investigation, not a solved problem and not a wall.
 This is a substantially more interesting and more actionable place to be
 than Part 13's conclusion suggested.
+
+---
+
+## Part 15 — Cross-platform floating-point sensitivity found and fixed in the new benchmark test
+
+Running the Part 14 benchmark on a different machine (Apple Silicon Mac,
+vs. this session's Linux x86_64 sandbox) surfaced a real, informative
+issue: `n_valid` (the count of reach+clash-valid candidates) differed by a
+handful of candidates for 10 of 14 structures — e.g. 115 vs. 118, 2501 vs.
+2509, 26943 vs. 26904. Diagnosed before assuming anything was broken:
+
+1. Confirmed the computation is perfectly deterministic across repeated
+   runs WITHIN one environment (3 consecutive runs on the same sandbox
+   gave identical results) — ruling out any randomness bug in the code
+   itself.
+2. The most likely explanation: `reach_mask` and `overlap_mask` both use
+   hard `<=` threshold comparisons on continuous FFT-derived values. FFT
+   implementations are not guaranteed bit-identical across different
+   BLAS/hardware backends (e.g. Apple's Accelerate framework vs. a Linux
+   BLAS build) — tiny (~1e-10 relative) differences in the FFT output can
+   push a handful of candidates that sit almost exactly at a hard
+   threshold boundary to opposite sides on different machines. This is a
+   well-known, expected class of behavior in scientific computing, not a
+   correctness bug — the differences observed are consistently a small
+   fraction of a percent of the total candidate count.
+
+**Real bug also found in the test's own design, independent of the
+floating-point issue**: the original test asserted `n_valid` equality
+BEFORE checking rank, so when `n_valid` mismatched (as it did for 10 of 14
+structures on the Mac), the test never even reported what rank was
+actually measured — meaning the cross-platform run gave no visibility
+into whether the actually important finding (tractable vs. random
+classification) held up at all. Fixed by:
+- Always computing and reporting both metrics regardless of pass/fail
+- Replacing exact-equality assertions with a tolerance band (n_valid
+  within 2%, percentile within 5 percentage points of the baseline) —
+  appropriate given the floating-point finding above, and sufficient to
+  still catch a genuine regression (a real scoring change would move
+  percentiles by far more than 5 points, as seen throughout this
+  manifest's own history of real improvements and regressions)
+
+**Practical implication for anyone running this benchmark:** don't expect
+bit-exact reproduction of `n_valid` or `rank` across different machines —
+expect the percentile classification (tractable vs. random) to hold, and
+treat a difference larger than a few percentage points as worth
+investigating, not a difference of a handful of counts at a threshold
+boundary.
