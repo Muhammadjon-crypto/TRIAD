@@ -799,3 +799,65 @@ re-scoring is a weaker test than true joint optimization); (b) a genuinely
 larger, more diverse contact-potential training set, addressing the
 small-sample limitation stated since Part 6, which would require
 structural data beyond this project's 15-structure benchmark.
+
+---
+
+## Part 12 — The properly-joint contact potential channel: built, validated, tested honestly, and closing this investigation
+
+Path (a) from Part 11 was pursued directly: `triad/correlation/contact_channel.py`
+implements the true per-residue-type FFT correlation channel described in
+Part 2.2's original design, rather than the post-hoc re-scoring used in
+Parts 6 and 11.
+
+**The linearity trick**, stated precisely: the full contact-potential score
+`sum_{i,j} potential(i,j) * correlate(Receptor_i, Ligand_j)` — naively up to
+400 correlations per rotation (20 receptor residue types x 20 ligand
+residue types) — reduces to exactly 20 correlations via `correlate(Receptor_i,
+sum_j potential(i,j)*Ligand_j)`, precomputing one "weighted ligand
+combination grid" per receptor residue type first. **Validated against
+brute-force computation to machine precision** on both a sparse hand-built
+potential and a dense randomized one covering nearly all 210 residue pairs
+(`triad/correlation/validation/test_contact_channel.py`, 2/2 passing) before
+touching any real data — the same discipline as every other from-scratch
+correlation reformulation this session.
+
+**Tested honestly on 5T35** (same correct rotation, same clash-filtered
+1,112-candidate pool as Parts 8 and 11):
+
+| Contact-potential weight | Native's rank |
+|---|---|
+| 0.0 (shape+elec only) | 54 |
+| 1.0 | 52 |
+| 3.0 | 70 |
+| 5.0 | 80 |
+| 10.0 | 120 |
+
+**Result: a negligible improvement at low weight (52 vs. 54 — noise-level),
+then monotonically worse beyond that.** This is a materially different,
+and more rigorous, test than Part 6's post-hoc version (which showed a
+more encouraging-looking rank improvement from 1322 to 908) — the
+difference is almost certainly because Part 6's candidate pool still
+included clash artifacts that this properly-joint, correctly clash-
+filtered test does not. Once compared on a fair, physically-valid
+candidate pool, the earlier apparent improvement mostly evaporates.
+
+**This closes the "add more physics/statistical terms" investigation
+honestly.** Four separately-validated terms have now been tested against
+correctly clash-filtered real data: shape (foundational), electrostatics
+(modest, real contribution — Part 8's clash-veto finding), a small-sample
+knowledge-based contact potential (negligible to negative, both as post-hoc
+re-scoring and as a properly-joint correlation channel), and desolvation
+(negative, Part 11). The consistent picture across all four, tested with
+equal rigor: **shape complementarity plus a simplified electrostatic term
+is very close to the ceiling of what ab initio physics-based scoring
+achieves here without a substantially larger statistical foundation.**
+
+**What remains genuinely untried, for a real future session:** a contact
+potential trained on a large, diverse protein-protein interface database
+(hundreds to thousands of independent structures, not 15 correlated ones)
+is the one lever in this whole investigation that hasn't actually been
+built and tested — everything else in the "improve scoring" category has
+now been tried, validated, and honestly found insufficient. That remains
+the most credible next step, and it is fundamentally a data problem, not
+an algorithm problem — the correlation machinery to use such a potential,
+once available, already exists and is verified (`contact_channel.py`).
