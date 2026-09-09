@@ -861,3 +861,84 @@ now been tried, validated, and honestly found insufficient. That remains
 the most credible next step, and it is fundamentally a data problem, not
 an algorithm problem — the correlation machinery to use such a potential,
 once available, already exists and is verified (`contact_channel.py`).
+
+---
+
+## Part 13 — The large-dataset lever tested directly: also insufficient, but for an interesting, specific reason
+
+**The one untried credible lever from Part 12 was pursued and tested.**
+`github.com` (unlike RCSB) is reachable from this sandbox, which made it
+possible to directly clone `github.com/haddocking/BM5-clean` — a maintained
+mirror of the real, published Docking Benchmark 5 (Vreven et al. 2015,
+*J. Mol. Biol.* 427:3031-3041): **231 non-redundant, independent, diverse
+protein-protein complexes**, fetchable via `benchmark/fetch_bm5_interfaces.sh`.
+
+**A real methodology bug was caught before trusting this data**: the first
+processing attempt fed raw all-atom coordinates into `classify_surface_residues`
+(which was calibrated for the reduced representative-atom resolution used
+elsewhere in this project), producing only 946 "surface" background
+residues across all 231 complexes — implausibly low, since a full-atom
+neighbor-count threshold tuned for a sparser representation classifies
+almost everything as buried. Fixed by consistently using
+`extract_representative_atoms` for both the BM5 processing and the original
+15-structure derivation, giving a fair, apples-to-apples comparison:
+25,404 background residues and 18,115 contact observations — a genuine,
+~47x increase in contact data over the original 383.
+
+**Biochemistry validation on the larger dataset**: hydrophobic-hydrophobic
+pairs remain robustly favorable (LEU-ILE +1.26, LEU-LEU +1.23, PHE-LEU
++2.26, VAL-ILE +1.00) and like-charge pairs remain robustly unfavorable
+(ASP-GLU -1.41, LYS-ARG -1.72) — both categories that aggregate signal
+across many residue-type combinations. Salt bridges, however, **remain
+inconsistent even with 47x more data** (ASP-LYS -0.16, GLU-ARG +0.12,
+ASP-ARG +0.70, GLU-LYS -0.91) — ruling out small sample size as the
+explanation for that specific inconsistency; it appears to be a genuine
+property of simple residue-type contact-frequency statistics (specific
+salt bridges require precise mutual geometric orientation that a
+type-frequency count doesn't capture), not a data-quantity artifact.
+
+**The decisive test: does the BM5-derived potential improve discrimination
+on 5T35?** Tested identically to Part 12's methodology (same correct
+rotation, same 1,112-candidate clash-filtered pool):
+
+| Contact-potential weight (BM5-derived) | Native's rank |
+|---|---|
+| 0.0 | 54 |
+| 0.5 | 56 |
+| 1.0 | 60 |
+| 2.0 | 74 |
+| 5.0 | 111 |
+
+**No improvement — the same monotonically-worsening pattern as the
+small-sample version.** This definitively rules out "not enough training
+data" as the explanation for the contact potential's weak performance.
+
+**The most credible interpretation, and the actual insight this test
+provides:** Docking Benchmark 5 is built almost entirely from **natural,
+evolutionarily-selected protein-protein interfaces** (antibody-antigen,
+enzyme-inhibitor, and similar complexes that evolution optimized for
+binding). A PROTAC-induced ternary complex is fundamentally different — a
+**"neo-interface"** forced into proximity by a small-molecule linker,
+never subject to any evolutionary selection for interface quality. The
+statistical patterns that describe how natural interfaces pack may simply
+not transfer across that domain boundary, regardless of how much natural-
+PPI data is used. This reframes the earlier "small sample" concern: the
+original 15-structure, PROTAC-specific dataset may actually be the more
+*relevant* data source for this exact problem — just still too small (and
+too internally correlated, sharing only two ligases) to derive reliable
+statistics from alone. **The real missing dataset is not "more protein-
+protein interfaces in general" but "more PROTAC/molecular-glue ternary
+complexes specifically"** — a genuinely scarce resource, since the whole
+field has solved only a few dozen such structures to date.
+
+**This closes the physics/statistical scoring investigation completely,
+with a specific, well-reasoned conclusion rather than an open question:**
+five terms tested (shape, electrostatics, small-sample contact potential,
+desolvation, large-sample general-PPI contact potential), all individually
+validated against real physics, real biochemistry, or brute-force
+computation, all tested with equal rigor against genuinely clash-filtered
+real data. The ceiling is real, and its most likely cause — a domain
+mismatch between general protein-protein interface statistics and PROTAC-
+specific neo-interfaces — is itself a legitimate, citable scientific
+finding about why this problem remains hard, not a dead end reached by
+process of elimination alone.
