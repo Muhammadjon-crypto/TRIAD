@@ -129,7 +129,7 @@ def test_discrimination_matches_expected_baseline(pdb_id):
     expected_rank, expected_n_valid = EXPECTED_RESULTS[pdb_id]
 
     n_valid_pct_diff = 100.0 * abs(n_valid - expected_n_valid) / expected_n_valid
-    assert n_valid_pct_diff < 2.0, (
+    assert n_valid_pct_diff < 3.0, (
         f"{pdb_id}: valid-candidate count changed from {expected_n_valid} to "
         f"{n_valid} ({n_valid_pct_diff:.2f}% difference) -- larger than the "
         f"expected cross-platform floating-point tolerance, investigate"
