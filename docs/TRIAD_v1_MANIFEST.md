@@ -1463,6 +1463,73 @@ short of the statistical bar needed to call this settled.
 
 ---
 
+## Part 22 — Full end-to-end dense rotation search retried with every fix in place: identical result, and the real reason finally diagnosed correctly
+
+**With rotation-sampling redundancy fixed (Part 9), exhaustive occupancy-
+overlap clash filtering built and validated (Part 10), and the chain-
+selection bug found and fixed (Part 16), the full 3,600-rotation dense
+search (~9.4 degree resolution, matching the tolerance window measured in
+Part 9) was re-run on 5T35 end-to-end.**
+
+**Result: 69.45 Å — bit-for-bit identical to Part 9's original,
+pre-fix attempt.** This exact match across two meaningfully different
+pipeline versions is itself informative: it means neither the rotation-
+redundancy fix nor the clash-filtering fix changed the actual outcome at
+all. The bottleneck lies elsewhere.
+
+**First hypothesis tried, and found wrong on direct check**: that shape
+contributes zero throughout the reach-constrained region regardless of
+rotation (extrapolating from Part 16's finding that it's zero at the
+NATIVE rotation specifically), making the whole multi-rotation search
+electrostatics-only. Checked directly across several different rotations:
+shape is NOT uniformly zero — at rotations other than native, C_shape
+within the reach-sphere reaches values up to ~990, far from zero. The
+hypothesis was wrong, and is recorded as such rather than quietly
+replaced with the next guess.
+
+**The actual mechanism, verified this time by direct inspection**: the
+reach-sphere constraint only fixes WHERE the ligase's pivot point (its
+warhead-attachment atom) sits — it says nothing about which direction the
+REST of the ligase's bulk extends from that pivot. At the true native
+rotation, the ligase body correctly points away from that immediate local
+neighborhood, toward the real, larger-scale interface elsewhere (the
+actual protein-protein contact extends well beyond a single reach-sphere
+shell). At various WRONG rotations, the ligase's bulk can coincidentally
+swing INTO that same local neighborhood around the pivot, and rack up
+substantial (but spurious) shape "reward" from the target's real surface
+shell nearby — reward that has nothing to do with correctly recreating
+the actual interface, since it's driven by a geometric coincidence of one
+local patch, not genuine complementary packing of the whole contact
+surface.
+
+**This is a real, structural limitation of the reach-sphere-plus-local-
+shape-channel design, not a scoring-weight problem.** The shape channel,
+as implemented, samples complementarity only in a thin, local, pivot-
+centered shell — it has no way to "see" whether the rest of the ligase
+body, extending outward from that pivot in a given rotation, is heading
+toward a genuine complementary docking surface or away from it. A
+correct fix would need the shape (and ideally electrostatic) channels to
+meaningfully sample complementarity over the ligase's FULL bulk relative
+to the target, not just near the reach-constrained pivot — a real
+architectural change to the correlation channels, not a parameter tweak.
+
+**Where this leaves the project, precisely**: the discrimination-quality
+finding from Parts 8, 14, and 16-21 (native ranks well among valid
+candidates AT THE CORRECT ROTATION, for a genuine majority of real
+structures) remains fully valid and unaffected by this finding — that
+was always tested with rotation held correct, deliberately isolating
+translational discrimination. What this section adds is a precise,
+verified diagnosis of why the FULL, autonomous, all-rotations-included
+search still can't find that correct neighborhood on its own: not
+insufficient rotational density (Part 9's original hypothesis, itself
+correct as far as it went), not a remaining clash-filtering gap (Part
+10's fix, real and necessary but insufficient alone), but a genuine
+architectural blind spot in what the shape channel can perceive — local
+pivot-shell complementarity, not whole-body correct orientation. Fixing
+this is a legitimate, well-scoped Phase 4 undertaking, not a quick patch.
+
+---
+
 ## Part 19 — A sixth hypothesis, using real interface geometry directly, also ruled out
 
 **Took on the substantial step flagged at the end of Part 18**: computed
