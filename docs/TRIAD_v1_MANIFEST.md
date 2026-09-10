@@ -1401,6 +1401,68 @@ than a settled conclusion.
 
 ---
 
+## Part 21 — The honest statistical test: Sc's correlation does NOT survive multiple-comparisons correction
+
+**Part 20 flagged the multiple-comparisons concern in words; this section
+actually computes it, which is the difference between a caveat and a real
+check.**
+
+Pearson correlation: r=0.567, **p=0.0432** (n=13) — only marginally
+significant at an uncorrected alpha of 0.05. Spearman rank correlation
+(arguably more appropriate here, since Sc's absolute scale isn't precisely
+calibrated and only the ordering should be trusted): rho=0.669,
+**p=0.0125** — stronger, but still not decisive on its own.
+
+**Applying a Bonferroni correction for the 7 features actually tested**
+(reach distance, linker length, ligase identity, resolution, target
+charge fraction, native BSA, native Sc) gives a required significance
+threshold of **p<0.0071**. Neither the Pearson result (0.0432) nor the
+Spearman result (0.0125) clears this bar.
+
+**Honest conclusion: Sc's correlation with tractability, while the
+strongest and most mechanistically interesting result of everything
+tested in this investigation, does NOT meet a rigorous statistical bar
+once the fact that seven different hypotheses were tried is properly
+accounted for.** It remains the best available lead — a real, validated,
+standard algorithm, a specific plausible mechanism, and the largest effect
+size observed — but it should be described as exactly that (a lead worth
+pursuing with more data) and not as a confirmed determinant of
+tractability. Presenting it as confirmed would repeat, at the level of
+statistics rather than chemistry or physics, the exact kind of
+overclaiming this project's discipline has been built around catching
+and correcting throughout (Parts 13's overstated single-structure
+generalization, Part 16's uncaught chain-selection bug — both errors of
+believing a result before subjecting it to the check that would have
+caught it).
+
+**What would actually resolve this**: more independent (ligase, target)
+pairs than the field currently has solved structures for — this
+investigation has already used essentially all suitable public PROTAC/
+molecular-glue ternary structures available (the 15-structure benchmark
+itself). Meaningfully more statistical power on this specific question
+would require either new structures being solved by the field, or a
+fundamentally different validation strategy (e.g. testing the Sc
+hypothesis's mechanism directly — does a high-Sc native interface really
+have more comparably-scoring nearby alternative orientations than a
+low-Sc one? — rather than accumulating more single data points on
+tractability alone).
+
+**That direct mechanism test was run**, using data already computed: for
+each structure, the fraction of valid candidates scoring within 5% of the
+top score (a proxy for "how many near-equivalent alternatives exist"),
+checked against Sc — a genuinely different dependent variable than
+percentile, not a re-test of the same relationship. Result: correlation
++0.484, same direction as the mechanism predicts (higher Sc → more
+comparably-scoring alternatives), providing independent, if still
+modest and non-decisive, support (8FY1 is a visible counter-example: high
+Sc, 0.374, but almost no near-top alternatives, 0.0001). This is
+consistent with — but does not conclusively prove — the proposed
+mechanism, and is exactly the right shape for an honest interim status:
+a real, independently-collected piece of corroborating evidence, still
+short of the statistical bar needed to call this settled.
+
+---
+
 ## Part 19 — A sixth hypothesis, using real interface geometry directly, also ruled out
 
 **Took on the substantial step flagged at the end of Part 18**: computed
