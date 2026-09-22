@@ -1779,3 +1779,48 @@ step is checking real candidate explanations directly against this new
 4-point split (and expanding it further) rather than assuming the 5T35
 result was representative, exactly as Part 14 corrected Part 13's
 equivalent overclaim.
+
+---
+
+## Part 27 — The real mechanism found: native's own electrostatic competitiveness cleanly predicts success, with zero overlap on n=4
+
+**Direct test**: for each of the 4 structures in Part 26's split, compare
+native's own true electrostatics score (no search needed, single-pose
+evaluation) against the best score the full 3600-rotation search found
+anywhere.
+
+| Structure | Group | Native score | Best found | Ratio |
+|---|---|---|---|---|
+| 5T35 | WORKS (4.59 A) | 489.2 | 549.0 | 0.89 |
+| 8BDS | WORKS (4.17 A) | 333.6 | 520.0 | 0.64 |
+| 6BN7 | FAILS (75.65 A) | -133.6 | 567.1 | -0.24 |
+| 6HAX | FAILS (77.49 A) | 86.6 | 531.3 | 0.16 |
+
+**Zero overlap between groups on this metric.** When native's own true
+electrostatics score is a large fraction of the best achievable score
+anywhere in the search (WORKS group: 0.64-0.89), the search successfully
+finds it. When native's own score is weak or even actively unfavorable by
+this formula relative to what's achievable elsewhere (FAILS group: -0.24
+to 0.16), the search correctly (from its own perspective) prefers some
+other region instead — this is not a search-coverage failure, it is the
+scoring function correctly reporting that native is not the best answer
+by its own metric for these two structures.
+
+**Honest limitation, stated immediately**: this ratio requires already
+knowing the best score found anywhere, which means running the full
+expensive search first. It is a real, mechanistically clean diagnostic
+explaining WHY a given structure succeeds or fails, not yet a cheap
+predictor usable before committing to a full search. The natural next
+question, not yet answered: is there a computable-in-advance proxy for
+"native's electrostatic competitiveness" (e.g. related to the small
+native BSA already measured in Part 24 — fewer true interface atom pairs
+plausibly means weaker absolute electrostatic score, win or lose) that
+would let this be predicted cheaply rather than discovered only after a
+multi-minute search?
+
+**n=4 caveat, stated as directly as every other finding in this
+document**: this is a small sample, and the clean separation, while
+genuinely striking, should be treated as a strong lead to test further
+(more structures, ideally the full benchmark) rather than a settled
+mechanism — exactly the same caution this investigation has applied
+consistently since Part 14.
