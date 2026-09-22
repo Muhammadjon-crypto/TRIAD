@@ -1735,3 +1735,47 @@ step, already underway, is testing this same electrostatics-only,
 shape-removed search across multiple structures spanning both the
 "tractable" and "random" categories established in Parts 14-21, before
 concluding this is a general fix rather than a 5T35-specific result.
+
+---
+
+## Part 26 — CORRECTION: Part 25's breakthrough does NOT generalize; it is structure-dependent, on a different axis than tractability
+
+**Tested immediately, as Part 25 itself required before treating the
+5T35 result as general**: the same electrostatics-only, shape-removed
+full dense search was run on 3 more structures.
+
+| Structure | Ligase, Target | RMSD |
+|---|---|---|
+| 5T35 | VHL, BRD4-BD2 | 4.59 A |
+| 8BDS | VHL, BRD4-BD1 | 4.17 A |
+| 6BN7 | CRBN, BRD4-BD1 | 75.65 A |
+| 6HAX | VHL, SMARCA2 | 77.49 A |
+
+**2 of 4 structures show the breakthrough; 2 of 4 do not.** This is NOT a
+general fix, and Part 25's "MAJOR RESULT" framing is corrected here: the
+result is real and reproducible for the specific structures where it
+occurs, but it is structure-dependent, exactly like every other finding
+in this investigation (Parts 14-21's tractability split, Part 20's Sc
+correlation). Declaring victory on one structure was the same category of
+error this investigation already corrected once before, in Part 14, and
+is corrected here again, immediately, rather than left standing.
+
+**A genuinely interesting wrinkle**: this new split does NOT track the
+original shape+electrostatics tractable/random classification from Parts
+14-21. 6BN7 was previously TRACTABLE (6.7th percentile, good
+discrimination at the correct rotation) but FAILS here in the full
+electrostatics-only search (75.65 A). 8BDS was previously RANDOM (37.6th
+percentile) but SUCCEEDS here (4.17 A). This means "does electrostatics-
+only full search recover the pose" is measuring something genuinely
+different from "does shape+electrostatics rank native well at the correct
+rotation" — these are two separate, only loosely related properties of
+a given structure, not the same finding restated.
+
+**Honest current understanding**: removing shape helps dramatically for
+SOME structures (5T35, 8BDS) and does nothing for others (6BN7, 6HAX).
+The real, still-open question is what distinguishes these two new groups
+— and given this investigation's established track record, the right next
+step is checking real candidate explanations directly against this new
+4-point split (and expanding it further) rather than assuming the 5T35
+result was representative, exactly as Part 14 corrected Part 13's
+equivalent overclaim.
