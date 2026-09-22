@@ -1640,3 +1640,55 @@ not because the question is unanswerable, but because answering it
 properly needs real interface-level shape/electrostatic complementarity
 machinery (Part 19's remaining options 1-2) that would be a substantial,
 deliberate next build, not a quick check.
+
+---
+
+## Part 24 — BSA hypothesis tested and refuted, in the opposite direction: PROTAC interfaces are structurally smaller than what shape-reward search prefers
+
+**Tested directly** (manifest Part 23's proposed next check): does requiring
+a minimum real buried surface area (BSA) distinguish native from the
+false-positive high-shape-score wrong rotations?
+
+**Result, run on 5T35 with full-atom coordinates:**
+
+| Pose | Shape score | BSA |
+|---|---|---|
+| Native (true bound complex) | — | **343 A^2** |
+| Wrong rotation 5 (best shape pose) | 833 | 2097 A^2 |
+| Wrong rotation 15 (best shape pose) | 1105 | 2458 A^2 |
+| Wrong rotation 25 (best shape pose) | 805 | 1907 A^2 |
+| Wrong rotation 35 (best shape pose) | 975 | 2082 A^2 |
+
+**The hypothesis is refuted, and in the OPPOSITE direction predicted.**
+The wrong poses don't represent small, token touches that a minimum-BSA
+filter would catch — they bury 6-7x MORE surface area than the true
+native complex. A minimum-BSA filter would therefore make discrimination
+WORSE, not better: it would systematically favor these large spurious
+contacts over the small, correct interface.
+
+**The likely mechanism, consistent with established PROTAC biology**:
+PROTAC-induced ternary interfaces are well-documented in the field as
+small and weak compared to natural, evolved protein-protein interfaces —
+the small molecule linker does the actual work of holding the complex
+together, so the direct protein-protein contact doesn't need to be large
+or self-sufficient the way an evolved interaction does. This is directly
+confirmed here, not just cited: native's real BSA (343 A^2) is modest even
+by loose standards, while the wrong rotations are finding what are likely
+genuine, evolutionarily-natural surface features on the target (grooves,
+convex/concave regions) that the ligase protein — itself a real, evolved
+structure with its own natural surface features — coincidentally nestles
+against with substantially more shape complementarity than the small,
+artificial, PROTAC-specific interface ever achieves.
+
+**This reframes Phase 4's actual problem.** It is not "how do we reward
+more shape/interface quality" — any such reward is structurally biased
+AGAINST recovering true PROTAC poses, precisely because the real interface
+is deliberately, biologically small. The reach/linker-derived geometric
+constraint (tied to the ACTUAL molecule's real chemistry — this specific
+PROTAC's specific reach) is likely the single most important, most
+specific piece of discriminating information the system has, since unlike
+generic shape complementarity, it cannot be satisfied by an accidentally
+well-matching but biologically irrelevant patch elsewhere on the target.
+Leaning much more heavily on reach-constraint specificity relative to
+shape reward — rather than trying to make shape "better" — is the
+corrected, evidence-based next direction for Phase 4.
