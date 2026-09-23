@@ -1933,3 +1933,53 @@ already-supported mechanism than a brand new discovery. A threshold value
 (e.g. native score > 0, or some other cutoff) has not yet been calibrated
 or tested for classification accuracy specifically -- only the continuous
 correlation has been checked.
+
+---
+
+## Part 30 — The BCL-2 family predicts intractable by the new metric, despite being the best performers by the old one: neither approach is general
+
+**Preflight scores for the 3 untested VHL/BCL-2-family structures:**
+
+| Structure | Native score | Predicted | Confidence |
+|---|---|---|---|
+| 8FY0 | -34.2 | Intractable | High |
+| 8FY1 | -60.0 | Intractable | High |
+| 8FY2 | 45.7 | Intractable | Low |
+
+**All three predict failure for the electrostatics-only full search** --
+striking given these are the best-performing structures in the entire
+original benchmark by the shape+electrostatics-at-correct-rotation metric
+established in Parts 14-21 (8FY0 ranked 3.0th percentile, the single best
+result of all 13 structures tested there).
+
+**This is not a contradiction of anything established so far -- Part 26
+already flagged that these are separate axes -- but it sharpens the
+practical conclusion considerably.** A structure can be excellent by one
+metric (native ranks near the top among valid candidates, holding
+rotation fixed at its correct value) and predicted poor by the other
+(the full, rotation-inclusive, shape-removed search is unlikely to find
+that same correct answer on its own). Neither "keep shape as originally
+implemented" nor "remove shape entirely" is a generally correct strategy
+across the benchmark; each is better suited to a different subset of
+structures, and which subset is not yet cheaply predictable in advance
+for the shape-inclusive case.
+
+**Honest strategic implication**: this result argues against further
+investment in tuning the electrostatics-only, shape-removed search as a
+general-purpose fix. The real architectural problem remains what Part 22
+originally identified: the shape channel, as implemented, cannot
+distinguish whole-body-correct orientation from locally-coincidental
+overlap. Removing shape entirely is a workaround that happens to help
+some structures and not others, not a principled solution. The
+correctly-scoped next step is the architectural redesign flagged as Open
+Problem 2 in the project status report -- a shape evaluation that
+penalizes incidental local overlap while still rewarding genuine,
+whole-interface complementarity -- rather than further characterization
+of when the workaround happens to apply.
+
+(Full-search verification of these three predictions was not run, given
+their substantially larger reach distance and correlation grid make each
+full search meaningfully more expensive than the already-tested
+structures; the preflight scores alone are informative enough to redirect
+priority without spending that compute to confirm a prediction that
+would not change the strategic conclusion either way.)
