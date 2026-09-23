@@ -1886,3 +1886,50 @@ a cheap pre-search predictor (still requires running the expensive full
 search to know the gap), and the practical value of "recognizing which
 structures will fail" is real but different from "fixing the structures
 that fail" — the latter remains open.
+
+---
+
+## Part 29 — A real, cheap, pre-search predictor found: native's own electrostatic score alone
+
+**Motivated directly by Part 28's mechanism**: if the gap between native's
+score and the best-found score predicts RMSD, does native's score ALONE
+(no full search required to know it) already carry most of that signal?
+Tested against all 11 structures with data already collected.
+
+**Result: r = -0.765, p = 0.0061** (n=11) — stronger than the gap-based
+metric (r=0.607), and requires only a single native-pose evaluation
+(milliseconds) rather than a 2-20 minute full rotational search. Higher
+native electrostatic score predicts lower (better) final RMSD.
+
+| Structure | Native score | RMSD |
+|---|---|---|
+| 8BDS | 333.6 | 4.17 A |
+| 5T35 | 489.2 | 4.59 A |
+| 7KHH | 226.7 | 26.46 A |
+| 8BEB | 39.6 | 26.92 A |
+| 6BOY | -24.6 | 54.47 A |
+| 6HR2 | 108.8 | 66.35 A |
+| 6BN7 | -133.6 | 75.65 A |
+| 6HAX | 86.6 | 77.49 A |
+| 6HAY | 11.0 | 87.72 A |
+| 5FQD | 107.2 | 135.99 A |
+| 5HXB | -404.3 | 155.70 A |
+
+**Practical significance**: this is a genuine pre-search predictor, not
+just a post-hoc diagnostic like Part 28's gap metric. A user could compute
+native's electrostatic score in seconds and get a real estimate of whether
+the full search is worth running, before committing to it. This is the
+first result in this investigation with direct product value rather than
+purely diagnostic value.
+
+**Honest caveats, stated at the same standard as every other finding
+here**: n=11 remains small for a correlation coefficient. This is not an
+independent eighth hypothesis in the same sense as the seven tested in
+Part 18-21 -- it is a more parsimonious version of the mechanism already
+established in Part 27-28, using half the information, so it should not
+be treated as having survived a fresh round of multiple-comparisons
+scrutiny on its own; it is better understood as a refinement of an
+already-supported mechanism than a brand new discovery. A threshold value
+(e.g. native score > 0, or some other cutoff) has not yet been calibrated
+or tested for classification accuracy specifically -- only the continuous
+correlation has been checked.
