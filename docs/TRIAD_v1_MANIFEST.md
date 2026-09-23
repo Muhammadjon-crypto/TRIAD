@@ -1824,3 +1824,65 @@ genuinely striking, should be treated as a strong lead to test further
 (more structures, ideally the full benchmark) rather than a settled
 mechanism — exactly the same caution this investigation has applied
 consistently since Part 14.
+
+---
+
+## Part 28 — Metric bug caught and fixed, n=4 expanded to n=11: a real, moderate correlation, with one flagged outlier
+
+**A real flaw in Part 27's ratio metric was caught before it propagated
+further**: dividing native's score by the best-found score breaks when
+both are negative (two negatives divide to a misleadingly large positive
+number). Confirmed directly on batch-1 data: 5HXB showed ratio=13.12 —
+naively the best score in the whole set — while its actual RMSD (155.70 A)
+was the WORST of all 11 structures tested. The ratio metric does not
+behave monotonically outside the positive-native-score regime.
+
+**Fixed by switching to a simple difference (best_found - native_score)**,
+which remains monotonic regardless of sign. Recomputed across all 11
+structures now tested (the original 4 plus batch 1's 7):
+
+| Structure | Native score | Best found | Gap (best-native) | RMSD |
+|---|---|---|---|---|
+| 5T35 | 489.2 | 549.0 | 59.8 | 4.59 A |
+| 8BDS | 333.6 | 520.0 | 186.4 | 4.17 A |
+| 7KHH | 226.7 | 419.1 | 192.4 | 26.46 A |
+| 5HXB | -404.3 | -30.8 | 373.5 | 155.70 A |
+| 8BEB | 39.6 | 432.6 | 393.0 | 26.92 A |
+| 6HAX | 86.6 | 531.3 | 444.7 | 77.49 A |
+| 6HR2 | 108.8 | 585.1 | 476.3 | 66.35 A |
+| 6BOY | -24.6 | 578.4 | 603.0 | 54.47 A |
+| 6HAY | 11.0 | 658.0 | 647.0 | 87.72 A |
+| 6BN7 | -133.6 | 567.1 | 700.7 | 75.65 A |
+| 5FQD | 107.2 | 2405.0 | 2297.8 | 135.99 A |
+
+**Correlation (gap vs RMSD): +0.607** — moderate-to-strong, and
+mechanistically sensible: the smaller the gap between native's own score
+and the best available anywhere, the better the final recovered pose.
+
+**A visible threshold pattern, not just a smooth trend**: the 3 best
+RMSDs (5T35, 8BDS, 7KHH) all have gaps under 200; every other structure
+has a gap over 370. This suggests something closer to "the search recovers
+native well below some gap threshold, and poorly above it" rather than a
+purely linear relationship — worth testing directly with more data before
+treating as confirmed.
+
+**One clear outlier flagged, not hidden**: 5HXB has a moderate gap (373.5,
+close to several structures that recover reasonably) but by far the worst
+RMSD (155.70 A). 5HXB is this project's one molecular-glue case (CC-885/
+GSPT1), already documented since early in this investigation as a
+structural outlier — its "ligase warhead" pharmacophore match covers
+nearly the entire small molecule, leaving almost no true linker, which
+plausibly breaks assumptions (like the reach-sphere embedding convention)
+built around bipartite PROTAC geometry specifically. Excluding 5HXB as a
+known special case would likely strengthen the correlation further, but
+it is reported here, not quietly dropped, consistent with this document's
+practice throughout.
+
+**Where this leaves Phase 4, honestly**: there is now a real, moderate,
+mechanistically coherent, n=11-validated relationship between "how
+competitive native's own electrostatic score is" and "whether the full
+search recovers it." This is a genuine, usable diagnostic. It is not yet
+a cheap pre-search predictor (still requires running the expensive full
+search to know the gap), and the practical value of "recognizing which
+structures will fail" is real but different from "fixing the structures
+that fail" — the latter remains open.
