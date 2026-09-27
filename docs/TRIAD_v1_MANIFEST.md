@@ -1983,3 +1983,57 @@ full search meaningfully more expensive than the already-tested
 structures; the preflight scores alone are informative enough to redirect
 priority without spending that compute to confirm a prediction that
 would not change the strategic conclusion either way.)
+
+---
+
+## Part 31 — Contiguous-patch hypothesis refuted, and it retroactively rules out an entire class of fix
+
+**Tested directly on the known spurious wrong-rotation pose (rotation 15,
+raw shape score 1105) against 5T35's true native pose.**
+
+| Pose | Raw score | Total overlap | Largest contiguous patch | Fraction |
+|---|---|---|---|---|
+| Native | 75.0 | 75 | 69 | 0.92 |
+| Wrong rotation 15 | 1105.0 | 1120 | 1112 | **0.99** |
+
+**The wrong pose is MORE contiguous than native, not less.** The
+hypothesis behind Part 31's fix -- that spurious high-shape-score poses
+represent fragmented, scattered touches that connected-component analysis
+would expose -- is refuted outright. The wrong pose's overlap is a single,
+solid, well-formed 1112-voxel patch.
+
+**This should have been predictable from Part 24's finding, and connecting
+that dot was missed before building this fix, not after**: Part 24 already
+established that wrong-rotation poses bury 6-7x more real surface area
+than native (1900-2500 A^2 vs. native's 343 A^2). A large, coherent buried
+area naturally forms one large contiguous patch -- it has no reason to be
+fragmented. Building the contiguous-patch fix without first checking it
+against this already-known result was a real gap in reasoning, caught only
+once tested against real data.
+
+**The broader, more important conclusion this forces**: contiguity, raw
+overlap count, and buried surface area are three different measurements
+of the same underlying property -- "does this look like a generic,
+well-formed protein-protein contact." All three have now been tested as
+candidate fixes and all three fail for the same reason: the true
+PROTAC-induced interface is deliberately small and held together by the
+small molecule, not by an extensive, well-formed protein-protein contact
+in its own right. Any metric that rewards "large, coherent, geometrically
+plausible contact" will systematically prefer the large, generically
+well-formed, but biologically wrong contact over the small, correct,
+molecule-specific one. This is not a failure of one implementation; it
+rules out this entire class of shape/geometry-quality-based fix.
+
+**What remains, given this**: the two threads in this investigation that
+are NOT pure geometric-quality metrics -- electrostatics (chemically
+signed, not just "is there contact") and the knowledge-based contact
+potential (residue-type specific, chemically informed) -- are the more
+principled remaining directions. Electrostatics has already shown real,
+if incomplete, signal (Parts 25-30). The contact potential was tested and
+found unhelpful in Part 12, but that test predates the full-atom fix
+(Part 23) and the local-patch diagnosis (Part 22); given how much the
+underlying shape and clash machinery has changed since, re-testing the
+contact potential's real, joint-channel contribution in the current,
+corrected pipeline -- rather than assuming Part 12's negative result still
+applies unchanged -- is a legitimate, currently untried next step, not a
+repeat of prior work.
