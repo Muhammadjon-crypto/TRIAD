@@ -2164,3 +2164,41 @@ to the other structures already used throughout this investigation (8BDS,
 6BN7, 6HAX at minimum, matching Part 26's original generalization test),
 before this can be treated as a general fix rather than a second
 single-structure result awaiting its own correction.
+
+---
+
+## Part 35 — Cross-structure generalization confirmed: 16 of 16, across four structures and two ligases
+
+**Part 34's normalized, dilation-fixed contact potential was tested
+against the same four known wrong rotations on three additional
+structures** (8BDS, 6BN7, 6HAX -- the same set used in Part 26's original
+generalization test, for direct comparability).
+
+| Structure | Ligase, Target | Native score | Wins vs. wrong rotations |
+|---|---|---|---|
+| 5T35 | VHL, BRD4-BD2 | 16.87 | 4 of 4 |
+| 8BDS | VHL, BRD4-BD1 | 33.86 | 4 of 4 |
+| 6BN7 | CRBN, BRD4-BD1 | 37.09 | 4 of 4 |
+| 6HAX | VHL, SMARCA2 | 26.43 | 4 of 4 |
+
+**Native wins all 16 of 16 comparisons across four structures spanning
+two different ligases and three different targets.** Several wrong poses
+for 6BN7 and 6HAX scored negative (actively unfavorable per-contact
+chemistry), not merely lower than native -- a stronger signal than a
+narrow win. This is the first result in the entire Phase 4 investigation
+to generalize cleanly across multiple structures on the first
+generalization test, rather than requiring a correction the way Part 25's
+electrostatics-only result did.
+
+**What this does and does not yet establish, stated precisely**: this
+confirms the normalized contact-potential metric correctly ranks native
+above a small, fixed set of known-bad alternatives, across several
+structures. It does not yet establish that this metric, embedded in an
+actual autonomous rotation-inclusive search (as in Parts 22 and 25),
+recovers near-native poses end to end -- winning against a handful of
+pre-selected wrong rotations is a necessary but not sufficient condition
+for that. The decisive test, not yet run, is the same one applied to
+every other candidate fix in this investigation: does a full dense search
+scored by this metric (alone, or combined with electrostatics) actually
+recover low RMSD, the way Part 25 first showed for electrostatics alone
+before Part 26 corrected the premature generalization.
