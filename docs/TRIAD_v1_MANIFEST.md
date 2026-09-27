@@ -2037,3 +2037,56 @@ contact potential's real, joint-channel contribution in the current,
 corrected pipeline -- rather than assuming Part 12's negative result still
 applies unchanged -- is a legitimate, currently untried next step, not a
 repeat of prior work.
+
+---
+
+## Part 32 — Contact potential re-derived correctly, still fails, and reveals the unifying mechanism behind all four failures so far
+
+**A real bug was caught before trusting the first re-derivation**: feeding
+full-atom coordinates directly into `classify_surface_residues` reproduced
+the exact background-miscalibration bug originally found and fixed in
+Part 6 (that threshold was calibrated for representative-atom density).
+Confirmed directly: the first attempt gave LEU-LEU = -2.80 (unfavorable),
+contradicting basic biochemistry. Fixed by using full-atom coordinates for
+contact extraction (needed to catch real hydrophobic contacts, per Part
+23) while keeping representative-atom coordinates for background surface
+classification (where the existing threshold is actually valid). The
+corrected derivation passes the biochemistry check cleanly: LEU-ILE=2.86,
+LEU-LEU=2.00, PHE-LEU=4.93 (all correctly favorable), ASP-GLU=-5.32,
+LYS-ARG=-4.18 (both correctly unfavorable).
+
+**With a properly validated potential, the actual test still fails, and
+by a wide margin**: native scores 0.0, the known spurious wrong-rotation-
+15 pose scores 734.8.
+
+**This completes a pattern across four independently tested metrics, and
+the pattern itself is the real finding.** Raw shape overlap (Part 22),
+buried surface area (Part 24), contiguous patch size (Part 31), and now
+the knowledge-based contact potential (this section) have all failed for
+what appears to be the identical underlying reason: each is a reward-only
+sum that scales with how MUCH contact exists, with no mechanism to
+penalize a large amount of generically plausible contact in the wrong
+place. Since the wrong pose's interface is genuinely larger than native's
+(6-7x more buried area, Part 24), it accumulates more total reward on any
+metric of this shape, regardless of whether that metric is geometric
+(overlap, area, contiguity) or chemical (residue-pair preference).
+
+**Electrostatics is the one channel in this whole investigation that has
+shown real, working signal (Parts 25-30), and it differs from all four
+failed metrics in exactly one structural respect: it is net-signed.**
+Bringing like charges together does not merely earn less reward -- it
+actively subtracts from the total. A large, generically plausible but
+incorrect interface pays a real penalty wherever it happens to be
+electrostatically unfavorable, whereas a reward-only sum has no
+corresponding way to be punished for being large and wrong.
+
+**This reframes the search for a fix.** The relevant axis is not
+"geometric versus chemical" (both classes have now failed) but "reward-
+only versus net-signed," or equivalently, unnormalized total versus a
+measure that does not automatically grow with contact quantity. A natural,
+directly testable next step, motivated by this exact distinction: does
+NORMALIZING the contact potential by the number of contacts (an average
+per-contact quality score, rather than an unbounded sum) remove the
+size bias and allow it to correctly favor the smaller, correct interface?
+This has not yet been tested and is a clear, well-motivated next check
+before concluding the contact-potential channel is unsalvageable.
