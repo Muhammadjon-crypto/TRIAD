@@ -2238,3 +2238,44 @@ outperform either alone -- including on 5T35, where electrostatics alone
 already does well but might do even better, or more robustly, combined.
 This has not yet been tested and is the clear next step before concluding
 anything about the contact potential's practical value.
+
+---
+
+## Part 37 — Combining electrostatics and contact potential: inconclusive, not negative, and a natural stopping point for this thread
+
+**Tested the combined score (electrostatics + 5.0x normalized contact
+potential, an uncalibrated first guess) in the full search on two
+structures.**
+
+5T35: RMSD = 6.27 A (electrostatics-only: 4.59 A; contact-only: 52.24 A).
+A small regression from electrostatics alone, still far better than
+contact alone.
+
+6HAX: RMSD = 77.49 A -- **identical to two decimal places** to the
+electrostatics-only result (Part 26). This precision is informative: it
+means the combined search found the exact same winning pose electrostatics
+alone found, meaning the contact potential's contribution had literally
+zero effect on the outcome for this structure, at this weight.
+
+**This is inconclusive, not a negative result for the underlying idea.**
+The weight (5.0) was an uncalibrated first guess, chosen without testing.
+The exact match on 6HAX is consistent with that weight being too small
+relative to electrostatics' scale on this specific structure to ever
+change which candidate wins -- not with the contact potential carrying no
+useful information. Properly answering whether combining these two
+channels can work would require a real weight sweep across multiple
+structures, which given each full search costs 15-20 minutes, is a
+substantial additional compute commitment, not a quick follow-up check.
+
+**Where this leaves Phase 4's Part 33-37 thread, stated plainly**: two
+real, previously-hidden bugs were found and fixed in the contact-potential
+channel (interpenetration-vs-proximity, and, before that, background-
+calibration). The corrected, normalized metric is the first in this
+investigation to generalize cleanly across multiple structures against a
+fixed comparison set (16 of 16, Part 35). It does not, at an uncalibrated
+weight, rescue the full autonomous search on its own or in a naive
+combination with electrostatics. Whether a properly calibrated combination
+would do better is a real, open, well-scoped question -- and a natural
+point to pause this specific thread and decide deliberately whether a
+weight-calibration sweep is worth the next block of compute, rather than
+continuing to guess at weights one at a time.
