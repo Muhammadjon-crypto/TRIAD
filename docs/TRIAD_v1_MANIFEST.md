@@ -2202,3 +2202,39 @@ every other candidate fix in this investigation: does a full dense search
 scored by this metric (alone, or combined with electrostatics) actually
 recover low RMSD, the way Part 25 first showed for electrostatics alone
 before Part 26 corrected the premature generalization.
+
+---
+
+## Part 36 — The decisive full-search test: real improvement over shape, but not over electrostatics alone, and an important methodological lesson
+
+**The full 3,600-rotation search, scored entirely by the normalized
+contact potential, was run on 5T35.**
+
+Result: **RMSD = 52.24 A.** Better than shape+electrostatics (69.45 A,
+Parts 9/22/23), but clearly worse than electrostatics alone (4.59 A, Part
+25) on this same structure.
+
+**The important lesson is not the number itself, but why it landed there.**
+Part 35 showed this metric beating all 4 pre-selected known-wrong
+rotations, across 4 structures, 16 of 16 times. The full exhaustive
+search, searching all 3,600 rotations rather than 4, found a DIFFERENT
+wrong pose -- one never specifically tested in Parts 33-35 -- that scored
+18.67, above native's own 16.87. Beating a small, hand-picked comparison
+set is a necessary check, not a sufficient one: the full space is large
+enough that some untested combination can still win, exactly the same
+trap that caught every earlier metric in this investigation (Part 22's
+237-clash pose, Part 24's large-BSA poses, Part 31's contiguous-but-wrong
+patch). Sixteen wins against a fixed set proved the metric carries real
+signal; it did not prove the metric dominates the entire search space,
+and it does not.
+
+**A genuinely promising next question, not yet answered**: the contact
+potential's strongest, cleanest wins in Part 35 were on 6BN7 and 6HAX --
+and 6HAX was specifically one of the structures where the electrostatics-
+only approach FAILED (Part 26: 77.49 A). If the contact potential carries
+real signal precisely where electrostatics does not, the two may be
+complementary rather than redundant, and a combined score could
+outperform either alone -- including on 5T35, where electrostatics alone
+already does well but might do even better, or more robustly, combined.
+This has not yet been tested and is the clear next step before concluding
+anything about the contact potential's practical value.
