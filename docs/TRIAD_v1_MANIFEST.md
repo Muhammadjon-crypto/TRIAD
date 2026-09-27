@@ -2090,3 +2090,77 @@ per-contact quality score, rather than an unbounded sum) remove the
 size bias and allow it to correctly favor the smaller, correct interface?
 This has not yet been tested and is a clear, well-motivated next check
 before concluding the contact-potential channel is unsalvageable.
+
+---
+
+## Part 33 — Real bug found: the contact channel measured interpenetration, not proximity, since Part 12
+
+**Investigating Part 32's `total_overlap_voxels=0` result for native led to
+the actual root cause**: `build_residue_type_grids` used raw atom-sphere
+occupancy with no dilation -- the same definition appropriate for clash
+detection (where zero overlap is correct for a valid pose), not contact
+detection. Real touching-but-non-clashing atoms at van der Waals contact
+distance (~3.4 A apart, ~1.7 A radii) do not interpenetrate at all, so this
+definition gave native's real, valid interface a contact score of
+essentially zero regardless of true interface quality, while rewarding
+incidental atom-sphere interpenetration (borderline clashing) as if it
+were favorable chemical contact. This bug has been present since the
+channel was first built in Part 12 and was never caught, because Part 12's
+brute-force validation checked the LINEARITY MATH was implemented
+correctly (it was, and remains exact) -- it did not check that the
+underlying grids measured the intended physical quantity.
+
+**Fixed** by adding a `dilation_radius` parameter to
+`build_residue_type_grids`, expanding each residue-type's occupied region
+by a real contact distance (4.0 A used here) before computing overlap.
+Re-validated the linearity trick against brute force with dilation active:
+exact match to 1e-13, confirming the fix doesn't disturb the underlying
+correlation math.
+
+**With the fix, native's contact-potential score at 5T35 became a real,
+substantial 2632.1 (versus 0.0 before) -- but the known spurious
+wrong-rotation-15 pose scored even higher, 16772.7.** This is not a
+contradiction of the fix; it is confirmation, now on a correctly-measuring
+channel, of Part 32's size-bias mechanism: the ratio (~6.4x) closely
+tracks Part 24's independently-measured BSA ratio (~6-7x more buried
+surface for the wrong pose). A larger genuine contact area accumulates
+more total reward under any unbounded sum, chemistry-aware or not.
+
+---
+
+## Part 34 — Normalizing by contact count, on the FIXED grids, gives native's first real, multi-point win in this entire investigation
+
+**Part 32's normalization idea was re-tested properly** -- the first
+attempt used the broken, interpenetration-only grids and was not a fair
+test. With the fixed, dilation-based proximity grids: native's
+per-contact quality score is 16.87, versus 6.96 for the known
+wrong-rotation-15 pose -- native wins by more than double.
+
+**Extended immediately to all four wrong rotations used throughout this
+investigation, before treating a single win as evidence (the exact
+discipline Part 26 established after Part 25's premature single-point
+celebration):**
+
+| Rotation | Normalized score | Winner |
+|---|---|---|
+| Native | 16.87 | -- |
+| Wrong rotation 5 | 6.32 | Native |
+| Wrong rotation 15 | 6.96 | Native |
+| Wrong rotation 25 | 10.90 | Native |
+| Wrong rotation 35 | 7.57 | Native |
+
+**Native beats all four known wrong rotations, with a real margin in
+every case** (native's score is 1.5-2.7x higher than each competitor).
+This is the first metric in the entire Phase 4 investigation --
+after raw shape overlap (Part 22), buried surface area (Part 24),
+contiguous patch size (Part 31), and the un-normalized contact potential
+(Part 32) all failed -- to correctly and consistently favor native over
+every known spurious alternative tested.
+
+**This is real, multi-point evidence within one structure, and it stops
+here until tested on others.** The next required step, not yet done, is
+extending this exact check (normalized, dilation-fixed contact potential)
+to the other structures already used throughout this investigation (8BDS,
+6BN7, 6HAX at minimum, matching Part 26's original generalization test),
+before this can be treated as a general fix rather than a second
+single-structure result awaiting its own correction.

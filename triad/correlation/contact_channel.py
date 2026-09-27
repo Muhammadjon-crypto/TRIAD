@@ -30,6 +30,7 @@ the same asymptotic cost class as the shape or electrostatic channels.
 from __future__ import annotations
 
 import numpy as np
+from scipy import ndimage
 
 from triad.correlation.grid import voxelize_atoms
 from triad.correlation.fft_dock import fft_correlate_3d
@@ -39,20 +40,43 @@ from triad.potentials.contact_potential import STANDARD_AA, ContactPotential
 def build_residue_type_grids(
     coords: np.ndarray, resnames: list[str], radii: np.ndarray,
     grid_shape: tuple[int, int, int], origin: np.ndarray, spacing: float,
+    dilation_radius: float = 0.0,
 ) -> dict[str, np.ndarray]:
     """One binary occupancy grid per standard residue type, built from only
     the atoms belonging to that type. Non-standard residues (if any) are
     silently excluded -- they carry no contact-potential score anyway.
+
+    BUG FOUND AND FIXED (docs/TRIAD_v1_MANIFEST.md Part 33): the original
+    version used raw atom-sphere occupancy with no dilation, which measures
+    direct atom-sphere INTERPENETRATION -- the same definition appropriate
+    for clash detection, where a valid, non-clashing pose correctly shows
+    ZERO overlap. Real touching-but-not-clashing atoms at van der Waals
+    contact distance (~3.4 A apart, ~1.7 A radii) do not interpenetrate at
+    all, so this definition gave native poses a contact-potential score of
+    essentially zero regardless of how good the real interface was, while
+    rewarding poses with more incidental interpenetration (borderline
+    clashing) as if that were favorable chemical contact. `dilation_radius`
+    (in the same units as `spacing`, e.g. Angstroms) expands each residue-
+    type's occupied region outward before overlap is computed, so contact
+    between two residues near but not literally overlapping is correctly
+    captured. A dilation_radius of 0.0 (the original, buggy default)
+    reproduces the old interpenetration-only behavior and should not be
+    used for contact-potential scoring going forward.
     """
     grids = {}
     resnames_arr = np.array(resnames)
+    dilation_voxels = int(np.ceil(dilation_radius / spacing)) if dilation_radius > 0 else 0
+    structure = ndimage.generate_binary_structure(3, 1) if dilation_voxels > 0 else None
     for aa in STANDARD_AA:
         mask = resnames_arr == aa
         if not np.any(mask):
             grids[aa] = np.zeros(grid_shape, dtype=np.float64)
             continue
         occ = voxelize_atoms(coords[mask], radii[mask], grid_shape, origin, spacing)
-        grids[aa] = (occ > 0).astype(np.float64)
+        binary_occ = occ > 0
+        if dilation_voxels > 0:
+            binary_occ = ndimage.binary_dilation(binary_occ, structure=structure, iterations=dilation_voxels)
+        grids[aa] = binary_occ.astype(np.float64)
     return grids
 
 
