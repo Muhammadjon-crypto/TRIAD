@@ -2279,3 +2279,58 @@ would do better is a real, open, well-scoped question -- and a natural
 point to pause this specific thread and decide deliberately whether a
 weight-calibration sweep is worth the next block of compute, rather than
 continuing to guess at weights one at a time.
+
+---
+
+## Part 38 — Proper weight calibration confirms the combination doesn't work: a real negative result, and a concrete new direction
+
+**A genuine 9-point weight sweep (0 to 100, three orders of magnitude)
+was run for electrostatics + normalized contact potential, on 5T35 and
+6HAX, using the efficient stored-candidate-pool method** (one full search
+per structure, top-5-per-channel candidates retained per rotation, many
+weights swept against the same pool -- an approximation, stated honestly:
+the true best candidate for some intermediate weight could in principle
+sit outside this pool, though the flat/monotonic pattern across such a
+wide range argues against this materially changing the conclusion).
+
+| Weight | 5T35 RMSD | 6HAX RMSD |
+|---|---|---|
+| 0.0 | 4.59 A | 77.49 A |
+| 0.5 - 2.0 | 4.59 A | 77.49 A |
+| 5.0 - 20.0 | 6.27 A | 77.49 A |
+| 50.0 | 38.24 A | 77.49 A |
+| 100.0 | 52.24 A | 69.84 A |
+
+**No weight in this range both preserves 5T35's success and rescues
+6HAX's failure.** 5T35 only ever gets worse as contact weight increases;
+6HAX is completely unmoved across two full orders of magnitude and only
+marginally improves at the extreme end, to a value still far from usable.
+This properly closes the "combine electrostatics and contact potential"
+hypothesis -- Part 37's single uncalibrated guess was inconclusive; this
+sweep is not.
+
+**Why this happens, reasoned through rather than left as an unexplained
+negative**: every channel built and tested in Parts 22-37 -- shape, BSA,
+contiguity, the contact potential -- is fundamentally a measure of "does
+this look like a generically plausible, well-formed protein-protein
+contact." None of them are specific to the actual molecule being docked.
+A sufficiently large or well-formed incidental contact elsewhere on the
+target can satisfy any of these metrics as well as or better than the
+true, deliberately small PROTAC-specific interface, and no linear
+combination of "generic plausibility" signals can fix that, because the
+distinguishing information was never in any of them to begin with.
+
+**The one piece of information genuinely specific to the actual molecule
+being docked is the reach/linker geometric constraint -- and it is
+currently used only as a binary filter** (within the reach-distance shell
+or not), not as a graded, scored discriminator. A pose sitting exactly at
+the ideal reach distance, in an orientation the specific linker could
+plausibly adopt at low conformational strain, is different from a pose
+merely sitting somewhere within the same tolerance band. This has not
+been tried anywhere in this investigation and is a structurally different
+kind of signal than everything tested in Parts 22-38 -- not another
+"generic contact quality" metric, but one tied to the specific molecule's
+specific geometry, which cannot be satisfied by an accidentally
+well-formed but irrelevant protein-protein contact elsewhere on the
+target. This is the most concrete, well-motivated untried direction this
+investigation has produced.
