@@ -2334,3 +2334,42 @@ specific geometry, which cannot be satisfied by an accidentally
 well-formed but irrelevant protein-protein contact elsewhere on the
 target. This is the most concrete, well-motivated untried direction this
 investigation has produced.
+
+---
+
+## Part 39 — Protocol limitation found: the reach constraint uses the answer's own distance
+
+**Found while scoping the linker-feasibility direction.** `ReachMetrics.
+straight_line_distance_angstrom` is measured from the crystal ligand's
+coordinates (its docstring says "observed (crystal) reach"), and
+`build_reach_mask` builds the search shell as `|tau|` within 3.0 A of that
+value. Every full search in this document (Parts 9, 22, 25-26, 28, 36-38)
+was therefore told the true ligase-to-target distance to within 3 A
+before it started. A prospective user has no crystal structure; they have
+only what the linker chemistry permits, a much wider range.
+
+**What this does and does not affect.**
+- Relative comparisons between scoring channels (shape, electrostatics,
+  contact potential, BSA, contiguity) remain valid: all ran under the same
+  constraint.
+- Absolute pose-recovery numbers (e.g. 4.59 A on 5T35, 4.17 A on 8BDS) are
+  optimistic upper bounds and must not be read as expected prospective
+  performance.
+- The preflight predictor (Part 29) was calibrated on searches that used
+  the oracle band, so its thresholds inherit the same optimism.
+- Target-warhead and ligase-warhead binding poses are legitimately known
+  inputs in practice (binary complexes); only the distance value between
+  them is leaked.
+
+**Consequence for the roadmap.** Replacing the oracle band with a
+chemistry-derived constraint is the prerequisite for any prospective
+claim. Step 1 (`run_oracle_leak_test.py`) reruns the 5T35 electrostatics
+search under three constraints on identical rotations and grids: the
+oracle shell, a strict chemistry bound (1.5 A per bond along the linker
+path plus warhead radius), and a typical-extension bound (1.3 A per
+bond). Steps 2 and 3 (conformer-derived distance distribution; graded
+linker-strain rerank of a shortlist) follow only if step 1 shows a usable
+signal remains. A stated risk: for long flexible linkers the chemistry
+bound may be nearly uninformative (a folded 25-bond linker spans 5.8 A in
+8BDS but permits far more), in which case the honest conclusion is that
+linker chemistry alone under-constrains the search.
