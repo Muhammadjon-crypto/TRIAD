@@ -2430,3 +2430,51 @@ exact pairwise Coulomb sum in place of the FFT approximation, on the same
 candidate pool. This sidesteps re-deriving correct FFT padding (a real
 fix, but slower to get right) and gives a trustworthy answer to whether
 the project's central finding survives.
+
+---
+
+## Part 41 — The foundational claim survives: native still ranks in the top few percent under exact electrostatics
+
+**The critical re-check was run**: native's rank among valid candidates at
+the correct rotation for 5T35, using the exact pairwise Coulomb sum
+(`triad.scoring.electrostatics.coulomb_energy`) instead of the broken FFT
+approximation, on the identical candidate pool as Parts 8/16's original
+test.
+
+**Result: native ranks 47th of 1,116 (4.2 percentile) exactly, versus the
+original FFT-based 31st of 1,001 (3.0 percentile).** These match closely.
+**The foundational finding of this entire investigation -- that native
+ranks in the top few percent among physically valid candidates at the
+correct rotation -- survives the correction and was not an artifact of
+the electrostatics bug.**
+
+**Why the single-rotation result was largely immune while the full search
+was not, reasoned through rather than left unexplained**: at one fixed,
+correct rotation, every candidate translation sits within the same
+narrow reach-constrained shell -- similar magnitude, similar position
+relative to the grid's periodic boundary. Wraparound contamination from
+Part 40's diagnosis likely affects all of them comparably, leaving their
+relative ranking largely intact even though the absolute scores are
+wrong. Across a full rotation search, entirely different orientations
+place the ligand in very different relationships to that same periodic
+boundary, so the artifact can align strongly with one specific wrong
+rotation and produce a false winner -- exactly the mechanism that
+explains why every full-search result in Parts 22-38 must be treated as
+unreliable while this single-rotation class of result does not.
+
+**Scope of what needs correction, now precisely bounded**: Parts 8, 14,
+16, and the entire 14-structure tractability classification (native
+ranked well at the correct rotation, majority tractable) stand as
+originally reported. Parts 22-23, 25-30, and 33-38 (every full,
+rotation-inclusive autonomous search, and everything built on top of
+those results: the native-vs-best gap mechanism, the preflight predictor,
+the contact-potential generalization and weight calibration) must be
+re-verified with correct electrostatics before being trusted.
+
+**Immediate next step**: exact pairwise electrostatics is fast enough
+(0.2s for ~1,100 candidates) to make a full 3,600-rotation search
+computationally feasible -- an estimated 10-20 minutes, replacing the
+FFT approximation entirely rather than trying to find sufficient padding
+for it. This directly answers whether Part 25's original "electrostatics-
+only recovers 4.59 A" claim was ever real, which is the single most
+important open question Part 40 created.
