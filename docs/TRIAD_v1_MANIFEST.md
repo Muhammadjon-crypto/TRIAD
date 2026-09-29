@@ -2373,3 +2373,60 @@ signal remains. A stated risk: for long flexible linkers the chemistry
 bound may be nearly uninformative (a folded 25-bond linker spans 5.8 A in
 8BDS but permits far more), in which case the honest conclusion is that
 linker chemistry alone under-constrains the search.
+
+---
+
+## Part 40 — CRITICAL: the FFT electrostatics channel has been wrong since Part 5, not just under-padded
+
+**Isolated the padding effect directly** (`run_padding_check.py`), holding
+everything else fixed on 5T35's oracle-band electrostatics-only search:
+
+| Padding | Grid | Best score | RMSD |
+|---|---|---|---|
+| 25.3 A (original, used in Parts 8-38) | 213,180 voxels | 549.0 | 4.59 A |
+| 50.6 A (2x) | 817,999 voxels | 402.0 | 63.04 A |
+| 60.0 A | 1,209,312 voxels | 503.3 | 59.66 A |
+
+**The two larger, independent paddings converge on ~60 A; the original
+padding does not.** That convergence is the signal: the small grid was
+not "close but slightly off," it was producing a specific, wrong,
+coincidentally-plausible-looking answer.
+
+**Root cause, found by inspecting `build_receptor_potential_grid`, not
+assumed**: the Coulomb kernel is `1/r`. Unlike the shape and occupancy
+grids (voxelized directly from atoms, exactly zero beyond an atom's
+radius -- compactly supported), `1/r` never reaches zero; it only decays.
+FFT convolution is inherently circular, and convolving a slowly-decaying
+kernel on an insufficiently padded grid lets the kernel's far tail --
+effectively the receptor's own periodic image from the opposite side of
+the box -- contribute non-negligibly to the potential. This is a known
+class of problem in long-range electrostatics (the same reason molecular
+simulation uses Ewald summation or particle-mesh Ewald rather than naive
+FFT convolution for Coulomb interactions). `pad = reach_dist + 15`, used
+everywhere in this project since Part 8, was sized to contain the reach
+sphere, never derived from this requirement, and was adequate for the
+compactly-supported shape/occupancy channels but not for electrostatics.
+
+**Scope, stated precisely rather than assumed maximal**: `triad.scoring.
+electrostatics`' direct pairwise Coulomb sum, validated against eight
+analytical cases in Part 5, is a different code path and remains correct
+-- the physics was never wrong. What is wrong is the FFT-grid numerical
+approximation of that physics, `build_receptor_potential_grid` +
+`fft_convolve_3d`, used for speed in every full search and every
+reach-constrained ranking since Part 8. This plausibly affects: the
+foundational single-rotation "native ranks well among valid candidates"
+result (Parts 8, 16, the entire Part 14 multi-structure benchmark), every
+full autonomous search in Parts 22-38, the native-vs-best gap mechanism
+(Parts 27-28), the preflight predictor (Part 29), and the weight
+calibration sweep (Part 38). It does not affect the shape-channel findings
+(Parts 22-23), the BSA finding (Part 24), the contiguity finding (Part
+31), or the contact-potential findings (Parts 32-37), which do not use
+`build_receptor_potential_grid`'s FFT convolution for their core claims.
+
+**Immediate next step, in progress**: re-check the single most
+foundational claim in this document -- native's rank among valid
+candidates at the correct rotation for 5T35 -- using the ALREADY-VALIDATED
+exact pairwise Coulomb sum in place of the FFT approximation, on the same
+candidate pool. This sidesteps re-deriving correct FFT padding (a real
+fix, but slower to get right) and gives a trustworthy answer to whether
+the project's central finding survives.
