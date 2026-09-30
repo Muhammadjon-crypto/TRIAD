@@ -2565,3 +2565,50 @@ searches in this document. There is no longer a performance reason to use
 the broken FFT approximation for electrostatics at all. Any future full
 search should use `coulomb_energy` directly, as `run_exact_full_search.py`
 does, not `build_receptor_potential_grid`.
+
+---
+
+## Part 43 — With correct electrostatics, combining channels genuinely helps: a real positive result, held to the same scrutiny as the retraction
+
+**Part 38's weight-calibration sweep was redone with exact pairwise
+Coulomb scoring in place of the broken FFT approximation** (`run_exact_
+weight_calibration.py`), no shortlisting approximation, full combined
+argmax computed directly per weight.
+
+**Consistency check passed exactly**: the weight=0.0 row for 5T35
+reproduced Part 42's exact-electrostatics-only baseline to the decimal
+(61.10 A), confirming this script measures the same quantity correctly
+before trusting anything downstream of it.
+
+| Weight | 5T35 RMSD | 6HAX RMSD |
+|---|---|---|
+| 0.0 | 61.10 A | 83.07 A |
+| 1.0 | 61.10 A | 83.07 A |
+| 5.0 | 61.10 A | 83.07 A |
+| 20.0 | **27.00 A** | 86.46 A |
+| 100.0 | 52.24 A | **18.31 A** |
+
+**This is a real, different, and positive result -- not a repeat of Part
+38's "nothing helps" finding.** With electrostatics scored correctly,
+combining with the contact potential produces genuine improvement:
+5T35 drops from 61.10 A to 27.00 A at weight 20 (though it partially
+recovers to a worse 52.24 A at weight 100, a non-monotonic pattern), and
+6HAX -- a structure that failed completely under electrostatics alone --
+is substantially rescued to 18.31 A at weight 100.
+
+**What this does and does not yet establish, held to the same standard as
+every claim before it**: the non-monotonic pattern on both structures
+means a coarse 5-point sweep cannot identify the true optimal weight, only
+that a beneficial region exists somewhere between the tested points. The
+two structures' optima (near 20 for 5T35, near or above 100 for 6HAX) do
+not obviously coincide, which itself needs characterizing rather than
+averaged over. And this remains two structures -- the exact scale of
+premature generalization that produced Part 26's correction of Part 25 and
+must not be repeated here just because the news is good this time.
+
+**Immediate next step**: a finer sweep across the promising region
+(roughly 10-150, denser than the current 5 points) on these same two
+structures, to properly characterize the shape of the relationship before
+any claim about an optimal weight, followed by the same generalization
+check across more structures that every other finding in this document
+has been required to pass.
