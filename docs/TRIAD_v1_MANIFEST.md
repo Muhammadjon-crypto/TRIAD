@@ -2478,3 +2478,90 @@ FFT approximation entirely rather than trying to find sufficient padding
 for it. This directly answers whether Part 25's original "electrostatics-
 only recovers 4.59 A" claim was ever real, which is the single most
 important open question Part 40 created.
+
+---
+
+## Part 42 — RETRACTION: Part 25's electrostatics-only breakthrough was never real, confirmed by three independent methods
+
+**The full 3,600-rotation search was re-run with the FFT electrostatics
+approximation removed entirely, replaced by the exact pairwise Coulomb sum
+for every single valid candidate at every rotation** (`run_exact_full_
+search.py`) -- no numerical shortcut anywhere in the scoring.
+
+**Result: RMSD = 61.10 A.** This lands alongside Part 40's independent
+padding-convergence values (63.04 A and 59.66 A at two different larger
+paddings). Three separate corrections -- two different amounts of extra
+padding, and now the complete removal of FFT scoring -- converge on the
+same ~60 A answer. The original small-grid FFT result (4.59 A) does not.
+
+**This is a definitive confirmation, not a suggestive one: Part 25's
+"electrostatics-only recovers a near-native pose" claim was never real.
+It was a numerical artifact of insufficient zero-padding for the
+non-compactly-supported Coulomb kernel (Part 40), and it is retracted.**
+
+**Formal retraction of everything built on top of it:**
+
+- **Part 25** (4.59 A on 5T35) -- retracted. Confirmed artifact.
+- **Part 26** (partial generalization, 2 of 4 structures "worked") -- the
+  premise that the FFT approximation was sometimes correct is false. Any
+  apparent success was the artifact coincidentally landing near the true
+  answer for some structures and not others, not real signal that
+  partially generalized. Reframed, not merely narrowed.
+- **Parts 27-28** (native-vs-best score gap, r=0.607, n=11) -- computed
+  entirely from FFT-corrupted scores. Most likely a correlation between
+  one artifact and structure-dependent noise, not a real mechanism.
+  Retracted pending re-derivation with exact pairwise scoring.
+- **Part 29** (the preflight predictor, r=-0.765, p=0.006, presented as
+  the first genuinely product-relevant result of the investigation) --
+  built on the same corrupted scores. **Retracted.** The statistical
+  significance computed there was significance of a spurious correlation,
+  not of a real physical relationship. This is the most consequential
+  single retraction in this document: a result reported with real
+  confidence, including a formal Bonferroni-style framing borrowed from
+  elsewhere in this investigation, was wrong at its foundation.
+- **Part 30** (BCL-2-family predictions from the preflight check) --
+  retracted, downstream of Part 29.
+- **Parts 36-38** (contact potential combined with electrostatics, and
+  the weight-calibration sweep) -- the combination step used the broken
+  FFT electrostatics channel. These specific combined-score results need
+  re-verification with exact scoring before being trusted again.
+
+**What is NOT retracted, and why, stated precisely rather than assumed**:
+
+- **Parts 8, 14, 16** (native ranks well among valid candidates at the
+  correct rotation, for a majority of real structures) -- directly
+  re-checked with exact pairwise scoring in Part 41 and confirmed to
+  survive (47th of 1,116 vs. the original 31st of 1,001). This is the
+  actual foundational finding of the investigation, and it holds.
+- **Parts 22-24, 31-32** (the shape channel's local-patch diagnosis, the
+  buried-surface-area refutation, the contiguous-patch refutation) -- these
+  compare shape and geometric quantities directly, not through
+  `build_receptor_potential_grid`'s Coulomb FFT convolution. Not
+  implicated by this specific bug mechanism, though a targeted check
+  (confirming no hidden use of the broken function) is still worth doing
+  before fully closing this out.
+- **Parts 33-35** (the contact potential, its bug fixes, and its 16-of-16
+  cross-structure generalization) -- built entirely on the dilated
+  occupancy/residue-type grids, a completely separate code path from
+  Coulomb convolution. Not implicated.
+
+**The honest silver lining, stated without minimizing the retraction
+above**: the foundational discrimination finding survives, meaning
+TRIAD's scoring channels have real signal at the correct rotation. What
+was never real was the full search's ability to find that rotation
+autonomously via the FFT electrostatics shortcut. And this episode is
+itself the same discipline that has run through this entire investigation
+working exactly as intended: a surprising, unusually good result (4.59 A,
+an order of magnitude better than anything else found) was checked
+against independent methods rather than accepted at face value, and the
+check caught a real, previously invisible, and consequential bug rather
+than confirming a false breakthrough.
+
+**Immediate practical consequence for future work**: exact pairwise
+scoring, now measured directly, is not just correct but fast -- the full
+3,600-rotation search with exact electrostatics for every candidate
+completed in 6.9 minutes, faster than several of the FFT-based full
+searches in this document. There is no longer a performance reason to use
+the broken FFT approximation for electrostatics at all. Any future full
+search should use `coulomb_energy` directly, as `run_exact_full_search.py`
+does, not `build_receptor_potential_grid`.
