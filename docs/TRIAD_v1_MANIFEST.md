@@ -2751,3 +2751,88 @@ a hard cap is untested out of sample.
 constraint band to disk, then test filters (BSA prior, exit vector,
 conformer feasibility) offline against that fixed pool, including a
 check that near-native poses are in the pool at all.
+
+---
+
+## Part 47 — Oracle-leak test with exact electrostatics (5T35)
+
+Three constraint bands on identical rotations and grids; electrostatics
+scored exactly after an FFT prescreen on a 60 A-padded grid
+(`run_oracle_leak_v2.py`).
+
+**Prescreen validation** (band B, 8 rotations, 43-60k valid candidates
+each): Spearman(FFT, exact) 0.81-0.89. Rank of the exact-best candidate in
+the FFT ordering: 80, 6, 8, 51, 439, 2, 9, 688. The script wanted a
+shortlist of 2,064 but is capped at 1,500, so it printed a warning: the
+reported best scores are LOWER BOUNDS on the true exact optimum.
+
+| Band | Best exact score | \|tau\| of winner | RMSD |
+|---|---|---|---|
+| A oracle (10.3 +/- 3 A) | 362.3 | 10.6 A | 60.87 A |
+| B strict (0-40.8 A) | 434.5 | 34.4 A | 67.53 A |
+| C typical (0-36.2 A) | 434.5 | 34.4 A | 67.53 A |
+
+Earlier exhaustive exact search on the original grid (band A): score
+332.1, RMSD 61.10 A. RMSD agrees; the score differs. A plausible but
+UNVERIFIED reason is that the clash mask depends on grid origin through
+voxelization, changing the valid set slightly.
+
+**Native's exact score under the same function** (Part 41): 81.2.
+
+**Findings:**
+- Removing the crystal-distance band changes RMSD from 60.9 to 67.5 A. For
+  electrostatics alone the oracle leak is not the binding constraint:
+  the search fails with it and fails without it. The leak will matter
+  only once a scoring function works.
+- The scoring optimum is not the native pose. Best poses found score
+  4.5x (oracle band) and 5.4x (wide bands) the native's score; missed
+  candidates could only widen that gap.
+- With the wide band the winner sits 34.4 A from the anchor, versus 10.3 A
+  for native.
+- Scope: one structure, one scoring function, chemistry bands based on
+  assumed per-bond lengths (1.5 and 1.3 A).
+
+---
+
+## Part 48 — Free-ligand conformer coverage (QUICK run: 60 requested conformers)
+
+`run_conformer_coverage.py`: CCD bond orders, stereochemistry taken from
+the crystal ligand, ETKDGv3, seed 7. `e2e_min` = best RMSD of the
+target-side warhead over conformers after superposing only the ligase
+warhead. Smoke-tested on synthetic molecules (parsing, Kabsch, handedness
+of 60/60 conformers for both enantiomers).
+
+| ID | heavy | rot | conformers | whole_min | e2e_min | frac<2A |
+|---|---|---|---|---|---|---|
+| 5HXB (glue) | 31 | 4 | 43 | 0.78 | 2.29 | 0.000 |
+| 5T35 | 69 | 20 | 60 | 4.91 | 11.59 | 0.000 |
+| 6BN7 | 62 | 17 | 60 | 2.15 | 4.82 | 0.000 |
+| 6BOY | 59 | 16 | 60 | 3.31 | 7.01 | 0.000 |
+| 6HAX | 66 | 15 | 60 | 4.28 | 9.95 | 0.000 |
+| 6HAY | 65 | 19 | 60 | 5.01 | 12.43 | 0.000 |
+| 6HR2 | 66 | 15 | 60 | 4.25 | 9.99 | 0.000 |
+| 7KHH | 77 | 21 | 60 | 6.24 | 12.55 | 0.000 |
+| 8BDS | 71 | 23 | 60 | 6.09 | 10.59 | 0.000 |
+| 8BEB | 69 | 17 | 60 | 4.19 | 8.84 | 0.000 |
+| 8FY0 | 112 | 31 | 6 | 5.43 | 12.45 | 0.000 |
+| 8FY1 | 112 | 31 | 6 | 4.20 | 7.68 | 0.000 |
+| 8FY2 | 115 | 28 | 3 | 6.63 | 16.70 | 0.000 |
+
+5FQD (whole_min 0.24, 6 conformers) and 6SIS (whole_min 3.26): warhead
+split unavailable, end-to-end test skipped.
+
+**Reading:** inconclusive about whether the free ensemble contains the
+bound geometry. 60 conformers (only 3-6 survived for the BCL-2 ligands) is
+a negligible sample of a 15-31 rotatable-bond molecule, so absence cannot
+be distinguished from undersampling. What it does show: a "match one of N
+sampled conformers" feasibility test would reject the native pose for
+every PROTAC tested. Any linker constraint therefore needs a different
+primitive (distance bounds, or constrained embedding with the warheads
+pinned at the pose-implied positions and linker strain scored), or far
+denser sampling.
+
+**Proposed next checks:** (a) convergence of e2e_min with conformer count
+(60/300/1000/3000) on 5T35 and 6BN7; (b) constrained embedding with the
+native as positive control; (c) perturb the native by small rigid-body
+shifts and test whether the exact electrostatic score rises (is native at
+a local optimum of the score?).

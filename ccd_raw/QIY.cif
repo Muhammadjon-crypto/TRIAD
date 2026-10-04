@@ -1,0 +1,361 @@
+data_QIY
+# 
+_chem_comp.id                                    QIY 
+_chem_comp.name                                  "(2S,4R)-N-[(1S)-1-(4-chlorophenyl)-3-[2-[2-[2-[2-[2-[(9S)-7-(4-chlorophenyl)-4,5,13-trimethyl-3-thia-1,8$l^{5},11,12-tetrazatricyclo[8.3.0.0^{2,6}]trideca-2(6),4,7,10,12-pentaen-9-yl]ethanoylamino]ethoxy]ethoxy]ethoxy]ethylamino]-3-oxidanylidene-propyl]-1-[(2R)-3-methyl-2-(3-methyl-1,2-oxazol-5-yl)butanoyl]-4-oxidanyl-pyrrolidine-2-carboxamide" 
+_chem_comp.type                                  non-polymer 
+_chem_comp.pdbx_type                             HETAIN 
+_chem_comp.formula                               "C50 H63 Cl2 N9 O9 S" 
+_chem_comp.mon_nstd_parent_comp_id               ? 
+_chem_comp.pdbx_synonyms                         ? 
+_chem_comp.pdbx_formal_charge                    0 
+_chem_comp.pdbx_initial_date                     2022-11-02 
+_chem_comp.pdbx_modified_date                    2024-01-16 
+_chem_comp.pdbx_ambiguous_flag                   N 
+_chem_comp.pdbx_release_status                   REL 
+_chem_comp.pdbx_replaced_by                      ? 
+_chem_comp.pdbx_replaces                         ? 
+_chem_comp.formula_weight                        1037.061 
+_chem_comp.one_letter_code                       ? 
+_chem_comp.three_letter_code                     QIY 
+_chem_comp.pdbx_model_coordinates_details        ? 
+_chem_comp.pdbx_model_coordinates_missing_flag   N 
+_chem_comp.pdbx_ideal_coordinates_details        Corina 
+_chem_comp.pdbx_ideal_coordinates_missing_flag   N 
+_chem_comp.pdbx_model_coordinates_db_code        8BDS 
+_chem_comp.pdbx_subcomponent_list                ? 
+_chem_comp.pdbx_processing_site                  PDBE 
+# 
+loop_
+_chem_comp_atom.comp_id 
+_chem_comp_atom.atom_id 
+_chem_comp_atom.alt_atom_id 
+_chem_comp_atom.type_symbol 
+_chem_comp_atom.charge 
+_chem_comp_atom.pdbx_align 
+_chem_comp_atom.pdbx_aromatic_flag 
+_chem_comp_atom.pdbx_leaving_atom_flag 
+_chem_comp_atom.pdbx_stereo_config 
+_chem_comp_atom.pdbx_n_terminal_atom_flag 
+_chem_comp_atom.pdbx_backbone_atom_flag 
+_chem_comp_atom.pdbx_c_terminal_atom_flag 
+_chem_comp_atom.model_Cartn_x 
+_chem_comp_atom.model_Cartn_y 
+_chem_comp_atom.model_Cartn_z 
+_chem_comp_atom.pdbx_model_Cartn_x_ideal 
+_chem_comp_atom.pdbx_model_Cartn_y_ideal 
+_chem_comp_atom.pdbx_model_Cartn_z_ideal 
+_chem_comp_atom.pdbx_component_atom_id 
+_chem_comp_atom.pdbx_component_comp_id 
+_chem_comp_atom.pdbx_ordinal 
+QIY C1   C1  C  0 1 N N N N N N 7.356  -1.865 51.692 1.728   1.776  3.005  C1   QIY 1   
+QIY N6   N1  N  0 1 N N N N N N 10.009 4.710  57.450 -6.445  0.172  0.114  N6   QIY 2   
+QIY C7   C2  C  0 1 N N N N N N 10.962 5.575  57.103 -7.404  -0.307 0.931  C7   QIY 3   
+QIY C9   C3  C  0 1 N N N N N N 12.286 5.455  57.825 -8.590  0.552  1.286  C9   QIY 4   
+QIY C10  C4  C  0 1 N N S N N N 13.389 6.002  56.925 -9.521  -0.224 2.220  C10  QIY 5   
+QIY C12  C5  C  0 1 Y N N N N N 14.739 6.012  57.547 -10.639 0.672  2.672  C12  QIY 6   
+QIY C15  C6  C  0 1 Y N N N N N 16.884 6.250  57.726 -12.412 1.929  2.583  C15  QIY 7   
+QIY C16  C7  C  0 1 N N N N N N 18.281 6.618  57.429 -13.616 2.701  2.107  C16  QIY 8   
+QIY C20  C8  C  0 1 Y N N N N N 15.925 8.668  53.707 -11.819 1.120  -2.080 C20  QIY 9   
+QIY C21  C9  C  0 1 N N N N N N 16.390 9.787  52.825 -12.108 1.444  -3.523 C21  QIY 10  
+QIY C22  C10 C  0 1 Y N N N N N 14.952 7.731  53.479 -11.237 0.013  -1.668 C22  QIY 11  
+QIY C24  C11 C  0 1 Y N N N N N 14.820 6.789  54.556 -11.051 -0.092 -0.225 C24  QIY 12  
+QIY C27  C12 C  0 1 Y N N N N N 15.202 4.490  52.735 -11.106 -3.322 -0.623 C27  QIY 13  
+QIY C31  C13 C  0 1 Y N N N N N 13.091 2.767  52.265 -8.722  -3.397 -2.060 C31  QIY 14  
+QIY C32  C14 C  0 1 Y N N N N N 12.989 3.747  53.242 -8.968  -2.331 -1.225 C32  QIY 15  
+QIY C33  C15 C  0 1 N N N N N N 9.158  2.069  54.539 -2.931  2.035  -1.256 C33  QIY 16  
+QIY C34  C16 C  0 1 N N N N N N 8.691  0.654  54.705 -2.414  3.204  -0.415 C34  QIY 17  
+QIY O2   O1  O  0 1 N N N N N N 6.620  -0.806 52.289 0.882   2.418  2.049  O2   QIY 18  
+QIY O3   O2  O  0 1 N N N N N N 9.057  2.752  55.789 -3.819  1.238  -0.469 O3   QIY 19  
+QIY C4   C17 C  0 1 N N N N N N 8.435  4.030  55.689 -4.361  0.113  -1.164 C4   QIY 20  
+QIY C5   C18 C  0 1 N N N N N N 8.630  4.785  56.981 -5.292  -0.663 -0.231 C5   QIY 21  
+QIY O8   O3  O  0 1 N N N N N N 10.787 6.441  56.246 -7.312  -1.430 1.381  O8   QIY 22  
+QIY N11  N2  N  0 1 N N N N N N 13.468 5.163  55.716 -10.075 -1.369 1.511  N11  QIY 23  
+QIY N13  N3  N  0 1 Y N N N N N 15.076 5.478  58.702 -10.937 1.085  3.865  N13  QIY 24  
+QIY N14  N4  N  0 1 Y N N N N N 16.462 5.666  58.818 -11.989 1.828  3.818  N14  QIY 25  
+QIY N17  N5  N  0 1 Y N N N N N 15.819 6.486  56.850 -11.562 1.208  1.814  N17  QIY 26  
+QIY C18  C19 C  0 1 Y N N N N N 15.713 7.108  55.620 -11.561 1.025  0.434  C18  QIY 27  
+QIY S19  S1  S  0 1 Y N N N N N 16.655 8.506  55.281 -12.214 2.168  -0.732 S19  QIY 28  
+QIY C23  C20 C  0 1 N N N N N N 14.126 7.668  52.216 -10.794 -1.069 -2.619 C23  QIY 29  
+QIY C25  C21 C  0 1 N N N N N N 13.996 5.602  54.614 -10.423 -1.200 0.380  C25  QIY 30  
+QIY C26  C22 C  0 1 Y N N N N N 14.041 4.633  53.481 -10.166 -2.283 -0.488 C26  QIY 31  
+QIY C28  C23 C  0 1 Y N N N N N 15.307 3.518  51.756 -10.842 -4.376 -1.468 C28  QIY 32  
+QIY C29  C24 C  0 1 Y N N N N N 14.249 2.666  51.537 -9.655  -4.416 -2.186 C29  QIY 33  
+QIY CL30 CL1 CL 0 0 N N N N N N 14.402 1.440  50.295 -9.336  -5.751 -3.249 CL30 QIY 34  
+QIY O35  O4  O  0 1 N N N N N N 7.286  0.592  54.508 -1.618  2.701  0.661  O35  QIY 35  
+QIY C36  C25 C  0 1 N N N N N N 6.767  -0.722 54.698 -1.083  3.717  1.512  C36  QIY 36  
+QIY C37  C26 C  0 1 N N N N N N 5.964  -1.162 53.503 -0.254  3.067  2.622  C37  QIY 37  
+QIY CL38 CL2 CL 0 0 N N N N N N 13.076 -2.087 45.439 10.005  6.396  -3.347 CL38 QIY 38  
+QIY C39  C27 C  0 1 Y N N N N N 12.310 -0.850 46.409 9.100   5.185  -2.493 C39  QIY 39  
+QIY C40  C28 C  0 1 Y N N N N N 11.714 0.232  45.811 8.195   4.390  -3.173 C40  QIY 40  
+QIY C41  C29 C  0 1 Y N N N N N 11.158 1.241  46.595 7.474   3.426  -2.493 C41  QIY 41  
+QIY C42  C30 C  0 1 Y N N N N N 12.389 -0.935 47.780 9.288   5.010  -1.134 C42  QIY 42  
+QIY C43  C31 C  0 1 Y N N N N N 11.817 0.083  48.551 8.567   4.046  -0.455 C43  QIY 43  
+QIY C44  C32 C  0 1 Y N N N N N 11.177 1.177  47.985 7.658   3.256  -1.134 C44  QIY 44  
+QIY C45  C33 C  0 1 N N S N N N 10.626 2.314  48.856 6.872   2.206  -0.393 C45  QIY 45  
+QIY C46  C34 C  0 1 N N N N N N 9.830  1.815  50.060 5.695   2.865  0.329  C46  QIY 46  
+QIY N47  N6  N  0 1 N N N N N N 9.814  3.305  48.142 7.739   1.548  0.587  N47  QIY 47  
+QIY C48  C35 C  0 1 N N N N N N 10.326 4.504  47.851 8.519   0.514  0.211  C48  QIY 48  
+QIY O49  O5  O  0 1 N N N N N N 11.415 4.889  48.292 8.502   0.129  -0.938 O49  QIY 49  
+QIY C50  C36 C  0 1 N N S N N N 9.610  5.282  46.751 9.410   -0.163 1.220  C50  QIY 50  
+QIY C51  C37 C  0 1 N N N N N N 10.119 4.802  45.379 10.439  0.847  1.772  C51  QIY 51  
+QIY C52  C38 C  0 1 N N R N N N 10.144 6.046  44.511 11.699  0.564  0.912  C52  QIY 52  
+QIY O53  O6  O  0 1 N N N N N N 8.825  6.340  44.081 12.890  0.921  1.616  O53  QIY 53  
+QIY C54  C39 C  0 1 N N N N N N 10.602 7.116  45.501 11.606  -0.970 0.718  C54  QIY 54  
+QIY N55  N7  N  0 1 N N N N N N 9.913  6.719  46.740 10.163  -1.248 0.573  N55  QIY 55  
+QIY C56  C40 C  0 1 N N N N N N 9.589  7.488  47.812 9.627   -2.316 -0.050 C56  QIY 56  
+QIY O57  O7  O  0 1 N N N N N N 9.014  6.998  48.771 8.425   -2.398 -0.189 O57  QIY 57  
+QIY C58  C41 C  0 1 N N R N N N 9.950  8.973  47.819 10.522  -3.410 -0.573 C58  QIY 58  
+QIY C59  C42 C  0 1 N N N N N N 10.874 9.296  49.008 9.826   -4.129 -1.730 C59  QIY 59  
+QIY C60  C43 C  0 1 N N N N N N 11.302 10.762 49.011 9.646   -3.158 -2.899 C60  QIY 60  
+QIY C61  C44 C  0 1 N N N N N N 12.079 8.362  48.980 10.679  -5.317 -2.180 C61  QIY 61  
+QIY C62  C45 C  0 1 Y N N N N N 6.743  10.762 48.215 11.739  -5.675 2.033  C62  QIY 62  
+QIY C63  C46 C  0 1 N N N N N N 5.482  11.277 48.839 12.733  -6.379 2.921  C63  QIY 63  
+QIY C64  C47 C  0 1 Y N N N N N 7.749  9.965  48.817 12.026  -4.718 1.032  C64  QIY 64  
+QIY C65  C48 C  0 1 Y N N N N N 8.674  9.758  47.861 10.810  -4.395 0.530  C65  QIY 65  
+QIY O66  O8  O  0 1 Y N N N N N 8.306  10.406 46.742 9.913   -5.125 1.208  O66  QIY 66  
+QIY N67  N8  N  0 1 Y N N N N N 7.046  11.038 46.982 10.446  -5.831 2.032  N67  QIY 67  
+QIY C68  C49 C  0 1 N N N N N N 7.788  -1.393 50.326 2.906   1.117  2.284  C68  QIY 68  
+QIY N69  N9  N  0 1 N N N N N N 8.753  -0.310 50.428 3.738   2.150  1.662  N69  QIY 69  
+QIY C70  C50 C  0 1 N N N N N N 8.800  0.787  49.675 4.839   1.801  0.968  C70  QIY 70  
+QIY O71  O9  O  0 1 N N N N N N 8.107  0.958  48.675 5.141   0.632  0.857  O71  QIY 71  
+QIY H1   H1  H  0 1 N N N N N N 6.722  -2.759 51.599 2.103   2.515  3.713  H1   QIY 72  
+QIY H2   H2  H  0 1 N N N N N N 8.238  -2.103 52.305 1.160   1.016  3.541  H2   QIY 73  
+QIY H3   H3  H  0 1 N N N N N N 10.254 3.964  58.070 -6.518  1.070  -0.245 H3   QIY 74  
+QIY H4   H4  H  0 1 N N N N N N 12.487 4.398  58.055 -8.246  1.457  1.787  H4   QIY 75  
+QIY H5   H5  H  0 1 N N N N N N 12.251 6.034  58.760 -9.128  0.821  0.378  H5   QIY 76  
+QIY H6   H6  H  0 1 N N N N N N 13.123 7.029  56.634 -8.959  -0.571 3.088  H6   QIY 77  
+QIY H7   H7  H  0 1 N N N N N N 18.925 6.326  58.272 -13.319 3.720  1.860  H7   QIY 78  
+QIY H8   H8  H  0 1 N N N N N N 18.611 6.098  56.518 -14.030 2.218  1.222  H8   QIY 79  
+QIY H9   H9  H  0 1 N N N N N N 18.349 7.705  57.276 -14.368 2.723  2.896  H9   QIY 80  
+QIY H10  H10 H  0 1 N N N N N N 17.168 10.365 53.345 -12.594 2.418  -3.587 H10  QIY 81  
+QIY H11  H11 H  0 1 N N N N N N 16.802 9.372  51.893 -11.174 1.466  -4.085 H11  QIY 82  
+QIY H12  H12 H  0 1 N N N N N N 15.541 10.445 52.589 -12.765 0.682  -3.942 H12  QIY 83  
+QIY H13  H13 H  0 1 N N N N N N 16.038 5.148  52.922 -12.028 -3.295 -0.062 H13  QIY 84  
+QIY H14  H14 H  0 1 N N N N N N 12.269 2.092  52.080 -7.804  -3.436 -2.627 H14  QIY 85  
+QIY H15  H15 H  0 1 N N N N N N 12.084 3.825  53.825 -8.244  -1.535 -1.135 H15  QIY 86  
+QIY H16  H16 H  0 1 N N N N N N 10.205 2.073  54.202 -3.463  2.420  -2.125 H16  QIY 87  
+QIY H17  H17 H  0 1 N N N N N N 8.531  2.577  53.792 -2.090  1.424  -1.585 H17  QIY 88  
+QIY H18  H18 H  0 1 N N N N N N 8.935  0.304  55.719 -1.808  3.860  -1.039 H18  QIY 89  
+QIY H19  H19 H  0 1 N N N N N N 9.193  0.013  53.965 -3.258  3.763  -0.012 H19  QIY 90  
+QIY H20  H20 H  0 1 N N N N N N 8.889  4.595  54.862 -4.923  0.459  -2.032 H20  QIY 91  
+QIY H21  H21 H  0 1 N N N N N N 7.359  3.901  55.498 -3.550  -0.537 -1.492 H21  QIY 92  
+QIY H22  H22 H  0 1 N N N N N N 8.366  5.841  56.820 -4.753  -0.932 0.678  H22  QIY 93  
+QIY H23  H23 H  0 1 N N N N N N 7.969  4.355  57.748 -5.636  -1.568 -0.731 H23  QIY 94  
+QIY H24  H24 H  0 1 N N N N N N 12.529 4.902  55.493 -9.381  -2.101 1.515  H24  QIY 95  
+QIY H25  H25 H  0 1 N N N N N N 13.989 4.349  55.972 -10.872 -1.701 2.034  H25  QIY 96  
+QIY H26  H26 H  0 1 N N N N N N 14.637 7.037  51.474 -9.724  -0.974 -2.805 H26  QIY 97  
+QIY H27  H27 H  0 1 N N N N N N 13.139 7.239  52.444 -11.002 -2.045 -2.182 H27  QIY 98  
+QIY H28  H28 H  0 1 N N N N N N 14.000 8.682  51.810 -11.336 -0.969 -3.560 H28  QIY 99  
+QIY H30  H30 H  0 1 N N N N N N 16.210 3.429  51.170 -11.561 -5.174 -1.573 H30  QIY 100 
+QIY H31  H31 H  0 1 N N N N N N 6.121  -0.728 55.588 -0.450  4.384  0.928  H31  QIY 101 
+QIY H32  H32 H  0 1 N N N N N N 7.603  -1.421 54.847 -1.900  4.286  1.955  H32  QIY 102 
+QIY H33  H33 H  0 1 N N N N N N 4.977  -0.677 53.534 -0.864  2.334  3.150  H33  QIY 103 
+QIY H34  H34 H  0 1 N N N N N N 5.837  -2.254 53.537 0.080   3.834  3.322  H34  QIY 104 
+QIY H35  H35 H  0 1 N N N N N N 11.676 0.301  44.734 8.050   4.523  -4.235 H35  QIY 105 
+QIY H36  H36 H  0 1 N N N N N N 10.702 2.093  46.113 6.767   2.806  -3.024 H36  QIY 106 
+QIY H37  H37 H  0 1 N N N N N N 12.883 -1.771 48.252 9.999   5.627  -0.603 H37  QIY 107 
+QIY H38  H38 H  0 1 N N N N N N 11.876 0.015  49.627 8.714   3.910  0.607  H38  QIY 108 
+QIY H39  H39 H  0 1 N N N N N N 11.501 2.844  49.261 6.497   1.466  -1.100 H39  QIY 109 
+QIY H40  H40 H  0 1 N N N N N N 10.526 1.365  50.783 6.071   3.539  1.098  H40  QIY 110 
+QIY H41  H41 H  0 1 N N N N N N 9.319  2.671  50.526 5.098   3.428  -0.389 H41  QIY 111 
+QIY H42  H42 H  0 1 N N N N N N 8.877  3.083  47.873 7.752   1.855  1.507  H42  QIY 112 
+QIY H43  H43 H  0 1 N N N N N N 8.525  5.115  46.822 8.809   -0.563 2.036  H43  QIY 113 
+QIY H44  H44 H  0 1 N N N N N N 9.438  4.049  44.956 10.093  1.870  1.625  H44  QIY 114 
+QIY H45  H45 H  0 1 N N N N N N 11.128 4.374  45.469 10.638  0.656  2.827  H45  QIY 115 
+QIY H46  H46 H  0 1 N N N N N N 10.855 5.941  43.678 11.643  1.083  -0.045 H46  QIY 116 
+QIY H47  H47 H  0 1 N N N N N N 8.835  7.119  43.537 13.704  0.762  1.118  H47  QIY 117 
+QIY H48  H48 H  0 1 N N N N N N 11.694 7.097  45.630 12.144  -1.272 -0.181 H48  QIY 118 
+QIY H49  H49 H  0 1 N N N N N N 10.289 8.119  45.176 12.005  -1.487 1.591  H49  QIY 119 
+QIY H50  H50 H  0 1 N N N N N N 10.485 9.209  46.887 11.458  -2.976 -0.926 H50  QIY 120 
+QIY H51  H51 H  0 1 N N N N N N 10.313 9.103  49.934 8.850   -4.486 -1.401 H51  QIY 121 
+QIY H52  H52 H  0 1 N N N N N N 11.959 10.951 49.873 10.623  -2.868 -3.284 H52  QIY 122 
+QIY H53  H53 H  0 1 N N N N N N 11.844 10.987 48.081 9.074   -3.644 -3.690 H53  QIY 123 
+QIY H54  H54 H  0 1 N N N N N N 10.411 11.404 49.081 9.112   -2.272 -2.557 H54  QIY 124 
+QIY H55  H55 H  0 1 N N N N N N 12.741 8.591  49.828 10.807  -6.008 -1.348 H55  QIY 125 
+QIY H56  H56 H  0 1 N N N N N N 11.736 7.319  49.053 10.183  -5.829 -3.005 H56  QIY 126 
+QIY H57  H57 H  0 1 N N N N N N 12.629 8.502  48.038 11.655  -4.959 -2.510 H57  QIY 127 
+QIY H58  H58 H  0 1 N N N N N N 4.927  11.877 48.103 12.885  -5.796 3.829  H58  QIY 128 
+QIY H59  H59 H  0 1 N N N N N N 4.861  10.429 49.164 12.351  -7.366 3.182  H59  QIY 129 
+QIY H60  H60 H  0 1 N N N N N N 5.732  11.903 49.708 13.681  -6.484 2.393  H60  QIY 130 
+QIY H61  H61 H  0 1 N N N N N N 7.769  9.599  49.833 12.991  -4.334 0.737  H61  QIY 131 
+QIY H62  H62 H  0 1 N N N N N N 6.906  -1.038 49.773 3.502   0.553  3.001  H62  QIY 132 
+QIY H63  H63 H  0 1 N N N N N N 8.247  -2.233 49.784 2.529   0.442  1.515  H63  QIY 133 
+QIY H64  H64 H  0 1 N N N N N N 9.453  -0.398 51.136 3.496   3.086  1.751  H64  QIY 134 
+# 
+loop_
+_chem_comp_bond.comp_id 
+_chem_comp_bond.atom_id_1 
+_chem_comp_bond.atom_id_2 
+_chem_comp_bond.value_order 
+_chem_comp_bond.pdbx_aromatic_flag 
+_chem_comp_bond.pdbx_stereo_config 
+_chem_comp_bond.pdbx_ordinal 
+QIY O53  C52 SING N N 1   
+QIY C52  C51 SING N N 2   
+QIY C52  C54 SING N N 3   
+QIY C51  C50 SING N N 4   
+QIY CL38 C39 SING N N 5   
+QIY C54  N55 SING N N 6   
+QIY C40  C39 DOUB Y N 7   
+QIY C40  C41 SING Y N 8   
+QIY C39  C42 SING Y N 9   
+QIY C41  C44 DOUB Y N 10  
+QIY N55  C50 SING N N 11  
+QIY N55  C56 SING N N 12  
+QIY O66  N67 SING Y N 13  
+QIY O66  C65 SING Y N 14  
+QIY C50  C48 SING N N 15  
+QIY N67  C62 DOUB Y N 16  
+QIY C42  C43 DOUB Y N 17  
+QIY C56  C58 SING N N 18  
+QIY C56  O57 DOUB N N 19  
+QIY C58  C65 SING N N 20  
+QIY C58  C59 SING N N 21  
+QIY C48  N47 SING N N 22  
+QIY C48  O49 DOUB N N 23  
+QIY C65  C64 DOUB Y N 24  
+QIY C44  C43 SING Y N 25  
+QIY C44  C45 SING N N 26  
+QIY N47  C45 SING N N 27  
+QIY C62  C64 SING Y N 28  
+QIY C62  C63 SING N N 29  
+QIY O71  C70 DOUB N N 30  
+QIY C45  C46 SING N N 31  
+QIY C61  C59 SING N N 32  
+QIY C59  C60 SING N N 33  
+QIY C70  C46 SING N N 34  
+QIY C70  N69 SING N N 35  
+QIY CL30 C29 SING N N 36  
+QIY C68  N69 SING N N 37  
+QIY C68  C1  SING N N 38  
+QIY C29  C28 DOUB Y N 39  
+QIY C29  C31 SING Y N 40  
+QIY C1   O2  SING N N 41  
+QIY C28  C27 SING Y N 42  
+QIY C23  C22 SING N N 43  
+QIY C31  C32 DOUB Y N 44  
+QIY O2   C37 SING N N 45  
+QIY C27  C26 DOUB Y N 46  
+QIY C21  C20 SING N N 47  
+QIY C32  C26 SING Y N 48  
+QIY C22  C20 DOUB Y N 49  
+QIY C22  C24 SING Y N 50  
+QIY C26  C25 SING N N 51  
+QIY C37  C36 SING N N 52  
+QIY C20  S19 SING Y N 53  
+QIY O35  C36 SING N N 54  
+QIY O35  C34 SING N N 55  
+QIY C33  C34 SING N N 56  
+QIY C33  O3  SING N N 57  
+QIY C24  C25 SING N N 58  
+QIY C24  C18 DOUB Y N 59  
+QIY C25  N11 DOUB N N 60  
+QIY S19  C18 SING Y N 61  
+QIY C18  N17 SING N N 62  
+QIY C4   O3  SING N N 63  
+QIY C4   C5  SING N N 64  
+QIY N11  C10 SING N N 65  
+QIY O8   C7  DOUB N N 66  
+QIY N17  C12 SING Y N 67  
+QIY N17  C15 SING Y N 68  
+QIY C10  C12 SING N N 69  
+QIY C10  C9  SING N N 70  
+QIY C5   N6  SING N N 71  
+QIY C7   N6  SING N N 72  
+QIY C7   C9  SING N N 73  
+QIY C16  C15 SING N N 74  
+QIY C12  N13 DOUB Y N 75  
+QIY C15  N14 DOUB Y N 76  
+QIY N13  N14 SING Y N 77  
+QIY C1   H1  SING N N 78  
+QIY C1   H2  SING N N 79  
+QIY N6   H3  SING N N 80  
+QIY C9   H4  SING N N 81  
+QIY C9   H5  SING N N 82  
+QIY C10  H6  SING N N 83  
+QIY C16  H7  SING N N 84  
+QIY C16  H8  SING N N 85  
+QIY C16  H9  SING N N 86  
+QIY C21  H10 SING N N 87  
+QIY C21  H11 SING N N 88  
+QIY C21  H12 SING N N 89  
+QIY C27  H13 SING N N 90  
+QIY C31  H14 SING N N 91  
+QIY C32  H15 SING N N 92  
+QIY C33  H16 SING N N 93  
+QIY C33  H17 SING N N 94  
+QIY C34  H18 SING N N 95  
+QIY C34  H19 SING N N 96  
+QIY C4   H20 SING N N 97  
+QIY C4   H21 SING N N 98  
+QIY C5   H22 SING N N 99  
+QIY C5   H23 SING N N 100 
+QIY N11  H24 SING N N 101 
+QIY N11  H25 SING N N 102 
+QIY C23  H26 SING N N 103 
+QIY C23  H27 SING N N 104 
+QIY C23  H28 SING N N 105 
+QIY C28  H30 SING N N 106 
+QIY C36  H31 SING N N 107 
+QIY C36  H32 SING N N 108 
+QIY C37  H33 SING N N 109 
+QIY C37  H34 SING N N 110 
+QIY C40  H35 SING N N 111 
+QIY C41  H36 SING N N 112 
+QIY C42  H37 SING N N 113 
+QIY C43  H38 SING N N 114 
+QIY C45  H39 SING N N 115 
+QIY C46  H40 SING N N 116 
+QIY C46  H41 SING N N 117 
+QIY N47  H42 SING N N 118 
+QIY C50  H43 SING N N 119 
+QIY C51  H44 SING N N 120 
+QIY C51  H45 SING N N 121 
+QIY C52  H46 SING N N 122 
+QIY O53  H47 SING N N 123 
+QIY C54  H48 SING N N 124 
+QIY C54  H49 SING N N 125 
+QIY C58  H50 SING N N 126 
+QIY C59  H51 SING N N 127 
+QIY C60  H52 SING N N 128 
+QIY C60  H53 SING N N 129 
+QIY C60  H54 SING N N 130 
+QIY C61  H55 SING N N 131 
+QIY C61  H56 SING N N 132 
+QIY C61  H57 SING N N 133 
+QIY C63  H58 SING N N 134 
+QIY C63  H59 SING N N 135 
+QIY C63  H60 SING N N 136 
+QIY C64  H61 SING N N 137 
+QIY C68  H62 SING N N 138 
+QIY C68  H63 SING N N 139 
+QIY N69  H64 SING N N 140 
+# 
+loop_
+_pdbx_chem_comp_descriptor.comp_id 
+_pdbx_chem_comp_descriptor.type 
+_pdbx_chem_comp_descriptor.program 
+_pdbx_chem_comp_descriptor.program_version 
+_pdbx_chem_comp_descriptor.descriptor 
+QIY InChI            InChI                1.06  "InChI=1S/C50H63Cl2N9O9S/c1-28(2)44(41-23-29(3)59-70-41)49(66)60-27-37(62)24-40(60)48(65)56-38(33-7-11-35(51)12-8-33)25-42(63)53-15-17-67-19-21-69-22-20-68-18-16-54-43(64)26-39-47-58-57-32(6)61(47)50-45(30(4)31(5)71-50)46(55-39)34-9-13-36(52)14-10-34/h7-14,23,28,37-40,44,62H,15-22,24-27,55H2,1-6H3,(H,53,63)(H,54,64)(H,56,65)/t37-,38+,39+,40+,44-/m1/s1" 
+QIY InChIKey         InChI                1.06  FWYJZESSPDZGOM-YLIPSVQPSA-N                                                                                                                                                                                                                                                                                                                                        
+QIY SMILES_CANONICAL CACTVS               3.385 "CC(C)[C@@H](C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](CC(=O)NCCOCCOCCOCCNC(=O)C[C@@H]2[NH2]=C(c3ccc(Cl)cc3)c4c(C)c(C)sc4n5c(C)nnc25)c6ccc(Cl)cc6)c7onc(C)c7"                                                                                                                                                                                                            
+QIY SMILES           CACTVS               3.385 "CC(C)[CH](C(=O)N1C[CH](O)C[CH]1C(=O)N[CH](CC(=O)NCCOCCOCCOCCNC(=O)C[CH]2[NH2]=C(c3ccc(Cl)cc3)c4c(C)c(C)sc4n5c(C)nnc25)c6ccc(Cl)cc6)c7onc(C)c7"                                                                                                                                                                                                                    
+QIY SMILES_CANONICAL "OpenEye OEToolkits" 2.0.7 "Cc1cc(on1)[C@@H](C(C)C)C(=O)N2C[C@@H](C[C@H]2C(=O)N[C@@H](CC(=O)NCCOCCOCCOCCNC(=O)C[C@H]3c4nnc(n4-c5c(c(c(s5)C)C)C(=[NH2]3)c6ccc(cc6)Cl)C)c7ccc(cc7)Cl)O"                                                                                                                                                                                                         
+QIY SMILES           "OpenEye OEToolkits" 2.0.7 "Cc1cc(on1)C(C(C)C)C(=O)N2CC(CC2C(=O)NC(CC(=O)NCCOCCOCCOCCNC(=O)CC3c4nnc(n4-c5c(c(c(s5)C)C)C(=[NH2]3)c6ccc(cc6)Cl)C)c7ccc(cc7)Cl)O"                                                                                                                                                                                                                                
+# 
+_pdbx_chem_comp_identifier.comp_id           QIY 
+_pdbx_chem_comp_identifier.type              "SYSTEMATIC NAME" 
+_pdbx_chem_comp_identifier.program           "OpenEye OEToolkits" 
+_pdbx_chem_comp_identifier.program_version   2.0.7 
+_pdbx_chem_comp_identifier.identifier        "(2~{S},4~{R})-~{N}-[(1~{S})-1-(4-chlorophenyl)-3-[2-[2-[2-[2-[2-[(9~{S})-7-(4-chlorophenyl)-4,5,13-trimethyl-3-thia-1,8$l^{5},11,12-tetrazatricyclo[8.3.0.0^{2,6}]trideca-2(6),4,7,10,12-pentaen-9-yl]ethanoylamino]ethoxy]ethoxy]ethoxy]ethylamino]-3-oxidanylidene-propyl]-1-[(2~{R})-3-methyl-2-(3-methyl-1,2-oxazol-5-yl)butanoyl]-4-oxidanyl-pyrrolidine-2-carboxamide" 
+# 
+loop_
+_pdbx_chem_comp_audit.comp_id 
+_pdbx_chem_comp_audit.action_type 
+_pdbx_chem_comp_audit.date 
+_pdbx_chem_comp_audit.processing_site 
+QIY "Create component"   2022-11-02 PDBE 
+QIY "Initial release"    2023-02-15 RCSB 
+QIY "Other modification" 2024-01-16 PDBE 
+# 

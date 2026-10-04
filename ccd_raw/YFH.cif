@@ -1,0 +1,542 @@
+data_YFH
+# 
+_chem_comp.id                                    YFH 
+_chem_comp.name                                  "N-({4-[2-(4-{[(4R)-4'-chloro-4-methyl-6-{[4-(4-{[4-{[(2R)-4-[(1R,4R)-2-oxa-5-azabicyclo[2.2.1]heptan-5-yl]-1-(phenylsulfanyl)butan-2-yl]amino}-3-(trifluoromethanesulfonyl)benzene-1-sulfonyl]carbamoyl}phenyl)piperazin-1-yl]methyl}-2,3,4,5-tetrahydro[1,1'-biphenyl]-4-yl]methyl}piperazin-1-yl)-2-oxoethyl]piperazin-1-yl}acetyl)-3-methyl-L-valyl-(4S)-4-hydroxy-N-{(1S)-1-[4-(4-methyl-1,3-thiazol-5-yl)phenyl]ethyl}-L-prolinamide" 
+_chem_comp.type                                  non-polymer 
+_chem_comp.pdbx_type                             HETAIN 
+_chem_comp.formula                               "C83 H105 Cl F3 N13 O11 S4" 
+_chem_comp.mon_nstd_parent_comp_id               ? 
+_chem_comp.pdbx_synonyms                         ? 
+_chem_comp.pdbx_formal_charge                    0 
+_chem_comp.pdbx_initial_date                     2023-01-26 
+_chem_comp.pdbx_modified_date                    2024-04-05 
+_chem_comp.pdbx_ambiguous_flag                   N 
+_chem_comp.pdbx_release_status                   REL 
+_chem_comp.pdbx_replaced_by                      ? 
+_chem_comp.pdbx_replaces                         ? 
+_chem_comp.formula_weight                        1681.511 
+_chem_comp.one_letter_code                       ? 
+_chem_comp.three_letter_code                     YFH 
+_chem_comp.pdbx_model_coordinates_details        ? 
+_chem_comp.pdbx_model_coordinates_missing_flag   N 
+_chem_comp.pdbx_ideal_coordinates_details        Corina 
+_chem_comp.pdbx_ideal_coordinates_missing_flag   N 
+_chem_comp.pdbx_model_coordinates_db_code        8FY2 
+_chem_comp.pdbx_subcomponent_list                ? 
+_chem_comp.pdbx_processing_site                  RCSB 
+# 
+loop_
+_chem_comp_atom.comp_id 
+_chem_comp_atom.atom_id 
+_chem_comp_atom.alt_atom_id 
+_chem_comp_atom.type_symbol 
+_chem_comp_atom.charge 
+_chem_comp_atom.pdbx_align 
+_chem_comp_atom.pdbx_aromatic_flag 
+_chem_comp_atom.pdbx_leaving_atom_flag 
+_chem_comp_atom.pdbx_stereo_config 
+_chem_comp_atom.pdbx_backbone_atom_flag 
+_chem_comp_atom.pdbx_n_terminal_atom_flag 
+_chem_comp_atom.pdbx_c_terminal_atom_flag 
+_chem_comp_atom.model_Cartn_x 
+_chem_comp_atom.model_Cartn_y 
+_chem_comp_atom.model_Cartn_z 
+_chem_comp_atom.pdbx_model_Cartn_x_ideal 
+_chem_comp_atom.pdbx_model_Cartn_y_ideal 
+_chem_comp_atom.pdbx_model_Cartn_z_ideal 
+_chem_comp_atom.pdbx_component_atom_id 
+_chem_comp_atom.pdbx_component_comp_id 
+_chem_comp_atom.pdbx_ordinal 
+YFH C13  C1   C  0 1 Y N N N N N 1.969  -41.574 -20.926 -6.331  5.100   -1.317 C13  YFH 1   
+YFH C15  C2   C  0 1 Y N N N N N 1.925  -43.357 -19.176 -8.495  5.522   -0.374 C15  YFH 2   
+YFH C17  C3   C  0 1 N N R N N N 4.031  -44.030 -17.689 -8.664  6.327   1.964  C17  YFH 3   
+YFH C21  C4   C  0 1 N N R N N N 6.964  -46.165 -14.835 -8.627  1.593   3.352  C21  YFH 4   
+YFH C22  C5   C  0 1 N N N N N N 5.941  -46.488 -13.730 -7.143  1.589   2.867  C22  YFH 5   
+YFH C24  C6   C  0 1 N N R N N N 6.336  -48.314 -14.931 -7.267  1.805   5.187  C24  YFH 6   
+YFH C26  C7   C  0 1 N N N N N N 5.672  -47.620 -16.117 -7.958  3.218   4.950  C26  YFH 7   
+YFH C03  C8   C  0 1 Y N N N N N 0.626  -41.752 -21.327 -6.928  4.639   -2.476 C03  YFH 8   
+YFH C04  C9   C  0 1 Y N N N N N -0.001 -42.771 -20.558 -8.307  4.619   -2.587 C04  YFH 9   
+YFH C05  C10  C  0 1 Y N N N N N 0.533  -43.609 -19.500 -9.092  5.059   -1.540 C05  YFH 10  
+YFH C08  C11  C  0 1 N N N N N N -0.080 -46.601 -19.607 -11.385 3.831   -0.433 C08  YFH 11  
+YFH C14  C12  C  0 1 Y N N N N N 2.586  -42.336 -19.914 -7.110  5.541   -0.266 C14  YFH 12  
+YFH C18  C13  C  0 1 N N N N N N 4.256  -45.371 -16.963 -9.093  5.328   3.040  C18  YFH 13  
+YFH C19  C14  C  0 1 N N N N N N 5.156  -45.226 -15.744 -8.536  3.943   2.701  C19  YFH 14  
+YFH C25  C15  C  0 1 N N N N N N 7.673  -47.559 -14.874 -8.436  0.860   4.729  C25  YFH 15  
+YFH C27  C16  C  0 1 N N N N N N 4.446  -42.805 -16.745 -9.107  7.734   2.370  C27  YFH 16  
+YFH C29  C17  C  0 1 Y N N N N N 1.529  -41.457 -16.200 -9.186  10.457  1.725  C29  YFH 17  
+YFH C30  C18  C  0 1 Y N N N N N 0.375  -42.242 -16.265 -8.979  11.629  1.007  C30  YFH 18  
+YFH C31  C19  C  0 1 Y N N N N N -0.828 -41.728 -16.772 -9.441  12.831  1.504  C31  YFH 19  
+YFH C32  C20  C  0 1 Y N N N N N -0.895 -40.410 -17.223 -10.108 12.871  2.715  C32  YFH 20  
+YFH C33  C21  C  0 1 Y N N N N N 0.254  -39.620 -17.159 -10.315 11.707  3.432  C33  YFH 21  
+YFH C34  C22  C  0 1 Y N N N N N 1.457  -40.136 -16.653 -9.861  10.499  2.938  C34  YFH 22  
+YFH C36  C23  C  0 1 N N N N N N -0.573 -38.559 -20.702 -6.717  1.598   -3.648 C36  YFH 23  
+YFH C37  C24  C  0 1 Y N N N N N -1.221 -37.349 -19.954 -6.493  0.154   -3.449 C37  YFH 24  
+YFH C38  C25  C  0 1 Y N N N N N -2.558 -36.939 -20.058 -5.205  -0.327  -3.197 C38  YFH 25  
+YFH C39  C26  C  0 1 Y N N N N N -3.112 -35.849 -19.347 -4.999  -1.675  -3.011 C39  YFH 26  
+YFH C40  C27  C  0 1 Y N N N N N -2.386 -35.042 -18.427 -6.071  -2.560  -3.075 C40  YFH 27  
+YFH C42  C28  C  0 1 N N N N N N -4.492 -33.581 -17.967 -7.120  -4.670  -2.996 C42  YFH 28  
+YFH C43  C29  C  0 1 N N N N N N -4.670 -32.503 -19.052 -6.834  -6.167  -2.864 C43  YFH 29  
+YFH C45  C30  C  0 1 N N N N N N -4.628 -30.639 -17.527 -5.957  -7.864  -1.375 C45  YFH 30  
+YFH C46  C31  C  0 1 N N N N N N -6.178 -30.496 -17.647 -5.637  -8.128  0.074  C46  YFH 31  
+YFH C47  C32  C  0 1 N N N N N N -7.154 -30.960 -16.746 -6.622  -8.462  0.873  C47  YFH 32  
+YFH C48  C33  C  0 1 Y N N N N N -6.967 -31.854 -15.420 -7.979  -8.567  0.296  C48  YFH 33  
+YFH C49  C34  C  0 1 Y N N N N N -6.393 -31.241 -14.287 -8.612  -7.434  -0.216 C49  YFH 34  
+YFH C50  C35  C  0 1 Y N N N N N -6.153 -31.873 -13.046 -9.879  -7.538  -0.752 C50  YFH 35  
+YFH C51  C36  C  0 1 Y N N N N N -6.487 -33.210 -12.884 -10.522 -8.764  -0.782 C51  YFH 36  
+YFH C53  C37  C  0 1 Y N N N N N -7.054 -33.907 -13.945 -9.899  -9.891  -0.275 C53  YFH 37  
+YFH C54  C38  C  0 1 Y N N N N N -7.279 -33.232 -15.172 -8.630  -9.801  0.258  C54  YFH 38  
+YFH C55  C39  C  0 1 N N N N N N -8.585 -30.847 -17.343 -6.452  -8.744  2.337  C55  YFH 39  
+YFH C56  C40  C  0 1 N N N N N N -8.987 -29.477 -17.967 -4.979  -9.004  2.656  C56  YFH 40  
+YFH C57  C41  C  0 1 N N R N N N -7.874 -28.756 -18.753 -4.142  -7.875  2.043  C57  YFH 41  
+YFH C58  C42  C  0 1 N N N N N N -7.588 -27.355 -18.063 -2.688  -8.003  2.504  C58  YFH 42  
+YFH C60  C43  C  0 1 N N N N N N -8.531 -26.499 -15.948 -0.823  -6.506  2.878  C60  YFH 43  
+YFH C61  C44  C  0 1 N N N N N N -7.677 -25.209 -15.696 -0.143  -5.234  2.360  C61  YFH 44  
+YFH C63  C45  C  0 1 N N N N N N -5.526 -24.318 -16.797 1.543   -5.205  0.580  C63  YFH 45  
+YFH C64  C46  C  0 1 N N N N N N -4.732 -24.538 -15.478 2.545   -4.674  1.573  C64  YFH 46  
+YFH C66  C47  C  0 1 N N N N N N -4.258 -22.077 -15.410 4.897   -4.189  1.883  C66  YFH 47  
+YFH C67  C48  C  0 1 N N N N N N -3.240 -20.958 -15.134 6.240   -4.070  1.158  C67  YFH 48  
+YFH C69  C49  C  0 1 N N N N N N -0.893 -20.193 -15.018 7.449   -2.808  -0.519 C69  YFH 49  
+YFH C70  C50  C  0 1 N N N N N N 0.499  -20.174 -15.738 8.450   -2.277  0.474  C70  YFH 50  
+YFH C72  C51  C  0 1 N N S N N N 1.947  -21.152 -17.697 10.688  -1.504  1.049  C72  YFH 51  
+YFH C73  C52  C  0 1 N N N N N N 2.406  -22.612 -18.113 11.318  -2.671  1.811  C73  YFH 52  
+YFH C74  C53  C  0 1 N N N N N N 3.242  -23.196 -16.968 12.017  -3.608  0.824  C74  YFH 53  
+YFH C75  C54  C  0 1 N N N N N N 3.247  -22.619 -19.419 12.340  -2.133  2.815  C75  YFH 54  
+YFH C76  C55  C  0 1 N N N N N N 1.166  -23.506 -18.334 10.226  -3.440  2.559  C76  YFH 55  
+YFH C77  C56  C  0 1 N N N N N N 1.741  -20.229 -19.007 11.764  -0.742  0.319  C77  YFH 56  
+YFH C79  C57  C  0 1 N N S N N N 2.333  -18.274 -20.664 13.311  1.230   0.251  C79  YFH 57  
+YFH C80  C58  C  0 1 N N N N N N 2.018  -19.019 -21.994 14.559  0.451   -0.077 C80  YFH 58  
+YFH C82  C59  C  0 1 N N S N N N 0.531  -19.256 -24.152 16.815  0.311   -0.986 C82  YFH 59  
+YFH C83  C60  C  0 1 N N N N N N -0.921 -18.841 -24.443 16.645  -0.379  -2.342 C83  YFH 60  
+YFH C84  C61  C  0 1 Y N N N N N 1.437  -18.829 -25.380 17.992  1.250   -1.045 C84  YFH 61  
+YFH C85  C62  C  0 1 Y N N N N N 1.566  -19.553 -26.594 17.848  2.500   -1.619 C85  YFH 62  
+YFH C86  C63  C  0 1 Y N N N N N 2.398  -19.126 -27.665 18.921  3.366   -1.671 C86  YFH 63  
+YFH C87  C64  C  0 1 Y N N N N N 3.182  -17.937 -27.626 20.153  2.979   -1.143 C87  YFH 64  
+YFH C88  C65  C  0 1 Y N N N N N 4.084  -17.418 -28.712 21.306  3.903   -1.194 C88  YFH 65  
+YFH C89  C66  C  0 1 Y N N N N N 5.383  -16.917 -28.761 22.136  4.199   -0.171 C89  YFH 66  
+YFH C90  C67  C  0 1 N N N N N N 6.296  -16.777 -27.575 21.983  3.602   1.205  C90  YFH 67  
+YFH C92  C68  C  0 1 Y N N N N N 4.942  -16.697 -31.003 23.118  5.495   -1.689 C92  YFH 68  
+YFH C94  C69  C  0 1 Y N N N N N 3.038  -17.242 -26.413 20.292  1.717   -0.564 C94  YFH 69  
+YFH C95  C70  C  0 1 Y N N N N N 2.213  -17.664 -25.350 19.211  0.860   -0.519 C95  YFH 70  
+YFH C97  C71  C  0 1 N N N N N N 3.617  -17.380 -20.794 13.638  2.351   1.261  C97  YFH 71  
+YFH C98  C72  C  0 1 N N S N N N 4.149  -17.168 -19.391 12.395  2.355   2.189  C98  YFH 72  
+YFH CA0  C73  C  0 1 N N N N N N 3.814  -18.587 -18.775 12.041  0.848   2.242  CA0  YFH 73  
+YFH CA3  C74  C  0 1 N N N N N N -1.403 -22.582 -15.209 5.096   -3.293  -0.829 CA3  YFH 74  
+YFH CA4  C75  C  0 1 N N N N N N -2.413 -23.663 -15.630 3.754   -3.412  -0.104 CA4  YFH 75  
+YFH CA6  C76  C  0 1 N N N N N N -7.797 -24.522 -18.031 -0.714  -5.981  0.017  CA6  YFH 76  
+YFH CA7  C77  C  0 1 N N N N N N -9.070 -25.422 -18.025 -1.372  -7.223  0.627  CA7  YFH 77  
+YFH CA8  C78  C  0 1 N N N N N N -8.460 -28.430 -20.135 -4.703  -6.521  2.484  CA8  YFH 78  
+YFH CA9  C79  C  0 1 N N N N N N -6.637 -29.697 -18.892 -4.209  -7.999  0.517  CA9  YFH 79  
+YFH CAA  C80  C  0 1 N N N N N N -2.575 -31.504 -18.550 -4.920  -5.677  -1.464 CAA  YFH 80  
+YFH CAB  C81  C  0 1 N N N N N N -2.320 -32.599 -17.461 -5.207  -4.180  -1.597 CAB  YFH 81  
+YFH CAC  C82  C  0 1 Y N N N N N -1.041 -35.461 -18.317 -7.356  -2.084  -3.327 CAC  YFH 82  
+YFH CAD  C83  C  0 1 Y N N N N N -0.489 -36.554 -19.030 -7.569  -0.737  -3.507 CAD  YFH 83  
+YFH F09  F1   F  0 1 N N N N N N 0.070  -47.729 -18.891 -10.970 4.258   0.833  F09  YFH 84  
+YFH F10  F2   F  0 1 N N N N N N 0.997  -46.595 -20.424 -10.819 2.583   -0.714 F10  YFH 85  
+YFH F11  F3   F  0 1 N N N N N N -1.105 -46.867 -20.439 -12.780 3.727   -0.456 F11  YFH 86  
+YFH N16  N1   N  0 1 N N N N N N 2.586  -44.116 -18.146 -9.286  5.968   0.688  N16  YFH 87  
+YFH N20  N2   N  0 1 N N N N N N 6.213  -46.215 -16.147 -8.855  3.008   3.788  N20  YFH 88  
+YFH N35  N3   N  0 1 N N N N N N -0.958 -39.258 -21.976 -5.679  2.455   -3.592 N35  YFH 89  
+YFH N41  N4   N  0 1 N N N N N N -3.039 -33.906 -17.704 -5.860  -3.921  -2.888 N41  YFH 90  
+YFH N44  N5   N  0 1 N N N N N N -4.006 -31.225 -18.771 -6.180  -6.426  -1.573 N44  YFH 91  
+YFH N59  N6   N  0 1 N N N N N N -8.794 -26.743 -17.401 -1.901  -6.891  1.957  N59  YFH 92  
+YFH N62  N7   N  0 1 N N N N N N -6.914 -24.650 -16.855 0.279   -5.463  0.970  N62  YFH 93  
+YFH N65  N8   N  0 1 N N N N N N -3.773 -23.446 -15.096 3.839   -4.477  0.905  N65  YFH 94  
+YFH N68  N9   N  0 1 N N N N N N -1.854 -21.212 -15.601 6.155   -3.005  0.148  N68  YFH 95  
+YFH N71  N10  N  0 1 N N N N N N 0.732  -21.020 -16.879 9.715   -2.020  0.084  N71  YFH 96  
+YFH N78  N11  N  0 1 N N N N N N 2.569  -19.134 -19.433 12.322  0.346   0.885  N78  YFH 97  
+YFH N81  N12  N  0 1 N N N N N N 0.914  -18.647 -22.855 15.602  1.068   -0.667 N81  YFH 98  
+YFH N91  N13  N  0 1 Y N N N N N 5.855  -16.514 -30.067 23.088  5.052   -0.477 N91  YFH 99  
+YFH O01  O1   O  0 1 N N N N N N -1.211 -41.368 -23.385 -6.725  4.202   -4.987 O01  YFH 100 
+YFH O07  O2   O  0 1 N N N N N N 0.190  -45.261 -17.317 -11.249 6.346   -1.315 O07  YFH 101 
+YFH O12  O3   O  0 1 N N N N N N -1.724 -44.769 -18.599 -11.086 4.532   -2.990 O12  YFH 102 
+YFH O23  O4   O  0 1 N N N N N N 5.632  -47.879 -13.777 -6.348  1.685   4.065  O23  YFH 103 
+YFH O96  O5   O  0 1 N N N N N N 2.745  -19.940 -22.306 14.624  -0.730  0.190  O96  YFH 104 
+YFH O99  O6   O  0 1 N N N N N N 5.530  -16.886 -19.433 12.728  2.849   3.488  O99  YFH 105 
+YFH OA1  O7   O  0 1 N N N N N N 0.756  -20.523 -19.667 12.129  -1.109  -0.779 OA1  YFH 106 
+YFH OA2  O8   O  0 1 N N N N N N 1.381  -19.442 -15.328 8.119   -2.083  1.624  OA2  YFH 107 
+YFH OA5  O9   O  0 1 N N N N N N -4.946 -23.881 -17.778 1.874   -5.399  -0.570 OA5  YFH 108 
+YFH OAE  O10  O  0 1 N N N N N N 0.398  -39.064 -20.183 -7.839  2.015   -3.863 OAE  YFH 109 
+YFH OAF  O11  O  0 1 N N N N N N 0.870  -40.222 -23.574 -4.665  4.704   -3.664 OAF  YFH 110 
+YFH S02  S1   S  0 1 N N N N N N -0.189 -40.639 -22.733 -5.931  4.077   -3.815 S02  YFH 111 
+YFH S06  S2   S  0 1 N N N N N N -0.311 -44.886 -18.589 -10.848 5.033   -1.682 S06  YFH 112 
+YFH S28  S3   S  0 1 N N N N N N 3.106  -42.159 -15.524 -8.599  8.920   1.094  S28  YFH 113 
+YFH S93  S4   S  0 1 Y N N N N N 3.448  -17.368 -30.366 21.849  4.808   -2.606 S93  YFH 114 
+YFH CL52 CL1  CL 0 0 N N N N N N -6.195 -34.024 -11.340 -12.116 -8.887  -1.458 CL52 YFH 115 
+YFH H1   H1   H  0 1 N N N N N N 2.554  -40.813 -21.422 -5.255  5.110   -1.233 H1   YFH 116 
+YFH H2   H2   H  0 1 N N N N N N 4.680  -44.003 -18.577 -7.579  6.305   1.859  H2   YFH 117 
+YFH H3   H3   H  0 1 N N N N N N 7.615  -45.295 -14.663 -9.364  1.171   2.668  H3   YFH 118 
+YFH H4   H4   H  0 1 N N N N N N 6.368  -46.238 -12.748 -6.921  0.661   2.339  H4   YFH 119 
+YFH H5   H5   H  0 1 N N N N N N 5.025  -45.901 -13.892 -6.956  2.445   2.218  H5   YFH 120 
+YFH H6   H6   H  0 1 N N N N N N 6.443  -49.402 -15.050 -6.846  1.612   6.173  H6   YFH 121 
+YFH H7   H7   H  0 1 N N N N N N 4.580  -47.604 -15.986 -8.542  3.506   5.825  H7   YFH 122 
+YFH H8   H8   H  0 1 N N N N N N 5.921  -48.143 -17.052 -7.206  3.976   4.733  H8   YFH 123 
+YFH H9   H9   H  0 1 N N N N N N -1.038 -42.949 -20.799 -8.770  4.258   -3.494 H9   YFH 124 
+YFH H10  H10  H  0 1 N N N N N N 3.622  -42.133 -19.685 -6.644  5.897   0.641  H10  YFH 125 
+YFH H11  H11  H  0 1 N N N N N N 3.282  -45.765 -16.638 -8.706  5.647   4.008  H11  YFH 126 
+YFH H12  H12  H  0 1 N N N N N N 4.722  -46.079 -17.664 -10.181 5.282   3.081  H12  YFH 127 
+YFH H13  H13  H  0 1 N N N N N N 5.557  -44.207 -15.640 -8.986  3.589   1.773  H13  YFH 128 
+YFH H14  H14  H  0 1 N N N N N N 4.647  -45.516 -14.813 -7.455  4.006   2.580  H14  YFH 129 
+YFH H15  H15  H  0 1 N N N N N N 8.262  -47.777 -13.971 -9.314  0.943   5.370  H15  YFH 130 
+YFH H16  H16  H  0 1 N N N N N N 8.300  -47.708 -15.766 -8.112  -0.174  4.609  H16  YFH 131 
+YFH H17  H17  H  0 1 N N N N N N 5.314  -43.123 -16.149 -10.192 7.757   2.475  H17  YFH 132 
+YFH H18  H18  H  0 1 N N N N N N 4.736  -41.967 -17.396 -8.644  8.002   3.319  H18  YFH 133 
+YFH H19  H19  H  0 1 N N N N N N 0.410  -43.264 -15.918 -8.458  11.599  0.061  H19  YFH 134 
+YFH H20  H20  H  0 1 N N N N N N -1.706 -42.356 -16.813 -9.281  13.742  0.946  H20  YFH 135 
+YFH H21  H21  H  0 1 N N N N N N -1.818 -40.008 -17.614 -10.464 13.813  3.103  H21  YFH 136 
+YFH H22  H22  H  0 1 N N N N N N 0.217  -38.597 -17.504 -10.837 11.741  4.377  H22  YFH 137 
+YFH H23  H23  H  0 1 N N N N N N 2.334  -39.508 -16.613 -10.024 9.591   3.499  H23  YFH 138 
+YFH H24  H24  H  0 1 N N N N N N -3.206 -37.491 -20.723 -4.372  0.359   -3.147 H24  YFH 139 
+YFH H25  H25  H  0 1 N N N N N N -4.153 -35.614 -19.513 -4.004  -2.047  -2.816 H25  YFH 140 
+YFH H26  H26  H  0 1 N N N N N N -4.947 -33.219 -17.033 -7.578  -4.472  -3.965 H26  YFH 141 
+YFH H27  H27  H  0 1 N N N N N N -5.005 -34.498 -18.294 -7.798  -4.357  -2.202 H27  YFH 142 
+YFH H28  H28  H  0 1 N N N N N N -5.747 -32.310 -19.168 -7.770  -6.722  -2.915 H28  YFH 143 
+YFH H29  H29  H  0 1 N N N N N N -4.265 -32.898 -19.995 -6.177  -6.485  -3.674 H29  YFH 144 
+YFH H30  H30  H  0 1 N N N N N N -4.399 -31.295 -16.675 -5.123  -8.191  -1.996 H30  YFH 145 
+YFH H31  H31  H  0 1 N N N N N N -4.194 -29.644 -17.350 -6.856  -8.413  -1.654 H31  YFH 146 
+YFH H32  H32  H  0 1 N N N N N N -6.113 -30.202 -14.375 -8.111  -6.477  -0.192 H32  YFH 147 
+YFH H33  H33  H  0 1 N N N N N N -5.713 -31.319 -12.230 -10.370 -6.662  -1.149 H33  YFH 148 
+YFH H34  H34  H  0 1 N N N N N N -7.319 -34.948 -13.836 -10.406 -10.845 -0.301 H34  YFH 149 
+YFH H35  H35  H  0 1 N N N N N N -7.718 -33.798 -15.980 -8.143  -10.682 0.649  H35  YFH 150 
+YFH H36  H36  H  0 1 N N N N N N -9.299 -31.066 -16.536 -6.801  -7.887  2.913  H36  YFH 151 
+YFH H37  H37  H  0 1 N N N N N N -8.677 -31.610 -18.130 -7.039  -9.623  2.606  H37  YFH 152 
+YFH H38  H38  H  0 1 N N N N N N -9.310 -28.814 -17.151 -4.835  -9.021  3.736  H38  YFH 153 
+YFH H39  H39  H  0 1 N N N N N N -9.829 -29.651 -18.653 -4.675  -9.961  2.231  H39  YFH 154 
+YFH H40  H40  H  0 1 N N N N N N -6.809 -27.498 -17.300 -2.649  -7.976  3.592  H40  YFH 155 
+YFH H41  H41  H  0 1 N N N N N N -7.224 -26.658 -18.832 -2.277  -8.948  2.149  H41  YFH 156 
+YFH H42  H42  H  0 1 N N N N N N -9.495 -26.390 -15.429 -0.091  -7.311  2.938  H42  YFH 157 
+YFH H43  H43  H  0 1 N N N N N N -7.990 -27.365 -15.538 -1.240  -6.318  3.868  H43  YFH 158 
+YFH H44  H44  H  0 1 N N N N N N -6.950 -25.444 -14.905 -0.846  -4.402  2.397  H44  YFH 159 
+YFH H45  H45  H  0 1 N N N N N N -8.362 -24.424 -15.343 0.726   -5.006  2.977  H45  YFH 160 
+YFH H46  H46  H  0 1 N N N N N N -5.460 -24.647 -14.661 2.193   -3.723  1.971  H46  YFH 161 
+YFH H47  H47  H  0 1 N N N N N N -4.157 -25.470 -15.583 2.662   -5.388  2.388  H47  YFH 162 
+YFH H48  H48  H  0 1 N N N N N N -5.154 -21.883 -14.803 4.949   -4.998  2.612  H48  YFH 163 
+YFH H49  H49  H  0 1 N N N N N N -4.524 -22.044 -16.477 4.675   -3.252  2.394  H49  YFH 164 
+YFH H50  H50  H  0 1 N N N N N N -3.205 -20.795 -14.047 7.022   -3.827  1.877  H50  YFH 165 
+YFH H51  H51  H  0 1 N N N N N N -3.601 -20.045 -15.630 6.475   -5.016  0.670  H51  YFH 166 
+YFH H52  H52  H  0 1 N N N N N N -0.734 -20.430 -13.956 7.332   -2.094  -1.334 H52  YFH 167 
+YFH H53  H53  H  0 1 N N N N N N -1.346 -19.195 -15.107 7.801   -3.760  -0.917 H53  YFH 168 
+YFH H54  H54  H  0 1 N N N N N N 2.783  -20.708 -17.136 10.186  -0.839  1.752  H54  YFH 169 
+YFH H55  H55  H  0 1 N N N N N N 2.649  -23.192 -16.042 12.794  -3.060  0.292  H55  YFH 170 
+YFH H56  H56  H  0 1 N N N N N N 3.531  -24.228 -17.214 12.465  -4.440  1.367  H56  YFH 171 
+YFH H57  H57  H  0 1 N N N N N N 4.147  -22.586 -16.827 11.288  -3.991  0.109  H57  YFH 172 
+YFH H58  H58  H  0 1 N N N N N N 4.138  -21.987 -19.286 11.862  -1.398  3.462  H58  YFH 173 
+YFH H59  H59  H  0 1 N N N N N N 3.559  -23.649 -19.649 12.723  -2.955  3.419  H59  YFH 174 
+YFH H60  H60  H  0 1 N N N N N N 2.640  -22.226 -20.248 13.164  -1.663  2.277  H60  YFH 175 
+YFH H61  H61  H  0 1 N N N N N N 0.554  -23.517 -17.420 9.498   -3.824  1.844  H61  YFH 176 
+YFH H62  H62  H  0 1 N N N N N N 0.571  -23.108 -19.169 10.675  -4.272  3.102  H62  YFH 177 
+YFH H63  H63  H  0 1 N N N N N N 1.490  -24.530 -18.570 9.729   -2.773  3.262  H63  YFH 178 
+YFH H64  H64  H  0 1 N N N N N N 1.487  -17.604 -20.452 12.893  1.662   -0.659 H64  YFH 179 
+YFH H65  H65  H  0 1 N N N N N N 0.571  -20.352 -24.065 16.988  -0.441  -0.216 H65  YFH 180 
+YFH H66  H66  H  0 1 N N N N N N -1.562 -19.132 -23.598 16.472  0.373   -3.112 H66  YFH 181 
+YFH H67  H67  H  0 1 N N N N N N -0.970 -17.751 -24.582 17.547  -0.942  -2.579 H67  YFH 182 
+YFH H68  H68  H  0 1 N N N N N N -1.270 -19.343 -25.357 15.793  -1.058  -2.299 H68  YFH 183 
+YFH H69  H69  H  0 1 N N N N N N 1.007  -20.470 -26.709 16.894  2.799   -2.028 H69  YFH 184 
+YFH H70  H70  H  0 1 N N N N N N 2.438  -19.736 -28.556 18.807  4.342   -2.120 H70  YFH 185 
+YFH H71  H71  H  0 1 N N N N N N 7.259  -16.358 -27.901 22.481  2.633   1.238  H71  YFH 186 
+YFH H72  H72  H  0 1 N N N N N N 5.835  -16.106 -26.835 22.433  4.267   1.942  H72  YFH 187 
+YFH H73  H73  H  0 1 N N N N N N 6.461  -17.765 -27.121 20.924  3.474   1.430  H73  YFH 188 
+YFH H74  H74  H  0 1 N N N N N N 5.096  -16.460 -32.045 23.845  6.197   -2.071 H74  YFH 189 
+YFH H75  H75  H  0 1 N N N N N N 3.595  -16.325 -26.287 21.243  1.411   -0.154 H75  YFH 190 
+YFH H76  H76  H  0 1 N N N N N N 2.178  -17.053 -24.460 19.316  -0.116  -0.068 H76  YFH 191 
+YFH H77  H77  H  0 1 N N N N N N 4.371  -17.889 -21.412 14.540  2.111   1.824  H77  YFH 192 
+YFH H78  H78  H  0 1 N N N N N N 3.360  -16.413 -21.251 13.743  3.309   0.753  H78  YFH 193 
+YFH H79  H79  H  0 1 N N N N N N 3.576  -16.388 -18.869 11.581  2.932   1.750  H79  YFH 194 
+YFH H80  H80  H  0 1 N N N N N N 3.644  -18.487 -17.693 12.667  0.336   2.973  H80  YFH 195 
+YFH H81  H81  H  0 1 N N N N N N 4.655  -19.273 -18.953 10.987  0.714   2.487  H81  YFH 196 
+YFH H82  H82  H  0 1 N N N N N N -1.280 -22.617 -14.116 5.318   -4.230  -1.340 H82  YFH 197 
+YFH H83  H83  H  0 1 N N N N N N -0.437 -22.790 -15.693 5.045   -2.485  -1.559 H83  YFH 198 
+YFH H84  H84  H  0 1 N N N N N N -2.469 -23.676 -16.728 3.519   -2.467  0.384  H84  YFH 199 
+YFH H85  H85  H  0 1 N N N N N N -2.050 -24.637 -15.270 2.972   -3.655  -0.823 H85  YFH 200 
+YFH H86  H86  H  0 1 N N N N N N -7.208 -24.776 -18.925 -0.221  -6.249  -0.917 H86  YFH 201 
+YFH H87  H87  H  0 1 N N N N N N -8.125 -23.474 -18.094 -1.472  -5.220  -0.171 H87  YFH 202 
+YFH H88  H88  H  0 1 N N N N N N -9.864 -24.916 -17.456 -2.187  -7.556  -0.015 H88  YFH 203 
+YFH H89  H89  H  0 1 N N N N N N -9.404 -25.578 -19.062 -0.632  -8.018  0.719  H89  YFH 204 
+YFH H90  H90  H  0 1 N N N N N N -9.330 -27.767 -20.018 -4.110  -5.721  2.041  H90  YFH 205 
+YFH H91  H91  H  0 1 N N N N N N -7.697 -27.928 -20.748 -5.738  -6.432  2.154  H91  YFH 206 
+YFH H92  H92  H  0 1 N N N N N N -8.773 -29.361 -20.629 -4.660  -6.447  3.570  H92  YFH 207 
+YFH H93  H93  H  0 1 N N N N N N -6.871 -30.428 -19.680 -3.647  -8.878  0.201  H93  YFH 208 
+YFH H94  H94  H  0 1 N N N N N N -5.788 -29.074 -19.210 -3.771  -7.110  0.063  H94  YFH 209 
+YFH H95  H95  H  0 1 N N N N N N -2.135 -31.846 -19.499 -4.242  -5.990  -2.259 H95  YFH 210 
+YFH H96  H96  H  0 1 N N N N N N -2.083 -30.573 -18.232 -4.461  -5.875  -0.496 H96  YFH 211 
+YFH H97  H97  H  0 1 N N N N N N -1.240 -32.803 -17.426 -5.863  -3.862  -0.787 H97  YFH 212 
+YFH H98  H98  H  0 1 N N N N N N -2.650 -32.201 -16.490 -4.270  -3.624  -1.546 H98  YFH 213 
+YFH H99  H99  H  0 1 N N N N N N -0.393 -34.914 -17.648 -8.186  -2.773  -3.377 H99  YFH 214 
+YFH H100 H100 H  0 0 N N N N N N 0.550  -36.798 -18.862 -8.566  -0.368  -3.698 H100 YFH 215 
+YFH H101 H101 H  0 0 N N N N N N 2.051  -43.938 -17.320 -10.247 6.040   0.580  H101 YFH 216 
+YFH H103 H103 H  0 0 N N N N N N -1.755 -38.887 -22.453 -4.784  2.122   -3.421 H103 YFH 217 
+YFH H108 H108 H  0 0 N N N N N N -0.038 -21.597 -17.153 9.979   -2.175  -0.836 H108 YFH 218 
+YFH H109 H109 H  0 0 N N N N N N 0.343  -17.890 -22.537 15.550  2.013   -0.881 H109 YFH 219 
+YFH H102 H102 H  0 0 N N N N N N 5.854  -16.755 -18.550 11.982  2.871   4.104  H102 YFH 220 
+# 
+loop_
+_chem_comp_bond.comp_id 
+_chem_comp_bond.atom_id_1 
+_chem_comp_bond.atom_id_2 
+_chem_comp_bond.value_order 
+_chem_comp_bond.pdbx_aromatic_flag 
+_chem_comp_bond.pdbx_stereo_config 
+_chem_comp_bond.pdbx_ordinal 
+YFH C92 S93  SING Y N 1   
+YFH C92 N91  DOUB Y N 2   
+YFH S93 C88  SING Y N 3   
+YFH N91 C89  SING Y N 4   
+YFH C89 C88  DOUB Y N 5   
+YFH C89 C90  SING N N 6   
+YFH C88 C87  SING N N 7   
+YFH C86 C87  DOUB Y N 8   
+YFH C86 C85  SING Y N 9   
+YFH C87 C94  SING Y N 10  
+YFH C85 C84  DOUB Y N 11  
+YFH C94 C95  DOUB Y N 12  
+YFH C84 C95  SING Y N 13  
+YFH C84 C82  SING N N 14  
+YFH C83 C82  SING N N 15  
+YFH C82 N81  SING N N 16  
+YFH OAF S02  DOUB N N 17  
+YFH O01 S02  DOUB N N 18  
+YFH N81 C80  SING N N 19  
+YFH S02 N35  SING N N 20  
+YFH S02 C03  SING N N 21  
+YFH O96 C80  DOUB N N 22  
+YFH C80 C79  SING N N 23  
+YFH N35 C36  SING N N 24  
+YFH C03 C13  DOUB Y N 25  
+YFH C03 C04  SING Y N 26  
+YFH C13 C14  SING Y N 27  
+YFH C97 C79  SING N N 28  
+YFH C97 C98  SING N N 29  
+YFH C36 OAE  DOUB N N 30  
+YFH C36 C37  SING N N 31  
+YFH C79 N78  SING N N 32  
+YFH C04 C05  DOUB Y N 33  
+YFH F11 C08  SING N N 34  
+YFH F10 C08  SING N N 35  
+YFH CA8 C57  SING N N 36  
+YFH C38 C37  DOUB Y N 37  
+YFH C38 C39  SING Y N 38  
+YFH C37 CAD  SING Y N 39  
+YFH C14 C15  DOUB Y N 40  
+YFH OA1 C77  DOUB N N 41  
+YFH C08 F09  SING N N 42  
+YFH C08 S06  SING N N 43  
+YFH C05 C15  SING Y N 44  
+YFH C05 S06  SING N N 45  
+YFH N78 C77  SING N N 46  
+YFH N78 CA0  SING N N 47  
+YFH O99 C98  SING N N 48  
+YFH C75 C73  SING N N 49  
+YFH C98 CA0  SING N N 50  
+YFH C39 C40  DOUB Y N 51  
+YFH C15 N16  SING N N 52  
+YFH C43 N44  SING N N 53  
+YFH C43 C42  SING N N 54  
+YFH CAD CAC  DOUB Y N 55  
+YFH C77 C72  SING N N 56  
+YFH CA9 C57  SING N N 57  
+YFH CA9 C46  SING N N 58  
+YFH N44 CAA  SING N N 59  
+YFH N44 C45  SING N N 60  
+YFH C57 C58  SING N N 61  
+YFH C57 C56  SING N N 62  
+YFH O12 S06  DOUB N N 63  
+YFH S06 O07  DOUB N N 64  
+YFH CAA CAB  SING N N 65  
+YFH C40 CAC  SING Y N 66  
+YFH C40 N41  SING N N 67  
+YFH C76 C73  SING N N 68  
+YFH N16 C17  SING N N 69  
+YFH C73 C72  SING N N 70  
+YFH C73 C74  SING N N 71  
+YFH C58 N59  SING N N 72  
+YFH CA6 CA7  SING N N 73  
+YFH CA6 N62  SING N N 74  
+YFH CA7 N59  SING N N 75  
+YFH C56 C55  SING N N 76  
+YFH C42 N41  SING N N 77  
+YFH OA5 C63  DOUB N N 78  
+YFH N41 CAB  SING N N 79  
+YFH C72 N71  SING N N 80  
+YFH C17 C18  SING N N 81  
+YFH C17 C27  SING N N 82  
+YFH C46 C45  SING N N 83  
+YFH C46 C47  DOUB N N 84  
+YFH N59 C60  SING N N 85  
+YFH C55 C47  SING N N 86  
+YFH C32 C33  DOUB Y N 87  
+YFH C32 C31  SING Y N 88  
+YFH C33 C34  SING Y N 89  
+YFH C18 C19  SING N N 90  
+YFH N71 C70  SING N N 91  
+YFH N62 C63  SING N N 92  
+YFH N62 C61  SING N N 93  
+YFH C63 C64  SING N N 94  
+YFH C31 C30  DOUB Y N 95  
+YFH C47 C48  SING N N 96  
+YFH C27 S28  SING N N 97  
+YFH C34 C29  DOUB Y N 98  
+YFH C30 C29  SING Y N 99  
+YFH C29 S28  SING N N 100 
+YFH N20 C26  SING N N 101 
+YFH N20 C19  SING N N 102 
+YFH N20 C21  SING N N 103 
+YFH C26 C24  SING N N 104 
+YFH C60 C61  SING N N 105 
+YFH C70 OA2  DOUB N N 106 
+YFH C70 C69  SING N N 107 
+YFH CA4 CA3  SING N N 108 
+YFH CA4 N65  SING N N 109 
+YFH N68 CA3  SING N N 110 
+YFH N68 C67  SING N N 111 
+YFH N68 C69  SING N N 112 
+YFH C64 N65  SING N N 113 
+YFH C48 C54  DOUB Y N 114 
+YFH C48 C49  SING Y N 115 
+YFH C66 C67  SING N N 116 
+YFH C66 N65  SING N N 117 
+YFH C54 C53  SING Y N 118 
+YFH C24 C25  SING N N 119 
+YFH C24 O23  SING N N 120 
+YFH C25 C21  SING N N 121 
+YFH C21 C22  SING N N 122 
+YFH C49 C50  DOUB Y N 123 
+YFH C53 C51  DOUB Y N 124 
+YFH O23 C22  SING N N 125 
+YFH C50 C51  SING Y N 126 
+YFH C51 CL52 SING N N 127 
+YFH C13 H1   SING N N 128 
+YFH C17 H2   SING N N 129 
+YFH C21 H3   SING N N 130 
+YFH C22 H4   SING N N 131 
+YFH C22 H5   SING N N 132 
+YFH C24 H6   SING N N 133 
+YFH C26 H7   SING N N 134 
+YFH C26 H8   SING N N 135 
+YFH C04 H9   SING N N 136 
+YFH C14 H10  SING N N 137 
+YFH C18 H11  SING N N 138 
+YFH C18 H12  SING N N 139 
+YFH C19 H13  SING N N 140 
+YFH C19 H14  SING N N 141 
+YFH C25 H15  SING N N 142 
+YFH C25 H16  SING N N 143 
+YFH C27 H17  SING N N 144 
+YFH C27 H18  SING N N 145 
+YFH C30 H19  SING N N 146 
+YFH C31 H20  SING N N 147 
+YFH C32 H21  SING N N 148 
+YFH C33 H22  SING N N 149 
+YFH C34 H23  SING N N 150 
+YFH C38 H24  SING N N 151 
+YFH C39 H25  SING N N 152 
+YFH C42 H26  SING N N 153 
+YFH C42 H27  SING N N 154 
+YFH C43 H28  SING N N 155 
+YFH C43 H29  SING N N 156 
+YFH C45 H30  SING N N 157 
+YFH C45 H31  SING N N 158 
+YFH C49 H32  SING N N 159 
+YFH C50 H33  SING N N 160 
+YFH C53 H34  SING N N 161 
+YFH C54 H35  SING N N 162 
+YFH C55 H36  SING N N 163 
+YFH C55 H37  SING N N 164 
+YFH C56 H38  SING N N 165 
+YFH C56 H39  SING N N 166 
+YFH C58 H40  SING N N 167 
+YFH C58 H41  SING N N 168 
+YFH C60 H42  SING N N 169 
+YFH C60 H43  SING N N 170 
+YFH C61 H44  SING N N 171 
+YFH C61 H45  SING N N 172 
+YFH C64 H46  SING N N 173 
+YFH C64 H47  SING N N 174 
+YFH C66 H48  SING N N 175 
+YFH C66 H49  SING N N 176 
+YFH C67 H50  SING N N 177 
+YFH C67 H51  SING N N 178 
+YFH C69 H52  SING N N 179 
+YFH C69 H53  SING N N 180 
+YFH C72 H54  SING N N 181 
+YFH C74 H55  SING N N 182 
+YFH C74 H56  SING N N 183 
+YFH C74 H57  SING N N 184 
+YFH C75 H58  SING N N 185 
+YFH C75 H59  SING N N 186 
+YFH C75 H60  SING N N 187 
+YFH C76 H61  SING N N 188 
+YFH C76 H62  SING N N 189 
+YFH C76 H63  SING N N 190 
+YFH C79 H64  SING N N 191 
+YFH C82 H65  SING N N 192 
+YFH C83 H66  SING N N 193 
+YFH C83 H67  SING N N 194 
+YFH C83 H68  SING N N 195 
+YFH C85 H69  SING N N 196 
+YFH C86 H70  SING N N 197 
+YFH C90 H71  SING N N 198 
+YFH C90 H72  SING N N 199 
+YFH C90 H73  SING N N 200 
+YFH C92 H74  SING N N 201 
+YFH C94 H75  SING N N 202 
+YFH C95 H76  SING N N 203 
+YFH C97 H77  SING N N 204 
+YFH C97 H78  SING N N 205 
+YFH C98 H79  SING N N 206 
+YFH CA0 H80  SING N N 207 
+YFH CA0 H81  SING N N 208 
+YFH CA3 H82  SING N N 209 
+YFH CA3 H83  SING N N 210 
+YFH CA4 H84  SING N N 211 
+YFH CA4 H85  SING N N 212 
+YFH CA6 H86  SING N N 213 
+YFH CA6 H87  SING N N 214 
+YFH CA7 H88  SING N N 215 
+YFH CA7 H89  SING N N 216 
+YFH CA8 H90  SING N N 217 
+YFH CA8 H91  SING N N 218 
+YFH CA8 H92  SING N N 219 
+YFH CA9 H93  SING N N 220 
+YFH CA9 H94  SING N N 221 
+YFH CAA H95  SING N N 222 
+YFH CAA H96  SING N N 223 
+YFH CAB H97  SING N N 224 
+YFH CAB H98  SING N N 225 
+YFH CAC H99  SING N N 226 
+YFH CAD H100 SING N N 227 
+YFH N16 H101 SING N N 228 
+YFH N35 H103 SING N N 229 
+YFH N71 H108 SING N N 230 
+YFH N81 H109 SING N N 231 
+YFH O99 H102 SING N N 232 
+# 
+loop_
+_pdbx_chem_comp_descriptor.comp_id 
+_pdbx_chem_comp_descriptor.type 
+_pdbx_chem_comp_descriptor.program 
+_pdbx_chem_comp_descriptor.program_version 
+_pdbx_chem_comp_descriptor.descriptor 
+YFH SMILES           ACDLabs              12.01 "O=S(=O)(c1cc(ccc1NC(CSc1ccccc1)CCN1CC2CC1CO2)S(=O)(=O)NC(=O)c1ccc(cc1)N1CCN(CC1)CC=1CC(C)(CCC=1c1ccc(Cl)cc1)CN1CCN(CC1)C(=O)CN1CCN(CC1)CC(=O)NC(C(=O)N1CC(O)CC1C(=O)NC(C)c1ccc(cc1)c1scnc1C)C(C)(C)C)C(F)(F)F"                                                                                                                                                                                                                                                                                                                                                        
+YFH InChI            InChI                1.06  "InChI=1S/C83H105ClF3N13O11S4/c1-55(57-12-14-59(15-13-57)76-56(2)88-54-113-76)89-79(105)72-43-66(101)47-100(72)80(106)77(81(3,4)5)91-74(102)49-94-30-32-95(33-31-94)50-75(103)98-40-36-96(37-41-98)53-82(6)28-26-70(58-16-20-62(84)21-17-58)61(45-82)46-93-34-38-97(39-35-93)64-22-18-60(19-23-64)78(104)92-115(109,110)69-24-25-71(73(44-69)114(107,108)83(85,86)87)90-63(52-112-68-10-8-7-9-11-68)27-29-99-48-67-42-65(99)51-111-67/h7-25,44,54-55,63,65-67,72,77,90,101H,26-43,45-53H2,1-6H3,(H,89,105)(H,91,102)(H,92,104)/t55-,63+,65+,66-,67+,72-,77+,82+/m0/s1" 
+YFH InChIKey         InChI                1.06  BSXCOLDAQWGIQN-DTQJYWAGSA-N                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+YFH SMILES_CANONICAL CACTVS               3.385 "C[C@H](NC(=O)[C@@H]1C[C@H](O)CN1C(=O)[C@@H](NC(=O)CN2CCN(CC2)CC(=O)N3CCN(CC3)C[C@]4(C)CCC(=C(CN5CCN(CC5)c6ccc(cc6)C(=O)N[S](=O)(=O)c7ccc(N[C@H](CCN8C[C@H]9C[C@@H]8CO9)CSc%10ccccc%10)c(c7)[S](=O)(=O)C(F)(F)F)C4)c%11ccc(Cl)cc%11)C(C)(C)C)c%12ccc(cc%12)c%13scnc%13C"                                                                                                                                                                                                                                                                                               
+YFH SMILES           CACTVS               3.385 "C[CH](NC(=O)[CH]1C[CH](O)CN1C(=O)[CH](NC(=O)CN2CCN(CC2)CC(=O)N3CCN(CC3)C[C]4(C)CCC(=C(CN5CCN(CC5)c6ccc(cc6)C(=O)N[S](=O)(=O)c7ccc(N[CH](CCN8C[CH]9C[CH]8CO9)CSc%10ccccc%10)c(c7)[S](=O)(=O)C(F)(F)F)C4)c%11ccc(Cl)cc%11)C(C)(C)C)c%12ccc(cc%12)c%13scnc%13C"                                                                                                                                                                                                                                                                                                          
+YFH SMILES_CANONICAL "OpenEye OEToolkits" 2.0.7 "Cc1c(scn1)c2ccc(cc2)[C@H](C)NC(=O)[C@@H]3C[C@@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CN4CCN(CC4)CC(=O)N5CCN(CC5)C[C@@]6(CCC(=C(C6)CN7CCN(CC7)c8ccc(cc8)C(=O)NS(=O)(=O)c9ccc(c(c9)S(=O)(=O)C(F)(F)F)N[C@H](CCN1C[C@H]2C[C@@H]1CO2)CSc1ccccc1)c1ccc(cc1)Cl)C)O"                                                                                                                                                                                                                                                                                                                
+YFH SMILES           "OpenEye OEToolkits" 2.0.7 "Cc1c(scn1)c2ccc(cc2)C(C)NC(=O)C3CC(CN3C(=O)C(C(C)(C)C)NC(=O)CN4CCN(CC4)CC(=O)N5CCN(CC5)CC6(CCC(=C(C6)CN7CCN(CC7)c8ccc(cc8)C(=O)NS(=O)(=O)c9ccc(c(c9)S(=O)(=O)C(F)(F)F)NC(CCN1CC2CC1CO2)CSc1ccccc1)c1ccc(cc1)Cl)C)O"                                                                                                                                                                                                                                                                                                                                                   
+# 
+loop_
+_pdbx_chem_comp_identifier.comp_id 
+_pdbx_chem_comp_identifier.type 
+_pdbx_chem_comp_identifier.program 
+_pdbx_chem_comp_identifier.program_version 
+_pdbx_chem_comp_identifier.identifier 
+YFH "SYSTEMATIC NAME" ACDLabs              12.01 "N-({4-[2-(4-{[(4R)-4'-chloro-4-methyl-6-{[4-(4-{[4-{[(2R)-4-[(1R,4R)-2-oxa-5-azabicyclo[2.2.1]heptan-5-yl]-1-(phenylsulfanyl)butan-2-yl]amino}-3-(trifluoromethanesulfonyl)benzene-1-sulfonyl]carbamoyl}phenyl)piperazin-1-yl]methyl}-2,3,4,5-tetrahydro[1,1'-biphenyl]-4-yl]methyl}piperazin-1-yl)-2-oxoethyl]piperazin-1-yl}acetyl)-3-methyl-L-valyl-(4S)-4-hydroxy-N-{(1S)-1-[4-(4-methyl-1,3-thiazol-5-yl)phenyl]ethyl}-L-prolinamide"                                                            
+YFH "SYSTEMATIC NAME" "OpenEye OEToolkits" 2.0.7 "(2~{S},4~{S})-1-[(2~{S})-2-[2-[4-[2-[4-[[(1~{R})-4-(4-chlorophenyl)-1-methyl-3-[[4-[4-[[4-[[(2~{R})-4-[(1~{R},4~{R})-2-oxa-5-azabicyclo[2.2.1]heptan-5-yl]-1-phenylsulfanyl-butan-2-yl]amino]-3-(trifluoromethylsulfonyl)phenyl]sulfonylcarbamoyl]phenyl]piperazin-1-yl]methyl]cyclohex-3-en-1-yl]methyl]piperazin-1-yl]-2-oxidanylidene-ethyl]piperazin-1-yl]ethanoylamino]-3,3-dimethyl-butanoyl]-~{N}-[(1~{S})-1-[4-(4-methyl-1,3-thiazol-5-yl)phenyl]ethyl]-4-oxidanyl-pyrrolidine-2-carboxamide" 
+# 
+loop_
+_pdbx_chem_comp_audit.comp_id 
+_pdbx_chem_comp_audit.action_type 
+_pdbx_chem_comp_audit.date 
+_pdbx_chem_comp_audit.processing_site 
+YFH "Create component" 2023-01-26 RCSB 
+YFH "Initial release"  2024-04-10 RCSB 
+# 
