@@ -2612,3 +2612,59 @@ structures, to properly characterize the shape of the relationship before
 any claim about an optimal weight, followed by the same generalization
 check across more structures that every other finding in this document
 has been required to pass.
+
+---
+
+## Part 44 — The fine sweep separates a real effect from a coincidence: 5T35 stable, 6HAX's "rescue" retracted
+
+**The efficient pooled sweep tested 8 weights bracketing 5T35's promising
+region and 7 weights bracketing/extending past 6HAX's dramatic result
+from Part 43.**
+
+5T35: 61.10 (w=8) -> 61.10 (w=12) -> **27.00 (w=16)** -> **27.00 (w=20)**
+-> 52.24 (w=25 through 50, flat).
+
+6HAX: 69.84 (w=50) -> 69.84 (w=75) -> **18.31 (w=100)** -> 64.24 (w=125
+through 250, flat).
+
+**5T35's improvement is confirmed as a real, stable effect**: it holds
+across two adjacent tested weights (16 and 20), not a single lucky point.
+**6HAX's dramatic rescue from Part 43 is retracted as very likely
+coincidental**: it appears at exactly one tested weight, with worse and
+unrelated-looking values immediately on both sides (69.84 at 75, 64.24 at
+125) and no tapering approach toward it from either direction.
+
+**Why this distinction is the right one to draw, not an arbitrary
+judgment call**: the search takes an argmax over a large discrete
+candidate pool (1.49 million for 5T35, 937 thousand for 6HAX). As the
+weight shifts continuously, nothing requires the identity of the winning
+candidate to change smoothly -- a different, unrelated candidate can
+become the argmax at one specific weight purely because two nearby
+candidates' combined scores happen to cross at that exact value, then
+cross back. An isolated spike with no shoulder on either side is the
+expected signature of exactly this kind of discrete coincidence. A result
+that holds across a genuine range of weights requires the same candidate
+(or a consistent family of similar ones) to keep winning across multiple
+different weightings, which is a far less likely coincidence and a much
+more credible signal of real complementary information between the two
+channels.
+
+**Corrected overall picture**: combining electrostatics and the contact
+potential produces one confirmed, real, but partial improvement (5T35:
+61.10 A down to 27.00 A, roughly halved, still well short of a usable
+pose by field standards) and one retracted, almost certainly coincidental
+result (6HAX). This is a meaningfully more modest conclusion than Part
+43's framing, and it is the correct one: the same scrutiny that reversed
+Part 25's premature breakthrough was applied here, in the same session,
+to this investigation's own most exciting recent result, and it did not
+survive uniformly. What did survive -- 5T35's stable improvement -- is
+real precisely because it was checked this way rather than accepted at
+the first good number.
+
+**What remains open**: whether 5T35's effect generalizes to other
+structures showing a real, stable (not spike-shaped) benefit, and whether
+6HAX or similar failing structures can be helped by some other mechanism,
+remains unanswered. The practical lesson for any future weight-sweep
+test in this project: a result must be checked for stability across
+multiple nearby weight values before being reported, not accepted from a
+single point, regardless of how good that point looks.
