@@ -2668,3 +2668,86 @@ remains unanswered. The practical lesson for any future weight-sweep
 test in this project: a result must be checked for stability across
 multiple nearby weight values before being reported, not accepted from a
 single point, regardless of how good that point looks.
+
+---
+
+## Part 45 — Correction to Part 44; the weight-combination result does not support a usable method
+
+**Part 44 is partly withdrawn.** It called 5T35's improvement (27.00 A at
+weights 16 and 20) "real and stable" and 6HAX's (18.31 A at weight 100)
+"very likely coincidental," on the grounds that the first appeared at two
+adjacent sampled weights and the second at one. That comparison reflects
+where weights were sampled, not a property of the data. In an argmax over a
+fixed candidate pool, every winning pose holds for an interval of weights
+between its crossover points, so a two-point plateau is what any winner
+looks like. The 18.31 A window lies somewhere inside (75, 125) and may be
+as wide as 5T35's. The data do not distinguish the two; neither should have
+been labeled.
+
+**A larger problem applies to both and was not addressed in Parts 43-44:**
+each structure's weight was selected by comparing against the native pose,
+which is tuning on the test target. A weight is only useful if it can be
+chosen without the answer. Using data already in hand:
+
+| Weight | 5T35 RMSD | 6HAX RMSD | Mean |
+|---|---|---|---|
+| 0 | 61.10 | 83.07 | 72.08 |
+| 20 | 27.00 | 86.46 | 56.73 |
+| 50 | 52.24 | 69.84 | 61.04 |
+| 100 | 52.24 | 18.31 | 35.27 |
+
+- No fixed weight improves both. The best mean (weight 100) is carried by
+  6HAX; at that weight 5T35 equals the contact-potential-only result from
+  Part 36 (52.24 A), as expected when the contact term dominates.
+- Weights do not transfer. 5T35's best weight (20) gives 86.46 A on 6HAX,
+  worse than that structure's 83.07 A baseline. 6HAX's best weight (100)
+  gives 52.24 A on 5T35, a modest gain over 61.10 A that is just the
+  contact-only answer.
+- All values use the oracle reach band (Part 39).
+
+**Conclusion:** there is currently no evidence that combining the contact
+potential with exact electrostatics yields a method that works without
+knowing the answer. Part 43's "real positive result" and Part 44's
+real/coincidental split are both superseded by this entry.
+
+**Status report:** the PDF produced earlier still presented the retracted
+Part 25-30 results as findings. It has been rewritten so that the
+retraction (Section 6.3), the corrected weight analysis (Section 6.4), the
+status and the open-problems list reflect Parts 40-45. Any copy of the
+earlier PDF should be discarded.
+
+---
+
+## Part 46 — Two blueprint premises tested against the 15 native structures
+
+An external blueprint proposed (a) a hard exit-vector rule v_T . v_E3 <= 0
+and (b) a hard buried-surface-area cap of 600 A^2. Both were checked on the
+crystal structures only (`run_native_premise_check.py`; no search, no
+tuning).
+
+**Exit vectors** (proxy: unit vector from each warhead centroid to its
+first atom bonded outside the warhead; a proxy for pocket exit direction,
+not an explicit definition). The rule is violated by 7 of 12 PROTAC natives
+(5T35 +0.75, 6BN7 +0.04, 6BOY +0.98, 6HAX +0.20, 6HAY +0.24, 7KHH +0.67,
+8BEB +0.82). Used as a hard filter it would reject the native for most of
+the PROTAC benchmark. This version is unusable as a hard rule; it does not
+refute a differently defined pocket-exit vector.
+
+**BSA** (all-atom / representative-atom, A^2): 5FQD 556/388, 5HXB 585/395,
+5T35 343/236, 6BN7 508/352, 6BOY 547/387, 6HAX 332/214, 6HAY 330/219,
+6HR2 390/205, 6SIS 320/211, 7KHH 348/240, 8BDS 304/205, 8BEB 301/171,
+8FY0 158/148, 8FY1 209/121, 8FY2 118/100. No native exceeds 600 in either
+convention. The all-atom to representative ratio ranges 1.07-1.90 (median
+1.48), so an absolute cap is convention-dependent. The 600 cap lies 3%
+above the largest native, so it is effectively fitted to this set; any
+claim for it requires leave-one-out validation. The spurious 5T35 poses of
+Part 24 buried 1,900-2,500 A^2 (all-atom), so a size prior is plausible;
+a hard cap is untested out of sample.
+
+**Correction:** the first version of the script printed that the 600 cap
+"would reject every native"; it rejects none. Text fixed.
+
+**Proposed next step:** save the global top-N exact-scored poses per
+constraint band to disk, then test filters (BSA prior, exit vector,
+conformer feasibility) offline against that fixed pool, including a
+check that near-native poses are in the pool at all.
