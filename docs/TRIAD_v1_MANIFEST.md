@@ -2836,3 +2836,46 @@ denser sampling.
 native as positive control; (c) perturb the native by small rigid-body
 shifts and test whether the exact electrostatic score rises (is native at
 a local optimum of the score?).
+
+---
+
+## Part 49 — Is the native pose near a local optimum of the exact electrostatic score? No.
+
+`run_native_perturbation.py`: rigid-body perturbations of the crystal ligase
+pose (rotations about the ligase-warhead centroid), exact score on
+representative atoms, plus the search's own clash criterion. 60 samples per
+bin, four structures. Cells = % of CLASH-PASSING perturbations scoring higher
+than native.
+
+| | t 0.5 A | t 1 A | t 2 A | t 3 A | t 5 A | r 2 deg | r 5 deg | r 10 deg | r 20 deg |
+|---|---|---|---|---|---|---|---|---|---|
+| 5T35 (native 81.2) | 45 | 63 | 55 | 51 | 31 | 37 | 67 | 72 | 59 |
+| 8BDS (51.1) | 42 | 38 | 37 | 17 | 4 | 52 | 62 | 48 | 36 |
+| 6BN7 (-0.1) | 52 | 53 | 45 | 56 | 33 | 62 | 47 | 57 | 43 |
+| 6HAX (13.0) | 45 | 48 | 50 | 41 | 18 | 48 | 55 | 58 | 50 |
+
+**Findings.**
+- At 0.5-2 A shifts and 2-5 deg rotations roughly half of perturbed poses
+  outscore native (coin-flip). Median score change is about 0 for 6BN7 and
+  6HAX; 6BN7's native scores -0.1, i.e. no net electrostatic signal.
+- Approach scan (ligase moved toward target): in 8BDS (51 -> 82 at +1 A ->
+  153 at +2 A), 6BN7 and 6HAX the score rises monotonically until the clash
+  filter rejects the pose. Only 5T35 has an interior maximum (+0.5 A: 81.4,
+  falling to 67.7 at +3 A). In all four structures the native passes at +2 A
+  and fails the clash filter at +3 A.
+- Selection effect: at 3-5 A the "% higher among passing" is biased low,
+  because toward-target perturbations (which score higher) are the ones
+  rejected. Large-displacement cells understate the true fraction.
+- 5T35, the structure on which most Phase-4 tests were run (padding,
+  contact potential, weight calibration), is the one where the score behaves
+  best. Conclusions drawn mainly from it should be read with that in mind.
+
+**Implications.** Exact electrostatics on charged representative atoms is a
+smooth long-range term; it cannot rank poses at the 1-5 A scale, and in 3 of
+4 structures it rewards approach until the clash filter intervenes. A
+reranker built from the current terms is not supported. Any scorer able to
+discriminate near-native poses needs short-range terms (packing,
+hydrogen-bond geometry, desolvation) and a size-aware form.
+
+Limits: 60 samples per bin, representative atoms only, voxel-level clash
+criterion, four structures.
